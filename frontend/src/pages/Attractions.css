@@ -1,0 +1,25 @@
+.attraction{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+}
+
+.attractionPage {
+  width: 100px;
+  height: 35px;
+  padding: 5px;
+  border: 2px solid red;
+}
+
+.attraction h2, .attraction p {
+  text-align: center;
+}
+
+h2 {
+    text-align: center;
+}
+
+div {
+    background-color: aquamarine;
+}
