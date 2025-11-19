@@ -3,7 +3,6 @@ import { HashRouter as Router, Routes, Route} from 'react-router-dom'
 import { Attractions } from './pages/Attractions'
 import {Home} from './pages/Home'
 import { Layout } from './components/Layout'
-import 
 
 function App() {
   const [message, setMessage] = useState('')
