@@ -1,15 +1,32 @@
 .attraction{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 50%;
+  width: 250px;            
+  background-color: lightgray;
+  padding: 30px;
+  border-radius: 10px;       
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+  text-align: center;
+  transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
 .attractionPage {
-  width: 100px;
-  height: 35px;
-  padding: 5px;
-  border: 2px solid red;
+  display: flex;             
+  flex-wrap: wrap;            
+  justify-content: center;   
+  gap: 40px;                  
+  
+  background-color: white;
+  padding: 50px;
+
+}
+.attraction:hover {
+  transform: scale(1.05);           
+  background-color: rgb(220, 240, 255); 
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.attraction img {
+    width: 150px;
+    height: 150px;
 }
 
 .attraction h2, .attraction p {
@@ -20,6 +37,3 @@ h2 {
     text-align: center;
 }
 
-div {
-    background-color: aquamarine;
-}

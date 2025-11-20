@@ -4,9 +4,9 @@ export function AttractionCard({attractions}){
 
     return (
         <>
-        <div>
+        <div className="attraction">
         <h2>{attractions.title}</h2>
-        <p>{attractions.desc}</p>
+        {attractions.img && <img src={attractions.img} alt={attractions.title} />}
         </div>
         </>
     )
