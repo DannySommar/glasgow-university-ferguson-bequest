@@ -8,13 +8,27 @@ function App() {
   const [message, setMessage] = useState('')
 
   useEffect(() => {
-    fetch('http://localhost:8000/api')
-      .then(res => res.json())
-      .then(data => setMessage(data.message))
-      .catch(err => setMessage('Backend not connected'))
-  }, [])
+    const testBackend = async () => {
+      try {
+        const res = await fetch('/api/hello');
+        
+        if (res.ok) {
+          const data = await res.json();
+          setMessage(data.message);
+        } else {
+          setMessage('Backend returned error');
+        }
+      } catch (err) {
+        setMessage('Backend not connected');
+        console.error('Connection error:', err);
+      }
+    };
+
+    testBackend();
+  }, []);
 
   return (
+    <>
     <Router>
       <Routes>
         <Route element={<Layout/>}><Route/>
@@ -23,10 +37,13 @@ function App() {
         </Route>
       </Routes>
     </Router>
-    /* <div>
+
+    {/* for debug */}
+    <div>
       <h1>Ferguson Bequest frontend</h1>
       <p>Backend says: {message}</p>
-    </div> */
+    </div>
+    </>
   )
 }
 
