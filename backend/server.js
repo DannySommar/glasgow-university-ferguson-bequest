@@ -21,9 +21,15 @@ app.use(session({
   }
 }))
 
-app.get('/api', (req, res) => {
-  res.json({ message: 'Hello World from backend!' });
-});
+// Test if frontend connected to backend
+app.get('/api/hello', (req, res) => {
+    res.json({message: 'Hello from the backend'})
+})
+
+// My friend had it so it's probably professional
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'OK', message: 'Server is running' })
+})
 
 app.listen(PORT, () => {
     console.log(`server running on http://localhost:${PORT}`)
