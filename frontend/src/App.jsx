@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
 import { HashRouter as Router, Routes, Route} from 'react-router-dom'
 import { Attractions } from './pages/Attractions'
-import {Home} from './pages/Home'
+import { Home } from './pages/Home'
 import { Layout } from './components/Layout'
+import { About } from './pages/About'
 
 function App() {
   const [message, setMessage] = useState('')
@@ -33,6 +34,7 @@ function App() {
       <Routes>
         <Route element={<Layout/>}><Route/>
         <Route path='/' element={<Home/>}></Route>
+        <Route path='/About' element={<About />}></Route>
         <Route path='/Attractions' element={<Attractions/>}></Route>
         </Route>
       </Routes>
