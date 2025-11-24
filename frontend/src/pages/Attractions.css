@@ -46,8 +46,8 @@ h2 {
   box-shadow: 0 4px 10px white (0,0,0,0.15);
   padding: 30px;
   border-radius: 10px;
-  display: flex;              /* side-by-side layout */
-  gap: 40px;                  /* space between image and text */
+  display: flex;              
+  gap: 40px;                  
 }
 
 .singleAttractionPage img {
@@ -60,7 +60,7 @@ h2 {
 
 .singleAttractionContent {
   color: #D9D9D9;
-  flex: 1;                    /* text takes remaining space */
+  flex: 1;                   
   text-align: left;
   display: flex;
   flex-direction: column;
