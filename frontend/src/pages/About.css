@@ -1,0 +1,54 @@
+.AboutPage {                 
+  background-color: white;
+  padding: 50px;
+}
+
+.FergusonInfo {           
+  background-color: lightgray;
+  padding: 30px;
+  border-radius: 10px;       
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+  text-align: left;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  flex: 1;
+}
+
+.FergusonInfo:hover {
+  transform: scale(1.05);           
+  background-color: rgb(220, 240, 255); 
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+h2 {
+    text-align: center;
+}
+
+.Content {
+  display: flex;     
+  align-items: center;    
+  gap: 40px;              
+  margin-top: 20px;      
+  max-width: 1200px;      
+  margin-left: auto;      
+  margin-right: auto;
+}
+
+.FergusonImage {
+  flex-shrink: 0;        
+  width: 40%;            
+  max-width: 400px;       
+}
+
+.FergusonImage img {
+  width: 100%;          
+  height: auto;
+  border-radius: 10px;  
+}
+
+.FergusonImage:hover {
+  transform: scale(1.05);           
+  background-color: rgb(220, 240, 255); 
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+
