@@ -1,12 +1,22 @@
 
+import { Link } from "react-router-dom";
 
 export function AttractionCard({attractions}){
+
+    const slug = attractions.title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-") // replace spaces and other chars with "-"
+    .replace(/^-+|-+$/g, "");    // remove leading/trailing dashes
+    const path = `/attractions/${slug}`
+
 
     return (
         <>
         <div className="attraction">
+        <Link to={path}>
         <h2>{attractions.title}</h2>
         {attractions.img && <img src={attractions.img} alt={attractions.title} />}
+        </Link>
         </div>
         </>
     )

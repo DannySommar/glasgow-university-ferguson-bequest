@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { HashRouter as Router, Routes, Route} from 'react-router-dom'
 import { Attractions } from './pages/Attractions'
+import { SpecificAttraction } from './pages/SpecificAttraction'
 import { Home } from './pages/Home'
 import { Layout } from './components/Layout'
 import { About } from './pages/About'
@@ -36,7 +37,8 @@ function App() {
         <Route path='/' element={<Home/>}></Route>
         <Route path='/About' element={<About />}></Route>
         <Route path='/Attractions' element={<Attractions/>}></Route>
-        </Route>
+        <Route path="/attractions/:slug" element={<SpecificAttraction />}></Route>
+      </Route> 
       </Routes>
     </Router>
 
