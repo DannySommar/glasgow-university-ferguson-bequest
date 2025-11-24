@@ -12,7 +12,7 @@ const attractionData = {
 }
 
 export function SpecificAttraction() {
-  const { slug } = useParams(); // grabs the part after /attractions/
+  const { slug } = useParams(); 
   const attraction = attractionData[slug];
 
   if (!attraction) return <p>Attraction not found</p>;
