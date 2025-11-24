@@ -11,6 +11,7 @@
   text-align: left;
   transition: transform 0.2s ease, background-color 0.2s ease;
   flex: 1;
+  color: black;
 }
 
 .FergusonInfo:hover {
@@ -50,5 +51,4 @@ h2 {
   background-color: rgb(220, 240, 255); 
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
-
 
