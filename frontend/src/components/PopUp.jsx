@@ -3,21 +3,21 @@ import { Link } from "react-router-dom"
 import "./PopUp.css"
 
 export function PopUp() {
-    const [show, setShow] = useState(false);
+    const [showPopUp, setShowPopUp] = useState(false);
 
     useEffect(() => {
         const accepted = localStorage.getItem("acceptedTerms");
         if (!accepted) {
-            setShow(true);
+            setShowPopUp(true);
         }
     }, []);
 
     const handleAccept = () => {
         localStorage.setItem("acceptedTerms", "true")
-        setShow(false);
+        setShowPopUp(false);
     };
 
-    if (!show) return null;
+    if (!showPopUp) return null;
 
     return (
         <div className="ModalOverlay">
