@@ -4,6 +4,7 @@ import Blairimg from "../images/BlairDrumond.jpg"
 import zoo from "../images/EdZoo.jpg"
 import rsnoghost from "../images/Ghostbusters-Header.jpg"
 import clan from "../images/Clan.jpg"
+import { PopUp } from "../components/PopUp";
 
 
 export function Attractions (){
@@ -19,6 +20,7 @@ export function Attractions (){
     return (
         <>
         <h2>Attractions</h2>
+        <PopUp />
         <div className="attractionPage">
         
             
