@@ -20,7 +20,7 @@ export function Footer(){
                 </nav>
 
                 <div className="footer-meta">
-                    <a href="mailto:info@fergusonbequest.ac.uk">Contact Us</a>
+                    <a href="mailto:fergusonbequest@glasgow.ac.uk">Contact Us</a>
                     <p> {year} University of Glasgow</p>
                 </div>
             </div>
