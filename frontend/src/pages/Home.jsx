@@ -1,3 +1,4 @@
+import { PopUp } from '../components/PopUp'
 import './Home.css'
 
 export function Home(){

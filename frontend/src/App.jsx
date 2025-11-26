@@ -5,6 +5,7 @@ import { SpecificAttraction } from './pages/SpecificAttraction'
 import { Home } from './pages/Home'
 import { Layout } from './components/Layout'
 import { About } from './pages/About'
+import { TermsAndConditions } from './pages/TermsAndConditions'
 
 function App() {
   const [message, setMessage] = useState('')
@@ -38,6 +39,7 @@ function App() {
         <Route path='/About' element={<About />}></Route>
         <Route path='/Attractions' element={<Attractions/>}></Route>
         <Route path="/attractions/:slug" element={<SpecificAttraction />}></Route>
+        <Route path='/Terms' element={<TermsAndConditions />}></Route>
       </Route> 
       </Routes>
     </Router>
