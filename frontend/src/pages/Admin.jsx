@@ -1,26 +1,20 @@
-import "./Attractions.css"
-import { AttractionCard } from "../components/AttractionCard"
+import "./Admin.css"
 
 export function Admin(){
-
-    const edit = {title: "Edit"}
-    const bookinginfo = {title: "Booking Information"}
-    const reporting = {title: "Reporting"}
-
-    const admin = [edit, bookinginfo, reporting]
 
     return (
         <>
         <h2>Admin</h2>
-        <div className="attractionPage">
-            {admin.map((attractions)=>{
-        
-                    return (
-                        <AttractionCard admin={attractions}/>
-                    )
-        
-                })}
+        <div className="AdminPage">
+        <div className="Content">
+            <div className="admin">
+                <h2>Edit</h2></div>
+                <div className="admin">
+                <h2>Booking History</h2></div>
+                <div className="admin">
+                <h2>Reporting</h2></div>
                 </div>
+            </div>
         </>
     )
 }
