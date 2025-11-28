@@ -6,6 +6,7 @@ import { Home } from './pages/Home'
 import { Layout } from './components/Layout'
 import { About } from './pages/About'
 import { TermsAndConditions } from './pages/TermsAndConditions'
+import { Admin } from './pages/Admin'
 
 function App() {
   const [message, setMessage] = useState('')
@@ -40,6 +41,7 @@ function App() {
         <Route path='/Attractions' element={<Attractions/>}></Route>
         <Route path="/attractions/:slug" element={<SpecificAttraction />}></Route>
         <Route path='/Terms' element={<TermsAndConditions />}></Route>
+        <Route path='/Admin' element={<Admin/>}></Route>
       </Route> 
       </Routes>
     </Router>
