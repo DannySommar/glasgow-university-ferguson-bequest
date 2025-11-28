@@ -1,19 +1,11 @@
-import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import "./PopUp.css"
+import { useState } from "react";
 
 export function PopUp() {
-    const [showPopUp, setShowPopUp] = useState(false);
-
-    useEffect(() => {
-        const accepted = localStorage.getItem("acceptedTerms");
-        if (!accepted) {
-            setShowPopUp(true);
-        }
-    }, []);
+    const [showPopUp, setShowPopUp] = useState(true);
 
     const handleAccept = () => {
-        localStorage.setItem("acceptedTerms", "true")
         setShowPopUp(false);
     };
 
