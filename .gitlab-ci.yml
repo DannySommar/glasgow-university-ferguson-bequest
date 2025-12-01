@@ -25,4 +25,4 @@ build:
     - docker compose ps                 # debug stuff
     - docker compose logs
     - curl -f http://localhost:8000/api/health
-    - docker-compose down
+    - docker compose down
