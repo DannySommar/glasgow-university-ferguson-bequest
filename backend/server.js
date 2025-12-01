@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import session from 'express-session';
+import { attractionsRouter } from './routes/attractions.js';
 
 
 const PORT = 8000;
@@ -30,6 +31,8 @@ app.get('/api/hello', (req, res) => {
 app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', message: 'Server is running' })
 })
+
+app.use('/api/attractions', attractionsRouter)
 
 app.listen(PORT, () => {
     console.log(`server running on http://localhost:${PORT}`)

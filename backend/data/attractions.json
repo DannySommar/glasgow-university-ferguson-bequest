@@ -1,0 +1,28 @@
+{
+  "attractions": [
+    {
+      "id": 1,
+      "title": "Blair Drummond Safari Park",
+      "image": "blair-drummond.jpg",
+      "description": "Some info"
+    },
+    {
+      "id": 2, 
+      "title": "Edinburgh Zoo",
+      "image": "edinburgh-zoo.jpg",
+      "description": "Some info"
+    },
+    {
+      "id": 3,
+      "title": "Glasgow Clan Ice Hockey", 
+      "image": "glasgow-clan.jpg",
+      "description": "Some info"
+    },
+    {
+      "id": 4,
+      "title": "RSNO - Ghostbuster Concert",
+      "image": "rsno-ghostbusters.jpg", 
+      "description": "Some info"
+    }
+  ]
+}
