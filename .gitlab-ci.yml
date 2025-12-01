@@ -1,28 +1,27 @@
-# build:
-#   image: node:20-alpine
-#   tags:
-#     - docker
-#   script:
-#     - cd frontend && npm install && npm run build
-#     - cd ../backend && npm install
-#   artifacts:
-#     paths:
-#       - frontend/dist/ # will save the build files, to check how well it works, might remove later
-
-
-# this should work
 build:
-  image: docker:latest
+  image: node:20-alpine
   tags:
     - docker
-  services:
-    - docker:dind # Docker inside Docker , should work
-  before_script:
-    - apk add --no-cache docker-compose # actually install docker-compose
   script:
-    - docker compose up --build -d
-    - sleep 10                          # wait for stuff to fully start up
-    - docker compose ps                 # debug stuff
-    - docker compose logs
-    - curl -f http://localhost:8000/api/health
-    - docker compose down
+    - cd frontend && npm install && npm run build
+    - cd ../backend && npm install
+  artifacts:
+    paths:
+      - frontend/dist/ # will save the build files, to check how well it works, might remove later
+
+
+# build:
+#   image: docker:latest
+#   tags:
+#     - docker
+#   services:
+#     - docker:dind # Docker inside Docker , should work
+#   before_script:
+#     - apk add --no-cache docker-compose # actually install docker-compose
+#   script:
+#     - docker compose up --build -d
+#     - sleep 10                          # wait for stuff to fully start up
+#     - docker compose ps                 # debug stuff
+#     - docker compose logs
+#     - curl -f http://localhost:8000/api/health
+#     - docker compose down
