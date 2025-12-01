@@ -40,17 +40,11 @@ function App() {
         <Route path='/About' element={<About />}></Route>
         <Route path='/Attractions' element={<Attractions/>}></Route>
         <Route path="/attractions/:slug" element={<SpecificAttraction />}></Route>
-        <Route path='/Terms' element={<TermsAndConditions />}></Route>
         <Route path='/Admin' element={<Admin/>}></Route>
       </Route> 
+      <Route path='/Terms' element={<TermsAndConditions />}></Route>
       </Routes>
     </Router>
-
-    {/* for debug */}
-    <div>
-      <h1>Ferguson Bequest frontend</h1>
-      <p>Backend says: {message}</p>
-    </div>
     </>
   )
 }

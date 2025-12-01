@@ -3,6 +3,8 @@ import Blairimg from "../images/BlairDrumond.jpg"
 import zoo from "../images/EdZoo.jpg"
 import rsnoghost from "../images/Ghostbusters-Header.jpg"
 import clan from "../images/Clan.jpg"
+import { useState } from "react"
+import { PopUp } from "../components/PopUp"
 
 const attractionData = {
   "blair-drummond-safari-park": { title: "Blair Drummond Safari Park", img: Blairimg, description: "Some info about Blair Drummond..." },
@@ -17,14 +19,23 @@ export function SpecificAttraction() {
 
   if (!attraction) return <p>Attraction not found</p>;
 
+  const [showPopUp, setShowPopUp] = useState(false);
+
+  const handleBook = () => {
+    setShowPopUp(true);
+  }
+
   return (
+    <>
     <div className="singleAttractionPage">
         {attraction.img && <img src={attraction.img} alt={attraction.title} />}
         <div className="singleAttractionContent">
             <h2>{attraction.title}</h2>
             <p>{attraction.description}</p>
-            <button className="book-btn">Book Now</button>
+            <button className="book-btn" onClick={handleBook}>Book Now</button>
         </div>
     </div>
+    {showPopUp && <PopUp />}
+    </>
   )
 }

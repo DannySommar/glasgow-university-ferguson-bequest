@@ -20,7 +20,6 @@ export function Attractions (){
     return (
         <>
         <h2>Attractions</h2>
-        <PopUp />
         <div className="attractionPage">
         
             
