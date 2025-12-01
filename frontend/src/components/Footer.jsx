@@ -16,6 +16,7 @@ export function Footer(){
                     <Link to='/'>Home</Link>
                     <Link to='/About'>About</Link>
                     <Link to='/Attractions'>Attractions</Link>
+                    <Link to='/TicketDraws'>Ticket Draws</Link>
                     <Link to='/Terms'>Terms &amp; Conditions</Link>
                 </nav>
 

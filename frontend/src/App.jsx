@@ -7,6 +7,7 @@ import { Layout } from './components/Layout'
 import { About } from './pages/About'
 import { TermsAndConditions } from './pages/TermsAndConditions'
 import { Admin } from './pages/Admin'
+import { TicketDraws } from './pages/TicketDraws'
 
 function App() {
   const [message, setMessage] = useState('')
@@ -40,9 +41,10 @@ function App() {
         <Route path='/About' element={<About />}></Route>
         <Route path='/Attractions' element={<Attractions/>}></Route>
         <Route path="/attractions/:slug" element={<SpecificAttraction />}></Route>
+        <Route path='/TicketDraws' element={<TicketDraws />}></Route>
+        <Route path='/Terms' element={<TermsAndConditions />}></Route>
         <Route path='/Admin' element={<Admin/>}></Route>
       </Route> 
-      <Route path='/Terms' element={<TermsAndConditions />}></Route>
       </Routes>
     </Router>
     </>
