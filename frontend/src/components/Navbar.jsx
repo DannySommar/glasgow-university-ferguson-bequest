@@ -11,8 +11,9 @@ export function Navbar(){
         <Link to='/About'><button>About</button></Link>
         <Link to='/Attractions'><button>Attractions</button></Link>
         <Link to='/Admin'><button>Admin</button></Link>
-        </nav>
         <Link to='/TicketDraws'><button>TicketDraws</button></Link>
+        </nav>
+        
         </>
     )
 
