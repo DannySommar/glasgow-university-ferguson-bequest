@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import "./NavBar.css"
 
+
 export function Navbar(){
 
     return (
@@ -11,6 +12,7 @@ export function Navbar(){
         <Link to='/Attractions'><button>Attractions</button></Link>
         <Link to='/Admin'><button>Admin</button></Link>
         </nav>
+        <Link to='/TicketDraws'><button>TicketDraws</button></Link>
         </>
     )
 
