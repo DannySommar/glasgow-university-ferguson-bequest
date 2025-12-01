@@ -6,6 +6,7 @@ export function Admin(){
         <>
         <h2>Admin</h2>
         <div className="AdminPage">
+        
         <div className="Content">
             <div className="admin">
                 <h2>Edit</h2></div>

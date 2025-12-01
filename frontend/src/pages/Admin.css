@@ -1,12 +1,11 @@
 .AdminPage {                 
   display: flex;  
-  width: 100vw;   /* full viewport width */
+  width: 100vw; 
   min-height: 100vh;           
   flex-wrap: wrap;            
   justify-content: center;   
   gap: 40px;                
   background-color: white;
-  padding: 50px;
 }
 
 .admin {           
@@ -35,11 +34,11 @@ h2 {
   flex-wrap: wrap; 
   justify-content: center;    
   align-items: center;    
-  gap: 40px;              
-  margin-top: 20px;      
+      
   max-width: 1200px;      
   margin-left: auto;      
-  margin-right: auto;
+  margin-right: auto;             
+  margin-top: 20px;   
   
 }
 
