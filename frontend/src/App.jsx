@@ -47,12 +47,6 @@ function App() {
       </Route> 
       </Routes>
     </Router>
-
-    {/* for debug */}
-    <div>
-      <h1>Ferguson Bequest frontend</h1>
-      <p>Backend says: {message}</p>
-    </div>
     </>
   )
 }
