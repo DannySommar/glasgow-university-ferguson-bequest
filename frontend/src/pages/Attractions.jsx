@@ -21,6 +21,7 @@ export function Attractions (){
         <>
         <h2>Attractions</h2>
         <div className="attractionPage">
+        <div className="Content">
         
             
         {attractions.map((attractions)=>{
@@ -30,6 +31,7 @@ export function Attractions (){
             )
 
         })}
+        </div>
         </div>
         </>
         

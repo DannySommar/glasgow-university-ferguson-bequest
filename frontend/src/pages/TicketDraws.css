@@ -1,13 +1,18 @@
 .ticket-draws-page {
-    background-color: white;
-    color: black;
-    padding: 50px;
-    text-align: center;
+  display: flex;  
+  width: 100vw; 
+  min-height: 100vh;           
+  flex-wrap: wrap;            
+  justify-content: center;   
+  gap: 40px;                
+  background-color: white;
+  padding: 50px;
 }
 
 .ticket-draws-hero {
     max-width: 900px;
     margin: 0 auto 24px;
+    justify-content: center;
 }
 
 .ticket-draws-hero h1 {
@@ -15,17 +20,27 @@
     font-size: 32px;
     font-weight: 700;
     color: #0f172a;
+    text-align: center;
+}
+.ticket-draws-hero h2 {
+    margin: 15px;
+    font-size: 32px;
+    font-weight: 700;
+    color: #0f172a;
+    text-align: center;
 }
 
 .ticket-draws-hero p {
     margin: 0 0 8px;
     color: #1f2937;
+    text-align: center;
 }
 
 .ticket-draws-page h2 {
     margin: 0 0 24px;
     font-size: 24px;
     color: black;
+    text-align: center;
 }
 
 .ticket-draws-grid {

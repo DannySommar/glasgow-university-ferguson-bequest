@@ -28,10 +28,12 @@ export function TicketDraws(){
                 <h1>Ticket Draws</h1>
                 <p>This is the Ticket Draws page, where you can enter draws to get ticket(s) for events.</p>
                 <p>Staff may enter as many draws as they like but can only win one per year. Past winners will be removed</p>
-            </div>
+                <h2>Attractions</h2>
+            </div> 
 
-            <h2>Attractions</h2>
+            
             <div className="ticket-draws-grid">
+                
                 {attractions.map((attraction) => (
                     <div
                         key={attraction.title}
