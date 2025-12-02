@@ -1,0 +1,14 @@
+.attractionPage {
+    display: flex;
+    gap: 30px; 
+    align-items: flex-start;
+}
+
+.attractionPage img {
+    max-width: 300px;
+    height: auto;
+}
+
+h2 {
+    text-align: center;
+}

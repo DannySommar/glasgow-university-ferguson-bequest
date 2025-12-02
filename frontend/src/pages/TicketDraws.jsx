@@ -23,9 +23,10 @@ export function TicketDraws(){
     };
 
     return (
+        <>
+        <h2>Ticket Draws</h2>
         <div className="ticket-draws-page">
             <div className="ticket-draws-hero">
-                <h1>Ticket Draws</h1>
                 <p>This is the Ticket Draws page, where you can enter draws to get ticket(s) for events.</p>
                 <p>Staff may enter as many draws as they like but can only win one per year. Past winners will be removed</p>
                 <h2>Attractions</h2>
@@ -57,6 +58,7 @@ export function TicketDraws(){
                 ))}
             </div>
         </div>
+        </>
     );
   
 }
