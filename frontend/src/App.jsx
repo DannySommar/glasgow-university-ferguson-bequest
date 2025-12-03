@@ -8,6 +8,7 @@ import { About } from './pages/About'
 import { TermsAndConditions } from './pages/TermsAndConditions'
 import { Admin } from './pages/Admin'
 import { TicketDraws } from './pages/TicketDraws'
+import { MyBookings } from './pages/MyBookings'
 
 function App() {
   const [message, setMessage] = useState('')
@@ -42,6 +43,7 @@ function App() {
         <Route path='/Attractions' element={<Attractions/>}></Route>
         <Route path="/attractions/:slug" element={<SpecificAttraction />}></Route>
         <Route path='/TicketDraws' element={<TicketDraws />}></Route>
+        <Route path='/MyBookings' element={<MyBookings />}></Route>
         <Route path='/Terms' element={<TermsAndConditions />}></Route>
         <Route path='/Admin' element={<Admin/>}></Route>
       </Route> 

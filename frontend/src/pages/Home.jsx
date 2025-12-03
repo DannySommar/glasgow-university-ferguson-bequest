@@ -4,7 +4,7 @@ import './Home.css'
 export function Home(){
     return (
         <>
-        <h2>Home</h2>
+        <h2 className="text-3xl font-bold text-center my-8 text-gray-800">Home</h2>
         <div className="HomePage">
             <div className="Content">
                 <div className="Information">
