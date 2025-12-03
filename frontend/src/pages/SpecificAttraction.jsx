@@ -5,6 +5,7 @@ import rsnoghost from "../images/Ghostbusters-Header.jpg"
 import clan from "../images/Clan.jpg"
 import { useState } from "react"
 import { PopUp } from "../components/PopUp"
+import './SpecificAttraction.css'
 
 const attractionData = {
   "blair-drummond-safari-park": { title: "Blair Drummond Safari Park", img: Blairimg, description: "Some info about Blair Drummond..." },
@@ -27,6 +28,7 @@ export function SpecificAttraction() {
 
   return (
     <>
+    <h2>{attraction.title}</h2>
     <div className="attractionPage">
         {attraction.img && <img src={attraction.img} alt={attraction.title} />}
         <div className="singleAttractionContent">

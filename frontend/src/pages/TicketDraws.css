@@ -101,3 +101,7 @@
 .enter-draw-btn:hover {
     background-color: #2f4490;
 }
+
+h2 {
+    text-align: center;
+}
