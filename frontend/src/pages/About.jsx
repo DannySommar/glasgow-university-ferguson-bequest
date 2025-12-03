@@ -4,7 +4,7 @@ import './About.css'
 export function About() {
     return (
         <>
-        <h2>About</h2>
+        <h2 className="text-3xl font-bold text-center my-8 text-gray-800">About</h2>
         <div className="AboutPage">
             <div className="Content">
                 <div className="FergusonInfo">

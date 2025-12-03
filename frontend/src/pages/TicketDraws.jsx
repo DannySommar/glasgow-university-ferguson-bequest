@@ -40,7 +40,7 @@ export function TicketDraws(){
                         className={'ticket-draws-card ${selected === attraction.title ? "active" : ""}'}
                         onClick={() => setSelected(attraction.title)}
                     >
-                        <h3>{attraction.title}</h3>
+                        <h3 className="text-xl font-bold text-center my-8 text-gray-800">{attraction.title}</h3>
                         {attraction.img && <img src={attraction.img} alt={attraction.title} />}
                         <button
                             type="button"

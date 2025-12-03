@@ -14,7 +14,7 @@ export function AttractionCard({attractions}){
         <>
         <div className="attraction">
         <Link to={path}>
-        <h2>{attractions.title}</h2>
+        <h2 className="text-xl font-bold text-center my-8 text-gray-800">{attractions.title}</h2>
         {attractions.img && <img src={attractions.img} alt={attractions.title} />}
         </Link>
         </div>
