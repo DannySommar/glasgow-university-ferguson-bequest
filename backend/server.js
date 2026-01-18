@@ -6,6 +6,8 @@ import { createTables } from './database/createTables.js';
 import { seedTables } from './database/seedTables.js';
 import { pool } from './database/index.js';
 
+//import { resetAttractionsTable } from './database/resetTables.js';
+
 const PORT = 8000;
 const app = express();
 const secret = process.env.SESSION_SECRET || 'skibidi';

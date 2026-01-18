@@ -13,7 +13,7 @@ export async function seedTables() {
             
             for (const attraction of attractions) {
                 await client.query(
-                    `INSERT INTO attractions (title, image, description) 
+                    `INSERT INTO attractions (title, img, description) 
                      VALUES ($1, $2, $3)`,
                     [attraction.title, attraction.img, attraction.description]
                 )
