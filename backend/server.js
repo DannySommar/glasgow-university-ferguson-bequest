@@ -8,7 +8,6 @@ import { authRouter } from './routes/auth.js'
 import { createTables } from './database/createTables.js';
 import { seedTables } from './database/seedTables.js';
 import { pool } from './database/index.js';
-import { authRouter } from './routes/auth.js';
 
 //import { resetAttractionsTable } from './database/resetTables.js';
 
