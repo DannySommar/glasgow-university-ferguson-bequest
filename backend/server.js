@@ -1,10 +1,14 @@
 import express from 'express';
 import cors from 'cors';
 import session from 'express-session';
+
 import { attractionsRouter } from './routes/attractions.js';
+import { authRouter } from './routes/auth.js'
+
 import { createTables } from './database/createTables.js';
 import { seedTables } from './database/seedTables.js';
 import { pool } from './database/index.js';
+import { authRouter } from './routes/auth.js';
 
 //import { resetAttractionsTable } from './database/resetTables.js';
 
@@ -74,7 +78,7 @@ app.get('/api/db-attractions', async (req, res) => {
 })
 
 app.use('/api/attractions', attractionsRouter)
-
+app.use('/api/auth', authRouter)
 
 async function initializeDatabase() {
   try {
