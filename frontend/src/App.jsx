@@ -9,6 +9,7 @@ import { TermsAndConditions } from './pages/TermsAndConditions'
 import { Admin } from './pages/Admin'
 import { TicketDraws } from './pages/TicketDraws'
 import { MyBookings } from './pages/MyBookings'
+import { Login } from './pages/Login'
 
 function App() {
   const [message, setMessage] = useState('')
@@ -46,6 +47,7 @@ function App() {
         <Route path='/MyBookings' element={<MyBookings />}></Route>
         <Route path='/Terms' element={<TermsAndConditions />}></Route>
         <Route path='/Admin' element={<Admin/>}></Route>
+        <Route path='/Login' element={<Login/>}></Route>
       </Route> 
       </Routes>
     </Router>
