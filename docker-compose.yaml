@@ -3,6 +3,14 @@ services:
     build: ./backend
     ports:
       - "8000:8000"
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_NAME=sh40db
+      - DB_USER=sh40user
+      - DB_PASSWORD=sh40password
+    depends_on:
+      - db
     restart: unless-stopped
 
   frontend:
@@ -12,3 +20,18 @@ services:
     depends_on:
       - backend
     restart: unless-stopped
+
+  db:
+    image: postgres:16
+    environment:
+      - POSTGRES_DB=sh40db
+      - POSTGRES_USER=sh40user
+      - POSTGRES_PASSWORD=sh40password
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+
+volumes:
+  pgdata:

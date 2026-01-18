@@ -1,5 +1,4 @@
-{
-  "attractions": [
+export const attractions = [
     {
       "id": 1,
       "title": "Blair Drummond Safari Park",
@@ -24,5 +23,4 @@
       "img": "Ghostbusters-Header.jpg", 
       "description": "some info"
     }
-  ]
-}
+]
