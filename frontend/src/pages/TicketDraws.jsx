@@ -24,7 +24,7 @@ export function TicketDraws(){
 
     return (
         <>
-        <h2>Ticket Draws</h2>
+        <h2 className="text-3xl font-bold text-center my-8 text-gray-800">Ticket Draws</h2>
         <div className="ticket-draws-page">
             <div className="ticket-draws-hero">
                 <p>This is the Ticket Draws page, where you can enter draws to get ticket(s) for events.</p>
