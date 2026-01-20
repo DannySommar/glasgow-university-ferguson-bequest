@@ -1,0 +1,26 @@
+export const attractions = [
+    {
+      "id": 1,
+      "title": "Blair Drummond Safari Park",
+      "img": "BlairDrumond.jpg",
+      "description": "some info"
+    },
+    {
+      "id": 2, 
+      "title": "Edinburgh Zoo",
+      "img": "EdZoo.jpg",
+      "description": "some info"
+    },
+    {
+      "id": 3,
+      "title": "Glasgow Clan Ice Hockey", 
+      "img": "Clan.jpg",
+      "description": "some info"
+    },
+    {
+      "id": 4,
+      "title": "RSNO - Ghostbuster Concert",
+      "img": "Ghostbusters-Header.jpg", 
+      "description": "some info"
+    }
+]

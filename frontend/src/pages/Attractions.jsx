@@ -1,3 +1,5 @@
+import { useState, useEffect } from 'react'
+
 import { AttractionCard } from "../components/AttractionCard"
 import "./Attractions.css";
 import Blairimg from "../images/BlairDrumond.jpg"
@@ -8,14 +10,42 @@ import { PopUp } from "../components/PopUp";
 
 
 export function Attractions (){
-
-    const blairdrummond = {title: "Blair Drummond Safari Park", img:Blairimg}
-    const edizoo = {title: "Edinburgh Zoo", img:zoo}
-    const hockey = {title: "Glasgow Clan Ice Hockey", img:clan}
-    const rsno = {title: "RSNO - Ghostbuster Concert",  img:rsnoghost}
+    
 
 
-    const attractions = [blairdrummond, edizoo, hockey, rsno]
+    const [attractions, setAttractions] = useState([])
+
+    // temporary solution. need to move imgs to public folder when functionality for admin to upload own attractions with imgs
+    const imageMap = {
+        "BlairDrumond.jpg": Blairimg,
+        "EdZoo.jpg": zoo,
+        "Clan.jpg": clan,
+        "Ghostbusters-Header.jpg": rsnoghost
+    }
+
+    useEffect(() => {
+        fetchAttractions()
+    }, [])
+
+    const fetchAttractions = async () => {
+        try {
+            const response = await fetch('/api/attractions')
+            const data = await response.json()
+
+            const transformed = data.attractions.map(attraction => ({
+                ...attraction,
+                img: imageMap[attraction.img]
+            }))
+
+            console.log(transformed)
+
+            setAttractions(transformed)
+        } catch (error) {
+            console.error('Error fetching attractions:', error)
+            setAttractions([])
+        }
+    }
+
 
     return (
         <>
