@@ -15,8 +15,7 @@ export function PopUp() {
         <div className="ModalOverlay">
             <div className="Modal">
                 <h2>Terms & Conditions</h2>
-                <p>Please review and accept our terms & conditions:</p>
-                <p><Link to="/Terms" target="_blank">Terms & Conditions</Link></p>
+                <p>Please review and accept our <Link to="/Terms" target="_blank">terms and conditions</Link></p>
                 <button onClick={handleAccept}>I Accept</button>
             </div>
         </div>
