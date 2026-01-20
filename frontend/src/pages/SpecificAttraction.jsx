@@ -28,7 +28,6 @@ export function SpecificAttraction() {
 
   return (
     <>
-    <h2>{attraction.title}</h2>
     <div className="attractionPage">
         {attraction.img && <img src={attraction.img} alt={attraction.title} />}
         <div className="singleAttractionContent">
