@@ -1,22 +1,43 @@
 .navbar {
-  background-color: darkblue;
-  padding: 10px;
+  background: #083563;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 14px 12px;
   display: flex;
-  gap: 20px;    
+  align-items: center;
+  gap: 16px;    
   width: 100%; 
   justify-content: center; 
+  position: relative;
   z-index: 1000;
 }
 
+.nav-logo { 
+  position: absolute;
+  left: 12px;
+}
+
+.nav-logo img {
+  height: 46px;
+  display: block;
+}
+
+.nav-links {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
 .navbar button {
-  background: darkblue;
+  background: transparent;
   border: none;
-  padding: 8px 12px;
+  padding: 6px 4px;
   cursor: pointer;
-  border-radius: 4px;
-  color: white;
+  color: #ffffff;
+  font-weight: 600;
+  border-radius: 0;
 }
 
 .navbar button:hover {
-  background: lightblue;
+  text-decoration: underline;
 }

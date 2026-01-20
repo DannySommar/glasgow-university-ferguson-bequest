@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import './Footer.css'
+import uofgLogo from "../images/uofgLogo.jpg";
+
 
 export function Footer(){
     const year = new Date().getFullYear();
@@ -24,7 +26,11 @@ export function Footer(){
                     <a href="mailto:fergusonbequest@glasgow.ac.uk">Contact Us</a>
                     <p> {year} University of Glasgow</p>
                 </div>
+
+                <div className="footer-logo">
+                    <img src={uofgLogo} alt="University of Glasgow" />
+                </div>
             </div>
         </footer>
-    )
+    );
 }
