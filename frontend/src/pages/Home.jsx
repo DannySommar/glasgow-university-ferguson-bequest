@@ -4,19 +4,50 @@ import './Home.css'
 export function Home(){
     return (
         <>
-        <h2 className="text-3xl font-bold text-center my-8 text-gray-800">Home</h2>
         <div className="HomePage">
-            <div className="Content">
+        <h2 className="text-3xl font-bold text-center my-8 text-white-800">Ferguson Bequest</h2>
                 <div className="Information">
-                    <h3>Welcome to the Ferguson Bequest</h3>
-                    <p>Staff may apply for 3 Attractions per calendar year. These cannot currently be cancelled once you have applied, so ensure you are applying for the correct attraction at the time of booking!</p>
-                    <p>Booking instructions for each attraction appear on individual attraction pages. Please see How To Book for Terms & Conditions.</p>
-                    <p>Staff may enter as many Ticket Draws as they wish and may win 1 per year - please do NOT apply for a ballot if you are unable to attend the event! Winners will be removed from future ballots.</p>
-                    <p>The Ferguson Bequest Attraction tickets and Ballots are available to all members of University of Glasgow staff holding a contract of employment. This does not include registered honorary and affiliation status holders, casual workers, or individuals employed directly by other organisations but paid via University payroll.</p>
-                    <p>For queries relating to the Ferguson Bequest please email fergusonbequest@glasgow.ac.uk</p>
+                    <h3>Welcome!</h3>
+                    <p>This website exists to help University of Glasgow 
+                        staff access and enjoy the benefits provided through 
+                        the Ferguson Bequest. It brings together all available attractions,
+                        ticket draws, and booking information in one simple place, making it easy to explore what is on offer 
+                        and apply for opportunities throughout the year.</p>
+                </div>
+                <div className="Information">
+                <h3>What You Can Do Here</h3>
+                    <ul>
+                        <li>- Browse the full range of attractions supported by the Ferguson Bequest.</li>
+                        <li>- Apply for up to three attractions per calendar year.</li>
+                        <li>- Enter ticket draws for special events.</li>
+                        <li>- Find clear booking instructions and key terms and conditions for each attraction.</li>
+                    </ul>
+                </div>
+                <div className="Information">
+                <h3>Important Rules at a Glance</h3>
+                    <ul>
+                        <li>
+                        Attraction applications cannot be cancelled, so please ensure you choose carefully
+                        before submitting.
+                        </li>
+                        <li>
+                        You may enter as many ticket draws as you like, but you can only win one per year.
+                        Please avoid entering ballots for events you cannot attend.
+                        </li>
+                        <li>
+                        The Ferguson Bequest is available to University of Glasgow staff with a contract
+                        of employment. It does not include honorary or affiliate status holders, casual workers,
+                        or individuals employed by external organisations but paid via University payroll.
+                        </li>
+                    </ul>
+                </div>
+                <div className="Information">
+                    <h3>Need Help?</h3>
+                    <p>
+                        For any queries, please contact <strong>fergusonbequest@glasgow.ac.uk</strong>
+                    </p>
                 </div>
             </div>
-        </div>
         </>
     )
 }

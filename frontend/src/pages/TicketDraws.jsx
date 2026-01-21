@@ -24,17 +24,14 @@ export function TicketDraws(){
 
     return (
         <>
-        <h2 className="text-3xl font-bold text-center my-8 text-gray-800">Ticket Draws</h2>
+        <h2 className="text-3xl font-bold text-center my-8 text-black-800">Ticket Draws</h2>
         <div className="ticket-draws-page">
             <div className="ticket-draws-hero">
                 <p>This is the Ticket Draws page, where you can enter draws to get ticket(s) for events.</p>
                 <p>Staff may enter as many draws as they like but can only win one per year. Past winners will be removed</p>
-                <h2>Attractions</h2>
             </div> 
 
-            
             <div className="ticket-draws-grid">
-                
                 {attractions.map((attraction) => (
                     <div
                         key={attraction.title}

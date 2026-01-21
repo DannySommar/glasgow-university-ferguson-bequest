@@ -1,11 +1,7 @@
 .AdminPage {                 
-  display: flex;  
-  width: 100vw; 
-  min-height: 100vh;           
-  flex-wrap: wrap;            
+  display: flex;       
   justify-content: center;   
-  gap: 40px;                
-  background-color: white;
+  gap: 30px;                
 }
 
 .admin {           
@@ -35,7 +31,7 @@ h2 {
   justify-content: center;    
   align-items: center;    
       
-  max-width: 1200px;      
+  max-width: 1000px;      
   margin-left: auto;      
   margin-right: auto;             
   margin-top: 20px;   
