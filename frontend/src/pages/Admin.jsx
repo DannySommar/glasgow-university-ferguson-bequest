@@ -4,7 +4,7 @@ export function Admin(){
 
     return (
         <>
-        <h2 className="text-3xl font-bold text-center my-8 text-gray-800">Admin</h2>
+        <h2 className="text-3xl font-bold text-center my-8 text-black-800">Admin</h2>
         <div className="AdminPage">
         
         <div className="Content">

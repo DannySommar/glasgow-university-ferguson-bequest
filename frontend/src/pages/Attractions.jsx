@@ -49,7 +49,7 @@ export function Attractions (){
 
     return (
         <>
-        <h2 className="text-3xl font-bold text-center my-8 text-gray-800">Attractions</h2>
+        <h2 className="text-3xl font-bold text-center my-8 text-black-800">Attractions</h2>
         <div className="attractionPage">
         <div className="Content">
         

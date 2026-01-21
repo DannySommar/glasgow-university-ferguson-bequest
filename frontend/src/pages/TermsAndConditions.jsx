@@ -3,7 +3,7 @@ import "./TermsAndConditions.css"
 export function TermsAndConditions() {
     return (
         <>
-        <h2 className="text-3xl font-bold text-center my-8 text-gray-800">Terms & Conditions</h2>
+        <h2 className="text-3xl font-bold text-center my-8 text-black-800">Terms & Conditions</h2>
         <div className="TermsAndConditions">
             <div className="Content">
                 <div className="Information">

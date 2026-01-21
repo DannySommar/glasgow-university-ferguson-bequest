@@ -1,9 +1,22 @@
 .attractionPage {
     display: flex;
-    gap: 30px; 
+    gap: 10px; 
     align-items: flex-start;
 }
 
+.singleAttractionContent {
+    background-color: rgb(230, 231, 233); 
+  padding: 30px;
+  border-radius: 10px;       
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+  text-align: left;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  flex: 1;
+  color: black; 
+  width: 30%;
+  margin: auto;
+  font-size: 16px;
+}
 .attractionPage img {
     max-width: 300px;
     height: auto;

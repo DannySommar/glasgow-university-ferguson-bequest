@@ -45,8 +45,8 @@ export function MyBookings(){
     };
 
     return (
-        <div className="min-h-screen bg-white">
-            <h2 className="text-3xl font-bold text-center my-8 text-gray-800">My Bookings</h2>
+        <div className="min-h-screen">
+            <h2 className="text-3xl font-bold text-center my-8 text-black-800">My Bookings</h2>
             
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
                 
