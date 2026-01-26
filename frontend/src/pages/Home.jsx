@@ -1,11 +1,13 @@
 import { PopUp } from '../components/PopUp'
 import './Home.css'
+import { Link } from 'react-router-dom'
 
 export function Home(){
     return (
         <>
-        <div className="HomePage">
         <h2 className="text-3xl font-bold text-center my-8 text-white-800">Ferguson Bequest</h2>
+        <div className="HomePage">
+        
                 <div className="Information">
                     <h3>Welcome!</h3>
                     <p>This website exists to help University of Glasgow 
@@ -39,6 +41,7 @@ export function Home(){
                         of employment. It does not include honorary or affiliate status holders, casual workers,
                         or individuals employed by external organisations but paid via University payroll.
                         </li>
+                        <li>Please be aware of the <Link to='/Terms'  style={{color: "#007bff",textDecoration: "underline",cursor: "pointer",}}>Terms &amp; Conditions</Link> </li>
                     </ul>
                 </div>
                 <div className="Information">
