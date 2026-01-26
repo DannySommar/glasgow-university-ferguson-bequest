@@ -6,6 +6,7 @@ import clan from "../images/Clan.jpg"
 import { useState } from "react"
 import { PopUp } from "../components/PopUp"
 import './SpecificAttraction.css'
+import ReviewForm from "../components/reviews/ReviewForm"
 
 const attractionData = {
   "blair-drummond-safari-park": { title: "Blair Drummond Safari Park", img: Blairimg, description: "Some info about Blair Drummond..." },
@@ -35,8 +36,15 @@ export function SpecificAttraction() {
             <p>{attraction.description}</p>
             <button className="book-btn" onClick={handleBook}>Book Now</button>
         </div>
+        
     </div>
     {showPopUp && <PopUp />}
+    <div>
+      {/* once reviews are attached to database could put previous reviews along side
+      with review form next to it. 
+      use id of the database tables for each attraction to show corresponding reviews? */}
+        <ReviewForm/>
+        </div>
     </>
   )
 }

@@ -1,6 +1,5 @@
 
 import { Link } from "react-router-dom";
-
 export function AttractionCard({attractions}){
 
     const slug = attractions.title
@@ -18,6 +17,7 @@ export function AttractionCard({attractions}){
         {attractions.img && <img src={attractions.img} alt={attractions.title} />}
         <h3>{attractions.description}</h3>
         </Link>
+        
         </div>
         </>
     )
