@@ -15,6 +15,7 @@ export function Attractions (){
 
 
     const [attractions, setAttractions] = useState([])
+    const [isAdmin, setIsAdmin] = useState(false);
 
     // temporary solution. need to move imgs to public folder when functionality for admin to upload own attractions with imgs
     const imageMap = {
@@ -26,6 +27,7 @@ export function Attractions (){
 
     useEffect(() => {
         fetchAttractions()
+        checkAdminStatus()
     }, [])
 
     const fetchAttractions = async () => {
@@ -47,6 +49,20 @@ export function Attractions (){
         }
     }
 
+    const checkAdminStatus = async () => {
+        try {
+            const response = await fetch('/api/auth/me', { credentials: 'include' });
+            const data = await response.json();
+            setIsAdmin(data.isAdmin || false);
+        } catch (err) {
+            console.error('error checking admin status:', err);
+        }
+    }
+
+    const handleDeleteAttraction = (deletedId) => {
+        setAttractions(prev => prev.filter(attraction => attraction.id !== deletedId));
+    }
+
 
     return (
         <>
@@ -55,13 +71,14 @@ export function Attractions (){
         <div className="Content">
         
             
-        {attractions.map((attractions)=>{
-
-            return (
-                <AttractionCard attractions={attractions}/>
-            )
-
-        })}
+        {attractions.map((attraction) => (
+            <AttractionCard 
+                key={attraction.id} 
+                attractions={attraction}
+                isAdmin={isAdmin}
+                onDelete={handleDeleteAttraction}
+            />
+        ))}
         </div>
         </div>
         
