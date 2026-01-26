@@ -7,6 +7,7 @@ import { useState } from "react"
 import { PopUp } from "../components/PopUp"
 import './SpecificAttraction.css'
 import ReviewForm from "../components/reviews/ReviewForm"
+import "../components/reviews/Review.css"
 
 const attractionData = {
   "blair-drummond-safari-park": { title: "Blair Drummond Safari Park", img: Blairimg, description: "Some info about Blair Drummond..." },
@@ -39,11 +40,18 @@ export function SpecificAttraction() {
         
     </div>
     {showPopUp && <PopUp />}
-    <div>
+    <div className="reviews">
       {/* once reviews are attached to database could put previous reviews along side
       with review form next to it. 
       use id of the database tables for each attraction to show corresponding reviews? */}
         <ReviewForm/>
+        
+
+        <div className="form">
+          <h2>Reviews</h2>
+          <p>review</p>
+          <p>review</p>
+        </div>
         </div>
     </>
   )

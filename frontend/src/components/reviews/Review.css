@@ -8,8 +8,13 @@
   flex: 1;
   color: black; 
   width: 30%;
-  margin: auto;
   font-size: 16px;
+}
+.reviews {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  align-items: flex-start;
 }
 
 input[type=text]{
@@ -67,4 +72,8 @@ button {
 
 .star.filled {
   color: gold;
+}
+
+.review {
+
 }
