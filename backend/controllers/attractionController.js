@@ -18,3 +18,28 @@ export async function getAttractions(req, res) {
         res.status(500).json({ error: 'failed to fetch all attractions' });
     }
 }
+
+export async function deleteAttraction(req, res) {
+    try {
+        // check if user is admin!!!
+        if (!req.session.isAdmin) {
+            return res.status(403).json({ error: 'you need to me an admin' });
+        }
+
+        const { id } = req.params;
+        
+        const result = await pool.query(
+            'DELETE FROM attractions WHERE id = $1 RETURNING id',
+            [id]
+        )
+
+        if (result.rowCount === 0) {
+            return res.status(404).json({ error: 'attraction not found' });
+        }
+
+        res.json({ message: 'attraction deleted' });
+    } catch (err) {
+        console.error('error deleting attraction:', err);
+        res.status(500).json({ error: 'deletion of attraction failed' });
+    }
+}
