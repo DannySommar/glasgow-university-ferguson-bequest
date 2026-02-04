@@ -1,21 +1,27 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './Review.css'
 
-const ReviewForm = ({ onAddReview }) => {
-  const [author, setAuthor] = useState('');
+const ReviewForm = ({ attractionId, onAddReview }) => {
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (rating ===0){
+      alert('Please select a rating')
+      return
+    }
+
+    console.log(rating)
+
     const newReview = {
-      author,
+      attraction_id: attractionId,
       comment,
       rating
     };
     onAddReview(newReview);
-    setAuthor('');
     setComment('');
     setRating(0);
   };
@@ -24,12 +30,7 @@ const ReviewForm = ({ onAddReview }) => {
     <div className='form'>
       <h2>Write a Review!</h2>
     <form onSubmit={handleSubmit}>
-      <input 
-        type="text" 
-        placeholder="Your Name" 
-        value={author} 
-        onChange={(e) => setAuthor(e.target.value)} 
-      />
+    
       <textarea 
         placeholder="Write your review..." 
         value={comment} 
