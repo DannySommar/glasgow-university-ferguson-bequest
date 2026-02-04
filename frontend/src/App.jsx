@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react'
 import { HashRouter as Router, Routes, Route} from 'react-router-dom'
+
+import { AuthProvider } from './contexts/AuthContext'
+
 import { Attractions } from './pages/Attractions'
 import { SpecificAttraction } from './pages/SpecificAttraction'
 import { Home } from './pages/Home'
@@ -36,24 +39,24 @@ function App() {
   }, []);
 
   return (
-    <>
-    <Router>
-      <Routes>
-        <Route element={<Layout/>}>
-        <Route path='/' element={<Home/>}></Route>
-        <Route path='/About' element={<About />}></Route>
-        <Route path='/Attractions' element={<Attractions/>}></Route>
-        <Route path="/attractions/:slug" element={<SpecificAttraction />}></Route>
-        <Route path='/TicketDraws' element={<TicketDraws />}></Route>
-        <Route path='/MyBookings' element={<MyBookings />}></Route>
-        <Route path='/Terms' element={<TermsAndConditions />}></Route>
-        <Route path='/Admin' element={<Admin/>}></Route>
-        <Route path='/Login' element={<Login/>}></Route>
-        <Route path='/Signup' element={<Signup/>}></Route>
-      </Route> 
-      </Routes>
-    </Router>
-    </>
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route element={<Layout/>}>
+          <Route path='/' element={<Home/>}></Route>
+          <Route path='/About' element={<About />}></Route>
+          <Route path='/Attractions' element={<Attractions/>}></Route>
+          <Route path="/attractions/:slug" element={<SpecificAttraction />}></Route>
+          <Route path='/TicketDraws' element={<TicketDraws />}></Route>
+          <Route path='/MyBookings' element={<MyBookings />}></Route>
+          <Route path='/Terms' element={<TermsAndConditions />}></Route>
+          <Route path='/Admin' element={<Admin/>}></Route>
+          <Route path='/Login' element={<Login/>}></Route>
+          <Route path='/Signup' element={<Signup/>}></Route>
+        </Route> 
+        </Routes>
+      </Router>
+    </AuthProvider>
   )
 }
 

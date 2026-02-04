@@ -3,11 +3,14 @@ import "./Login.css"
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import { useAuth } from "../contexts/AuthContext"
+
 
 export function Login() {
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
+    const { login } = useAuth()
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -32,6 +35,13 @@ export function Login() {
             console.log('data from login attempt: ', data)
 
             if (res.ok) {
+                login({ 
+                    id: data.user.id, 
+                    username: data.user.username,
+                    email: data.user.email,
+                    isAdmin: data.user.isAdmin 
+                })
+
                 navigate('/')
             } else {
                 setError(data.error || 'login failed')
