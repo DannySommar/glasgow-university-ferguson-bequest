@@ -12,7 +12,7 @@ export async function getReviewsByAttractions(req, res) {
        ORDER BY r.created_at DESC`,
       [attractionId]
     )
-
+    console.log(result.rows)
     res.json({ reviews: result.rows })
 
   } catch (err) {
