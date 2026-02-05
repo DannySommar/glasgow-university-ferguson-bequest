@@ -66,10 +66,12 @@ export function Attractions (){
     return (
         <>
         <h2 className="text-3xl font-bold text-center my-8 text-black-800">Attractions</h2>
+        <div className="attraction-hero">
+                <p>This is the Attractions page, where you can book to get ticket(s) for attractions.</p>
+                <p>Staff can apply for 3 Attractions per year, and 1 pair of each of the 4 Weekly Tickets.</p>
+            </div> 
         <div className="attractionPage">
         <div className="Content">
-        
-            
         {attractions.map((attraction) => (
             <AttractionCard 
                 key={attraction.id} 

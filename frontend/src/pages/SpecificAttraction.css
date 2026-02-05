@@ -17,6 +17,17 @@
   margin: auto;
   font-size: 16px;
 }
+
+.singleAttractionContent a {
+  color: #415cb7;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.singleAttractionContent a:hover {
+  text-decoration: underline;
+}
+
 .attractionPage img {
     max-width: 300px;
     height: auto;
