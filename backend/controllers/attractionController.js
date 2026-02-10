@@ -43,3 +43,37 @@ export async function deleteAttraction(req, res) {
         res.status(500).json({ error: 'deletion of attraction failed' });
     }
 }
+
+export async function createAttraction(req, res) {
+    let { title, description, location } = req.body
+
+    title = title.trim()
+    description = description.trim()
+    location = location.trim()
+
+    const client = await pool.connect()
+
+    try {
+        const result = await client.query(
+            'INSERT INTO attractions (title, description, location) VALUES ($1, $2, $3) returning id, title, description, location',
+            [title, description, location]
+        )
+
+        const attraction = result.rows[0]
+
+        res.status(201).json({
+            message: 'attraction created',
+            attraction: {
+                id: attraction.id,
+                title: attraction.title,
+                description: attraction.description,
+                location: attraction.location
+            }
+        })
+    } catch (err) {
+        console.error('attraction creation error: ', err.message)
+        res.status(500).json({error: 'Attraction creation failed. Please try again. '})
+    } finally {
+        client.release()
+    }
+}
