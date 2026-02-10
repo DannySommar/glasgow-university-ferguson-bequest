@@ -1,6 +1,5 @@
 import { Pool } from 'pg'
 
-
 // try to integrate .enf file somehow in here and docker compose later on
 export const pool = new Pool({
   host: process.env.DB_HOST ||'db',
