@@ -82,15 +82,11 @@ app.use('/api/auth', authRouter)
 async function initializeDatabase() {
   try {
     console.log('init db');
-    
     const testResult = await pool.query('SELECT NOW()');
     console.log('db connected:', testResult.rows[0].now);
     
-    
-    
     await createTables();
     await seedTables();
-    
     
     const countResult = await pool.query('SELECT COUNT(*) FROM attractions');
     console.log(`attractions: ${countResult.rows[0].count}`);
@@ -102,14 +98,19 @@ async function initializeDatabase() {
   }
 }
 
-// start server AFTER db is ready
-initializeDatabase().then(() => {
-  app.listen(PORT, () => {
-    console.log(`server running on http://localhost:${PORT}`);
-    console.log(`http://localhost:${PORT}/api/health`);
-    console.log(`http://localhost:${PORT}/api/db-test`);
-    console.log(`http://localhost:${PORT}/api/db-attractions`);
-  }).on('error', (err) => {
-    console.error(':( ', err);
+// start server AFTER db is ready (skip when testing)
+if (process.env.NODE_ENV !== 'test') {
+  initializeDatabase().then(() => {
+    app.listen(PORT, () => {
+      console.log(`server running on http://localhost:${PORT}`);
+      console.log(`http://localhost:${PORT}/api/health`);
+      console.log(`http://localhost:${PORT}/api/db-test`);
+      console.log(`http://localhost:${PORT}/api/db-attractions`);
+    }).on('error', (err) => {
+      console.error(':( ', err);
+    });
   });
-});
+}
+
+export {app, initializeDatabase};
+export default app;
