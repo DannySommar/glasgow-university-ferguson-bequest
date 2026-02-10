@@ -9,6 +9,7 @@ import clan from "../images/Clan.jpg"
 import { PopUp } from "../components/PopUp";
 
 
+
 export function Attractions (){
     
 
@@ -80,6 +81,7 @@ export function Attractions (){
         ))}
         </div>
         </div>
+        
         </>
         
     )

@@ -33,6 +33,18 @@ export async function createTables() {
             )
         `)
 
+
+        await client.query(`
+            CREATE TABLE IF NOT EXISTS reviews (
+                id SERIAL PRIMARY KEY,
+                user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+                attraction_id INTEGER REFERENCES attractions(id) ON DELETE CASCADE,
+                rating INTEGER NOT NULL CHECK (rating BETWEEN 1 AND 5),
+                comment TEXT NOT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+`)
+
     } catch (err) {
         console.error('error creating attractions table:', err)
     } finally {

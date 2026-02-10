@@ -4,6 +4,7 @@ import session from 'express-session';
 
 import { attractionsRouter } from './routes/attractions.js';
 import { authRouter } from './routes/auth.js'
+import { reviewsRouter } from './routes/reviews.js';
 
 import { createTables } from './database/createTables.js';
 import { seedTables } from './database/seedTables.js';
@@ -78,6 +79,7 @@ app.get('/api/db-attractions', async (req, res) => {
 
 app.use('/api/attractions', attractionsRouter)
 app.use('/api/auth', authRouter)
+app.use('/api/reviews', reviewsRouter)
 
 async function initializeDatabase() {
   try {
