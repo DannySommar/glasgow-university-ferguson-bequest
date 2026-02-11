@@ -1,16 +1,12 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
+import { createSlug } from "../utils/slug";
+
 export function AttractionCard({ attractions, isAdmin, onDelete }) {
     const [isDeleting, setIsDeleting] = useState(false);
     
-
-    const slug = attractions.title
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-") // replace spaces and other chars with "-"
-    .replace(/^-+|-+$/g, "");    // remove leading/trailing dashes
-    const path = `/attractions/${slug}`
-
+    const path = `/attractions/${createSlug(attractions.title)}`
 
     const handleDelete = async () => {
         if (!window.confirm(`Are you sure you want to delete "${attractions.title}"?`)) {

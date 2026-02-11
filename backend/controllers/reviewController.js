@@ -12,7 +12,7 @@ export async function getReviewsByAttractions(req, res) {
        ORDER BY r.created_at DESC`,
       [attractionId]
     )
-    console.log(result.rows)
+    
     res.json({ reviews: result.rows })
 
   } catch (err) {
@@ -26,7 +26,7 @@ export async function createReview(req, res) {
   try {
     const { attraction_id, rating, comment } = req.body
 
-    console.log('creating a new attraction with rating ', rating)
+    console.log('creating a new attraction with rating and all:', req.body)
 
     const user_id = req.session.userId
 
@@ -37,6 +37,11 @@ export async function createReview(req, res) {
     const result = await pool.query(
       `INSERT INTO reviews (user_id, attraction_id, rating, comment)
        VALUES ($1, $2, $3, $4)
+       ON CONFLICT (user_id, attraction_id)
+       DO UPDATE SET 
+         rating = EXCLUDED.rating,
+         comment = EXCLUDED.comment,
+         created_at = CURRENT_TIMESTAMP
        RETURNING *`,
       [user_id, attraction_id, rating, comment]
     )

@@ -10,7 +10,7 @@ import { createTables } from './database/createTables.js';
 import { seedTables } from './database/seedTables.js';
 import { pool } from './database/index.js';
 
-//import { resetAttractionsTable } from './database/resetTables.js';
+import { resetTables } from './database/resetTables.js';
 
 const PORT = 8000;
 const app = express();
@@ -84,6 +84,8 @@ app.use('/api/reviews', reviewsRouter)
 async function initializeDatabase() {
   try {
     console.log('init db');
+
+    //resetTables();
     
     const testResult = await pool.query('SELECT NOW()');
     console.log('db connected:', testResult.rows[0].now);

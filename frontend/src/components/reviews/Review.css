@@ -17,12 +17,20 @@
   align-items: flex-start;
 }
 
-input[type=text]{
+
+/* CSS in files are actually global in react is they are included at least once */
+
+/* Can be solved by using 
+import styles from "./Review.module.css" 
+and then className={styles.inputSomething}
+This makes the css into a js object 'styles' */
+
+/* input[type=text]{
   margin: 10px;
   background-color: white;
   background-position: 10px 10px;
   padding-left: 40px;
-}
+} */
 
 textarea {
   width: 100%;
