@@ -7,5 +7,12 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     setupFiles: './vitest.setup.js'
+  },
+
+  server: {
+    allowedHosts: true,
+    host: true,
+
   }
+
 })

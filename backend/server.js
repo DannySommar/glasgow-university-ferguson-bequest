@@ -108,7 +108,7 @@ async function initializeDatabase() {
 
 // start server AFTER db is ready
 initializeDatabase().then(() => {
-  app.listen(PORT, () => {
+  app.listen(PORT, "0.0.0.0", () => {
     console.log(`server running on http://localhost:${PORT}`);
     console.log(`http://localhost:${PORT}/api/health`);
     console.log(`http://localhost:${PORT}/api/db-test`);
