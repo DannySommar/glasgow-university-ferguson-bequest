@@ -1,9 +1,10 @@
 .HomePage {                
   padding: 50px;
   display: flex;
-  flex-direction: column;
   gap: 10px;
   font-family: "Source Sans Pro", "Source Sans 3", Arial, Helvetica, sans-serif;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .Information {  
@@ -14,8 +15,20 @@
   text-align: left; 
   transition: transform 0.2s ease, background-color 0.2s ease;
   color: black;
-  width: 30%;
-  margin: auto;
+  flex: 1;
+  max-width: 500px;
+  min-width: 300px;
+}
+
+.Big.Information {
+  flex: 2;
+  max-width: 800px;
+}
+
+.Small.Information {
+  flex-basis: 100%;
+  max-width: 400px;
+  min-width: 300px;
 }
 
 h2 {

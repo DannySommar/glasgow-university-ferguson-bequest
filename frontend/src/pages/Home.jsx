@@ -16,16 +16,7 @@ export function Home(){
                         ticket draws, and booking information in one simple place, making it easy to explore what is on offer 
                         and apply for opportunities throughout the year.</p>
                 </div>
-                <div className="Information">
-                <h3>What You Can Do Here</h3>
-                    <ul>
-                        <li>- Browse the full range of attractions supported by the Ferguson Bequest.</li>
-                        <li>- Apply for up to three attractions per calendar year.</li>
-                        <li>- Enter ticket draws for special events.</li>
-                        <li>- Find clear booking instructions and key terms and conditions for each attraction.</li>
-                    </ul>
-                </div>
-                <div className="Information">
+                <div className="Big Information">
                 <h3>Important Rules at a Glance</h3>
                     <ul>
                         <li>
@@ -43,8 +34,17 @@ export function Home(){
                         </li>
                         <li>Please be aware of the <Link to='/Terms'  style={{color: "#007bff",textDecoration: "underline",cursor: "pointer",}}>Terms &amp; Conditions</Link> </li>
                     </ul>
-                </div>
+                </div>                
                 <div className="Information">
+                <h3>What You Can Do Here</h3>
+                    <ul>
+                        <li>- Browse the full range of attractions supported by the Ferguson Bequest.</li>
+                        <li>- Apply for up to three attractions per calendar year.</li>
+                        <li>- Enter ticket draws for special events.</li>
+                        <li>- Find clear booking instructions and key terms and conditions for each attraction.</li>
+                    </ul>
+                </div>
+                <div className="Small Information">
                     <h3>Need Help?</h3>
                     <p>
                         For any queries, please contact <strong>fergusonbequest@glasgow.ac.uk</strong>
