@@ -1,3 +1,4 @@
+
 import { pool } from './index.js'
 
 export async function createTables() {
@@ -43,6 +44,16 @@ export async function createTables() {
                 comment TEXT NOT NULL,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 UNIQUE(user_id, attraction_id)
+            )
+        `)
+
+        await client.query(`
+            CREATE TABLE IF NOT EXISTS ticket_draw_entries (
+                id SERIAL PRIMARY KEY,
+                user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+                attraction VARCHAR(255) NOT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                UNIQUE(user_id, attraction)
             )
         `)
 
