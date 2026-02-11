@@ -4,12 +4,13 @@ import session from 'express-session';
 
 import { attractionsRouter } from './routes/attractions.js';
 import { authRouter } from './routes/auth.js'
+import { reviewsRouter } from './routes/reviews.js';
 
 import { createTables } from './database/createTables.js';
 import { seedTables } from './database/seedTables.js';
 import { pool } from './database/index.js';
 
-//import { resetAttractionsTable } from './database/resetTables.js';
+import { resetTables } from './database/resetTables.js';
 
 const PORT = 8000;
 const app = express();
@@ -78,15 +79,22 @@ app.get('/api/db-attractions', async (req, res) => {
 
 app.use('/api/attractions', attractionsRouter)
 app.use('/api/auth', authRouter)
+app.use('/api/reviews', reviewsRouter)
 
 async function initializeDatabase() {
   try {
     console.log('init db');
+
+    //resetTables();
+    
     const testResult = await pool.query('SELECT NOW()');
     console.log('db connected:', testResult.rows[0].now);
     
+    
+    
     await createTables();
     await seedTables();
+    
     
     const countResult = await pool.query('SELECT COUNT(*) FROM attractions');
     console.log(`attractions: ${countResult.rows[0].count}`);
@@ -98,19 +106,14 @@ async function initializeDatabase() {
   }
 }
 
-// start server AFTER db is ready (skip when testing)
-if (process.env.NODE_ENV !== 'test') {
-  initializeDatabase().then(() => {
-    app.listen(PORT, () => {
-      console.log(`server running on http://localhost:${PORT}`);
-      console.log(`http://localhost:${PORT}/api/health`);
-      console.log(`http://localhost:${PORT}/api/db-test`);
-      console.log(`http://localhost:${PORT}/api/db-attractions`);
-    }).on('error', (err) => {
-      console.error(':( ', err);
-    });
+// start server AFTER db is ready
+initializeDatabase().then(() => {
+  app.listen(PORT, () => {
+    console.log(`server running on http://localhost:${PORT}`);
+    console.log(`http://localhost:${PORT}/api/health`);
+    console.log(`http://localhost:${PORT}/api/db-test`);
+    console.log(`http://localhost:${PORT}/api/db-attractions`);
+  }).on('error', (err) => {
+    console.error(':( ', err);
   });
-}
-
-export {app, initializeDatabase};
-export default app;
+});

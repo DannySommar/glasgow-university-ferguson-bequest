@@ -45,18 +45,20 @@ export async function deleteAttraction(req, res) {
 }
 
 export async function createAttraction(req, res) {
-    let { title, description, location } = req.body
+    let { title, description, location, img } = req.body
 
     title = title.trim()
     description = description.trim()
     location = location.trim()
 
+    img = img || 'default.jpg'
+
     const client = await pool.connect()
 
     try {
         const result = await client.query(
-            'INSERT INTO attractions (title, description, location) VALUES ($1, $2, $3) returning id, title, description, location',
-            [title, description, location]
+            'INSERT INTO attractions (title, description, location, img) VALUES ($1, $2, $3, $4) returning id, title, description, location',
+            [title, description, location, img]
         )
 
         const attraction = result.rows[0]

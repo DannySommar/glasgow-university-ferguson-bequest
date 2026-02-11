@@ -1,0 +1,139 @@
+[33m601abf4[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeatures/reviews[m[33m, [m[1;31morigin/features/reviews[m[33m)[m HEAD@{0}: rebase (abort): returning to refs/heads/features/reviews
+[33me4215cc[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m, [m[1;32mclean-reviews[m[33m)[m HEAD@{1}: rebase (start): checkout origin/main
+[33m601abf4[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeatures/reviews[m[33m, [m[1;31morigin/features/reviews[m[33m)[m HEAD@{2}: reset: moving to origin/features/reviews
+[33m601abf4[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeatures/reviews[m[33m, [m[1;31morigin/features/reviews[m[33m)[m HEAD@{3}: commit (merge): Merged hopefully
+[33m10c816d[m HEAD@{4}: rebase (abort): returning to refs/heads/features/reviews
+[33me4215cc[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m, [m[1;32mclean-reviews[m[33m)[m HEAD@{5}: rebase (start): checkout origin/main
+[33m10c816d[m HEAD@{6}: commit: consistency
+[33m0fa1890[m HEAD@{7}: rebase (abort): returning to refs/heads/features/reviews
+[33me4215cc[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m, [m[1;32mclean-reviews[m[33m)[m HEAD@{8}: rebase (start): checkout origin/main
+[33m0fa1890[m HEAD@{9}: rebase (abort): returning to refs/heads/features/reviews
+[33me4215cc[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m, [m[1;32mclean-reviews[m[33m)[m HEAD@{10}: rebase (start): checkout origin/main
+[33m0fa1890[m HEAD@{11}: rebase (abort): returning to refs/heads/features/reviews
+[33me4215cc[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m, [m[1;32mclean-reviews[m[33m)[m HEAD@{12}: rebase (start): checkout origin/main
+[33m0fa1890[m HEAD@{13}: rebase (abort): returning to refs/heads/features/reviews
+[33me4215cc[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m, [m[1;32mclean-reviews[m[33m)[m HEAD@{14}: rebase (start): checkout origin/main
+[33m0fa1890[m HEAD@{15}: rebase (abort): returning to refs/heads/features/reviews
+[33me4215cc[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m, [m[1;32mclean-reviews[m[33m)[m HEAD@{16}: rebase (start): checkout origin/main
+[33m0fa1890[m HEAD@{17}: checkout: moving from clean-reviews to features/reviews
+[33me4215cc[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m, [m[1;32mclean-reviews[m[33m)[m HEAD@{18}: checkout: moving from features/reviews to clean-reviews
+[33m0fa1890[m HEAD@{19}: rebase (abort): returning to refs/heads/features/reviews
+[33me4215cc[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m, [m[1;32mclean-reviews[m[33m)[m HEAD@{20}: rebase (start): checkout origin/main
+[33m0fa1890[m HEAD@{21}: checkout: moving from features/reviews to features/reviews
+[33m0fa1890[m HEAD@{22}: reset: moving to HEAD
+[33m0fa1890[m HEAD@{23}: rebase (abort): returning to refs/heads/features/reviews
+[33me4215cc[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m, [m[1;32mclean-reviews[m[33m)[m HEAD@{24}: rebase (start): checkout origin/main
+[33m0fa1890[m HEAD@{25}: commit: change: reviews dublication issue, SpecificAttraction a bit better
+[33mb672375[m HEAD@{26}: checkout: moving from main to features/reviews
+[33me4215cc[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m, [m[1;32mclean-reviews[m[33m)[m HEAD@{27}: checkout: moving from features/reviews to main
+[33mb672375[m HEAD@{28}: checkout: moving from fix-reviews to features/reviews
+[33mb672375[m HEAD@{29}: checkout: moving from main to fix-reviews
+[33me4215cc[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m, [m[1;32mclean-reviews[m[33m)[m HEAD@{30}: checkout: moving from fix-reviews to main
+[33mb672375[m HEAD@{31}: checkout: moving from main to fix-reviews
+[33me4215cc[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m, [m[1;32mclean-reviews[m[33m)[m HEAD@{32}: checkout: moving from features/reviews to main
+[33mb672375[m HEAD@{33}: checkout: moving from fix-reviews to features/reviews
+[33mb672375[m HEAD@{34}: checkout: moving from fix-reviews to fix-reviews
+[33mb672375[m HEAD@{35}: reset: moving to origin/features/reviews
+[33m866e2b5[m HEAD@{36}: checkout: moving from features/reviews to fix-reviews
+[33mb672375[m HEAD@{37}: reset: moving to origin/features/reviews
+[33m866e2b5[m HEAD@{38}: rebase (finish): returning to refs/heads/features/reviews
+[33m866e2b5[m HEAD@{39}: rebase (start): checkout fix-reviews
+[33mb672375[m HEAD@{40}: checkout: moving from fix-reviews to features/reviews
+[33m866e2b5[m HEAD@{41}: rebase (finish): returning to refs/heads/fix-reviews
+[33m866e2b5[m HEAD@{42}: rebase (pick): Revert "Merge branch 'features/reviews' into 'main'"
+[33mc2226da[m HEAD@{43}: rebase (pick): Resolve merge conflicts
+[33mede0331[m HEAD@{44}: rebase (pick): Login Testing
+[33m9913f0f[m HEAD@{45}: rebase (pick): added: AuthContext
+[33mb672375[m HEAD@{46}: rebase (start): checkout features/reviews
+[33me4215cc[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m, [m[1;32mclean-reviews[m[33m)[m HEAD@{47}: checkout: moving from features/reviews to fix-reviews
+[33mb672375[m HEAD@{48}: checkout: moving from main to features/reviews
+[33me4215cc[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m, [m[1;32mclean-reviews[m[33m)[m HEAD@{49}: checkout: moving from fix-reviews to main
+[33me4215cc[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m, [m[1;32mclean-reviews[m[33m)[m HEAD@{50}: checkout: moving from features/reviews to fix-reviews
+[33mb672375[m HEAD@{51}: checkout: moving from main to features/reviews
+[33me4215cc[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m, [m[1;32mclean-reviews[m[33m)[m HEAD@{52}: checkout: moving from features/reviews to main
+[33mb672375[m HEAD@{53}: checkout: moving from main to features/reviews
+[33me4215cc[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m, [m[1;32mclean-reviews[m[33m)[m HEAD@{54}: pull: Fast-forward
+[33m7219e8b[m HEAD@{55}: checkout: moving from df2b3fbaa40a4f8734ed23812bbecdff9f58c8da to main
+[33mdf2b3fb[m HEAD@{56}: checkout: moving from main to df2b3fbaa40a4f8734ed23812bbecdff9f58c8da
+[33m7219e8b[m HEAD@{57}: pull: Fast-forward
+[33ma2b0d13[m HEAD@{58}: checkout: moving from features/logout to main
+[33m10b19db[m[33m ([m[1;31morigin/features/logout[m[33m, [m[1;32mfeatures/logout[m[33m)[m HEAD@{59}: commit: added: AuthContext
+[33ma2b0d13[m HEAD@{60}: checkout: moving from main to features/logout
+[33ma2b0d13[m HEAD@{61}: pull: Fast-forward
+[33m8ca1fdd[m[33m ([m[1;32mfeatures/delete[m[33m)[m HEAD@{62}: checkout: moving from features/delete_attraction to main
+[33m23b99ce[m[33m ([m[1;31morigin/features/delete_attraction[m[33m, [m[1;32mfeatures/delete_attraction[m[33m)[m HEAD@{63}: commit: added: deleting attractions for admin
+[33m8ca1fdd[m[33m ([m[1;32mfeatures/delete[m[33m)[m HEAD@{64}: checkout: moving from main to features/delete_attraction
+[33m8ca1fdd[m[33m ([m[1;32mfeatures/delete[m[33m)[m HEAD@{65}: pull: Fast-forward
+[33md7bf5d0[m HEAD@{66}: checkout: moving from moving-data-to-backend to main
+[33m5074b9e[m[33m ([m[1;32mmoving-data-to-backend[m[33m)[m HEAD@{67}: commit: change: made login and signup have fetch requests
+[33m42876a5[m HEAD@{68}: rebase (finish): returning to refs/heads/moving-data-to-backend
+[33m42876a5[m HEAD@{69}: rebase (pick): fix: installed bcrypt
+[33m3fec292[m HEAD@{70}: rebase (pick): added: users database and their auth logic
+[33m12cb4a8[m HEAD@{71}: rebase (pick): added: resetTables for development and attractionController now uses the db
+[33mbfba79e[m HEAD@{72}: rebase (pick): added: database successfully connected
+[33m46642a7[m HEAD@{73}: rebase (pick): Added structure for data existing in the backend
+[33md7bf5d0[m HEAD@{74}: rebase (start): checkout main
+[33m3a5a650[m HEAD@{75}: checkout: moving from main to moving-data-to-backend
+[33md7bf5d0[m HEAD@{76}: pull: Fast-forward
+[33m10da3e7[m HEAD@{77}: checkout: moving from test-branch to main
+[33m36f8924[m[33m ([m[1;31morigin/features/login-and-signup-pages[m[33m, [m[1;32mtest-branch[m[33m)[m HEAD@{78}: checkout: moving from main to test-branch
+[33m10da3e7[m HEAD@{79}: checkout: moving from moving-data-to-backend to main
+[33m3a5a650[m HEAD@{80}: commit: fix: installed bcrypt
+[33m6fd8a45[m HEAD@{81}: commit: added: users database and their auth logic
+[33m84f5977[m HEAD@{82}: commit: added: resetTables for development and attractionController now uses the db
+[33m2e685da[m HEAD@{83}: commit: added: database successfully connected
+[33m9d03499[m HEAD@{84}: rebase (finish): returning to refs/heads/moving-data-to-backend
+[33m9d03499[m HEAD@{85}: rebase (pick): Added structure for data existing in the backend
+[33m10da3e7[m HEAD@{86}: rebase (start): checkout main
+[33mecf298b[m HEAD@{87}: checkout: moving from main to moving-data-to-backend
+[33m10da3e7[m HEAD@{88}: checkout: moving from moving-data-to-backend to main
+[33mecf298b[m HEAD@{89}: checkout: moving from main to moving-data-to-backend
+[33m10da3e7[m HEAD@{90}: pull: Fast-forward
+[33mbce605b[m HEAD@{91}: checkout: moving from features/my-bookings to main
+[33m917f52c[m[33m ([m[1;31morigin/features/my-bookings[m[33m, [m[1;32mfeatures/my-bookings[m[33m)[m HEAD@{92}: commit: added MyBookings page, fixed Tailwind
+[33mbce605b[m HEAD@{93}: checkout: moving from main to features/my-bookings
+[33mbce605b[m HEAD@{94}: checkout: moving from your-bookings to main
+[33mecf298b[m HEAD@{95}: checkout: moving from moving-data-to-backend to your-bookings
+[33mecf298b[m HEAD@{96}: checkout: moving from main to moving-data-to-backend
+[33mbce605b[m HEAD@{97}: checkout: moving from moving-data-to-backend to main
+[33mecf298b[m HEAD@{98}: checkout: moving from your-bookings to moving-data-to-backend
+[33mecf298b[m HEAD@{99}: checkout: moving from main to your-bookings
+[33mbce605b[m HEAD@{100}: pull: Fast-forward
+[33ma7aef60[m HEAD@{101}: checkout: moving from CI-CD to main
+[33m35df560[m[33m ([m[1;31morigin/CI-CD[m[33m, [m[1;32mCI-CD[m[33m)[m HEAD@{102}: commit: re-did the CI file
+[33m09d4f7c[m HEAD@{103}: commit: modified package.json
+[33mb39488a[m HEAD@{104}: checkout: moving from main to CI-CD
+[33ma7aef60[m HEAD@{105}: pull: Fast-forward
+[33me7c3a90[m HEAD@{106}: checkout: moving from CI-CD to main
+[33mb39488a[m HEAD@{107}: commit: Fixed spelling mistake
+[33mccb037c[m HEAD@{108}: commit: made it so that it only checks if backend is working
+[33m6f1a009[m HEAD@{109}: commit: changed main CI file
+[33ma7b05c6[m HEAD@{110}: commit: added the .
+[33med0fccd[m HEAD@{111}: checkout: moving from main to CI-CD
+[33me7c3a90[m HEAD@{112}: checkout: moving from your-bookings to main
+[33mecf298b[m HEAD@{113}: checkout: moving from main to your-bookings
+[33me7c3a90[m HEAD@{114}: checkout: moving from your-bookings to main
+[33mecf298b[m HEAD@{115}: checkout: moving from moving-data-to-backend to your-bookings
+[33mecf298b[m HEAD@{116}: checkout: moving from main to moving-data-to-backend
+[33me7c3a90[m HEAD@{117}: checkout: moving from CI-CD to main
+[33med0fccd[m HEAD@{118}: commit: added 2 potential CI pipelines
+[33me7c3a90[m HEAD@{119}: checkout: moving from main to CI-CD
+[33me7c3a90[m HEAD@{120}: pull: Fast-forward
+[33mf4c3c0d[m HEAD@{121}: checkout: moving from moving-data-to-backend to main
+[33mecf298b[m HEAD@{122}: commit: Added structure for data existing in the backend
+[33m8c9b6c1[m HEAD@{123}: checkout: moving from main to moving-data-to-backend
+[33mf4c3c0d[m HEAD@{124}: pull: Fast-forward
+[33m8c9b6c1[m HEAD@{125}: checkout: moving from moving-data-to-backend to main
+[33m8c9b6c1[m HEAD@{126}: checkout: moving from main to moving-data-to-backend
+[33m8c9b6c1[m HEAD@{127}: pull origin main: Fast-forward
+[33mc3381b2[m HEAD@{128}: checkout: moving from features/attraction-popup to main
+[33m25fa9aa[m[33m ([m[1;32mfeatures/attraction-popup[m[33m)[m HEAD@{129}: checkout: moving from main to features/attraction-popup
+[33mc3381b2[m HEAD@{130}: pull: Fast-forward
+[33md4ac21b[m HEAD@{131}: checkout: moving from nginx_integration to main
+[33m7369784[m[33m ([m[1;31morigin/nginx_integration[m[33m, [m[1;32mnginx_integration[m[33m)[m HEAD@{132}: commit: Change: integrated nginx and also made project ready to work with tailwind
+[33md4ac21b[m HEAD@{133}: checkout: moving from main to nginx_integration
+[33md4ac21b[m HEAD@{134}: pull: Fast-forward
+[33m8108322[m HEAD@{135}: reset: moving to origin/main
+[33m6b7ec4a[m HEAD@{136}: pull: Fast-forward
+[33m0fc1247[m HEAD@{137}: commit: Add: Base of the project
+[33m8623175[m HEAD@{138}: clone: from https://stgit.dcs.gla.ac.uk/team-project-h/2025/sh40/sh40-main.git

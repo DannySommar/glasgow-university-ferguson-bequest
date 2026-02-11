@@ -17,14 +17,17 @@ export function CreateAttraction() {
             const title = formData.get('title').trim()
             const description = formData.get('description').trim()
             const location = formData.get('location').trim()
+            const imgFile = formData.get('img')
 
-            console.log({ title, description, location})
+            const imgName = imgFile && imgFile.name ? imgFile.name : 'default.jpg'
+
+            console.log({ title, description, location, imgName})
 
             const res = await fetch('/api/attractions', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 credentials : 'include',
-                body: JSON.stringify({ title, description, location})
+                body: JSON.stringify({ title, description, location, img: imgName})
             })
 
             const data = await res.json()
