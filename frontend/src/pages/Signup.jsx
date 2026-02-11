@@ -1,7 +1,8 @@
-import "./Signup.css"
-
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+
+import { useAuth } from '../contexts/AuthContext'
+import "./Signup.css"
 
 
 export function Signup() {
@@ -34,6 +35,13 @@ export function Signup() {
             console.log('data from register attempt: ', data)
 
             if (res.ok) {
+                // better practice for user to log in seperately maybe
+                // login({ 
+                //     id: data.user.id, 
+                //     username: data.user.username,
+                //     email: data.user.email,
+                //     isAdmin: data.user.isAdmin 
+                // })
                 navigate('/') // home
             } else {
                 setError(data.error || 'singup failed')

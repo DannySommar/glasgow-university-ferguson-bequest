@@ -20,7 +20,6 @@ const imageMap = {
   "Ghostbusters-Header.jpg": rsnoghost
 }
 
-
 export function SpecificAttraction() {
   const { slug } = useParams()
   const [attraction, setAttraction] = useState(null)
