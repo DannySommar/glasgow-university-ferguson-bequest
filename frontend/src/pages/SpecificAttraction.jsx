@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
 
+import { useAuth } from "../contexts/AuthContext"
 import { createSlug } from "../utils/slug"
 import { PopUp } from "../components/PopUp"
 import './SpecificAttraction.css'
@@ -21,6 +22,7 @@ const imageMap = {
 }
 
 export function SpecificAttraction() {
+  const user = useAuth()
   const { slug } = useParams()
   const [attraction, setAttraction] = useState(null)
   const [reviews, setReviews] = useState([])
