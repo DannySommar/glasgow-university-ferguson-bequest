@@ -109,13 +109,19 @@ async function initializeDatabase() {
 }
 
 // start server AFTER db is ready
-initializeDatabase().then(() => {
-  app.listen(PORT, () => {
-    console.log(`server running on http://localhost:${PORT}`);
-    console.log(`http://localhost:${PORT}/api/health`);
-    console.log(`http://localhost:${PORT}/api/db-test`);
-    console.log(`http://localhost:${PORT}/api/db-attractions`);
-  }).on('error', (err) => {
-    console.error(':( ', err);
+if (process.env.NODE_ENV !== 'test') {
+  initializeDatabase().then(() => {
+    app.listen(PORT, () => {
+      console.log(`server running on http://localhost:${PORT}`);
+      console.log(`http://localhost:${PORT}/api/health`);
+      console.log(`http://localhost:${PORT}/api/db-test`);
+      console.log(`http://localhost:${PORT}/api/db-attractions`);
+    }).on('error', (err) => {
+      console.error(':( ', err);
+    });
   });
-});
+
+}
+
+export { app, initializeDatabase };
+export default app;
