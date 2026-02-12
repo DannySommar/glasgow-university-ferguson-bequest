@@ -111,6 +111,7 @@ export function SpecificAttraction() {
               <strong>{review.username || 'Anonymous'}</strong> {/* username from backend */}
               <p>{review.comment}</p>
               <span>{review.rating} ★</span>
+              <br></br>
               <small>{new Date(review.created_at).toLocaleString()}</small>
             </div>
           ))}
