@@ -3,52 +3,61 @@ import zoo from "../images/EdZoo.jpg"
 import rsnoghost from "../images/Ghostbusters-Header.jpg"
 import clan from "../images/Clan.jpg"
 import "./TicketDraws.css"
-import { AttractionCard } from "../components/AttractionCard"
-import "./Attractions.css"
-import { useState } from "react"
-
+import { useState, useEffect } from "react"
 export function TicketDraws() {
-    const [selected, setSelected] = useState(null);
 
-    const attractions = [
-         {
-            title: "Priscilla, Queen of the Desert",
-            venue: "King's Theatre, Glasgow",
-            eventDate: "2026-03-05",
-            enterFrom: "2026-01-15",
-            enterUntil: "2026-02-11",
-            img: Blairimg,
-            showUrl: "https://www.atgtickets.com/shows/priscilla-queen-of-the-desert-the-musical/kings-theatre-glasgow/",
-        },
-        {
-            title: "A Play, A Pie & A Pint",
-            venue: "Òran Mór, Glasgow",
-            eventDate: "2026-02-23",
-            enterFrom: "2026-01-27",
-            enterUntil: "2026-02-15",
-            img: zoo,
-            showUrl: "https://playpiepint.com/",
-        },
-        {
-            title: "RSNO – Ghostbusters Concert",
-            venue: "Glasgow Royal Concert Hall",
-            eventDate: "2026-11-02",
-            enterFrom: "2026-09-15",
-            enterUntil: "2026-10-01",
-            img: rsnoghost,
-            showUrl: "https://www.rsno.org.uk/liveevent/tchaikovskys-fourth-symphony/",
-        },
-        {
-            title: "Scottish Ballet - Starstruck",
-            venue: "Theatre Royal, Glasgow",
-            eventDate: "2026-04-17",
-            enterFrom: "2026-02-26",
-            enterUntil: "2026-03-25",
-            img: clan,
-            showUrl: "https://www.atgtickets.com/shows/scottish-ballet-starstruck/theatre-royal-glasgow/",
-        },
-    ]
+    const [selected, setSelected] = useState(null);
+    const [ticketDraws, setTicketDraws] = useState([]);
+    const [isAdmin, setIsAdmin] = useState(false);
     
+    // temporary solution. need to move imgs to public folder when functionality for admin to upload own attractions with imgs
+    const imageMap = {
+        "BlairDrumond.jpg": Blairimg,
+        "EdZoo.jpg": zoo,
+        "Clan.jpg": clan,
+        "Ghostbusters-Header.jpg": rsnoghost
+    }
+
+    useEffect(() => {
+        fetchTicketDraws()
+        checkAdminStatus()
+    }, [])
+
+    const fetchTicketDraws = async () => {
+        try {
+            const response = await fetch('/api/ticket-draws', { credentials: 'include' })
+            const data = await response.json()
+
+            const transformed = data.ticketDraws.map(draw => ({
+              id: draw.id, 
+              title: draw.title, 
+              venue: draw.venue, 
+              eventDate: draw.eventdate, 
+              enterFrom: draw.enterfrom, 
+              enterUntil: draw.enteruntil, 
+              img: imageMap[draw.img], 
+              showUrl: draw.showurl
+            }))
+
+            console.log(transformed)
+
+            setTicketDraws(transformed)
+        } catch (error) {
+            console.error('Error fetching ticket draws:', error)
+            setTicketDraws([])
+        }
+    }
+
+    const checkAdminStatus = async () => {
+        try {
+            const response = await fetch('/api/auth/me', { credentials: 'include' });
+            const data = await response.json();
+            setIsAdmin(data.isAdmin || false);
+        } catch (err) {
+            console.error('error checking admin status:', err);
+        }
+    }
+
     const formatDate = (date) =>
     new Date(date).toLocaleDateString("en-GB", {
       day: "numeric",
@@ -57,7 +66,7 @@ export function TicketDraws() {
     })
 
     const handleEnterDraw = (title) => {
-        alert('Enter draw for ${title}');
+        alert(`Enter draw for ${title}`);
     }
 
     return (
@@ -70,7 +79,7 @@ export function TicketDraws() {
             </div> 
         <div className="ticket-draws-page">
             <div className="ticket-draws-grid">
-                {attractions.map((draw) => (
+                {ticketDraws.map((draw) => (
             <div
               key={draw.title}
               className={`ticket-draws-card ${

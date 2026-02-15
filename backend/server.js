@@ -3,13 +3,14 @@ import cors from 'cors';
 import session from 'express-session';
 
 import { attractionsRouter } from './routes/attractions.js';
+import { ticketDrawRouter } from './routes/ticketDraws.js'
 import { authRouter } from './routes/auth.js'
 
-import { createTables } from './database/createTables.js';
-import { seedTables } from './database/seedTables.js';
+//import { createTables } from './database/createTables.js';
+//import { seedTables } from './database/seedTables.js';
 import { pool } from './database/index.js';
 
-//import { resetAttractionsTable } from './database/resetTables.js';
+import { resetAttractionsTable } from './database/resetTables.js';
 
 const PORT = 8000;
 const app = express();
@@ -77,6 +78,7 @@ app.get('/api/db-attractions', async (req, res) => {
 })
 
 app.use('/api/attractions', attractionsRouter)
+app.use('/api/ticket-draws', ticketDrawRouter)
 app.use('/api/auth', authRouter)
 
 async function initializeDatabase() {
@@ -87,9 +89,9 @@ async function initializeDatabase() {
     console.log('db connected:', testResult.rows[0].now);
     
     
-    
-    await createTables();
-    await seedTables();
+    await resetAttractionsTable();
+    //await createTables();
+    //await seedTables();
     
     
     const countResult = await pool.query('SELECT COUNT(*) FROM attractions');
