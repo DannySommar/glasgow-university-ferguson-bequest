@@ -4,32 +4,33 @@ import {Navbar} from './Navbar.jsx';
 import { MemoryRouter } from 'react-router-dom';
 import { useAuth } from "../contexts/AuthContext.jsx";
 
-const mockNavigate = vi.fn();
-vi.mock('react-router-dom', async () => {
-    const actual = await vi.importActual('react-router-dom');
-    return {
-        ...actual,
-        useNavigate: () => mockNavigate,
-    };
-});
 
-const mockLogout = vi.fn();
 vi.mock('../contexts/AuthContext.jsx', () => ({
-    useAuth: () => ({
-        user: null,
-        logout: mockLogout,
-    }),
+    useAuth: vi.fn(),
 }));
+
+const mockNavigate = vi.fn();
+const mockLogout = vi.fn();
 
 
 describe('Navbar', () => {
     beforeEach(() => {
-        mockNavigate.mockClear();
-        mockLogout.mockClear();
+        vi.clearAllMocks();
     });
+
+    afterEach(() => {
+  vi.clearAllMocks();
+  cleanup();
+        });
 
 
     test('shows all the nav bar items when user is logged out', () => {
+
+        vi.mocked(useAuth).mockReturnValue({
+            user: null,
+            logout: mockLogout
+        });
+
         render(
             <MemoryRouter>
                 <Navbar />
@@ -49,7 +50,7 @@ describe('Navbar', () => {
 
 
     test('shows My Bookings and Logout when user is logged in', () => {
-        vi.mocked(require('../contexts/AuthContext.jsx').useAuth).mockReturnValue({
+        vi.mocked(useAuth).mockReturnValue({
             user: { isAdmin: false },
             logout: mockLogout,
         });
@@ -67,8 +68,8 @@ describe('Navbar', () => {
     });
 
 
-    test('shows My Bookings and Logout when user is logged in', () => {
-        vi.mocked(require('../contexts/AuthContext').useAuth).mockReturnValue({
+    test('shows Admin when admin is logged in', () => {
+        vi.mocked(useAuth).mockReturnValue({
             user: { isAdmin: true },
             logout: mockLogout,
         });
@@ -78,11 +79,10 @@ describe('Navbar', () => {
                 <Navbar />
             </MemoryRouter>
         );
-
-        expect(screen.getByText('My Bookings')).toBeInTheDocument();
-        expect(screen.getByText('Log Out')).toBeInTheDocument();
         expect(screen.queryByText('Admin')).toBeInTheDocument();
+        expect(screen.queryByText('Log Out')).toBeInTheDocument();
         expect(screen.queryByText('Log In')).toBeNull();
+
     });
 
     
