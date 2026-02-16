@@ -116,6 +116,7 @@ export function SpecificAttraction() {
               <strong>{review.username}</strong> {/* add Anonymous later when we add the flag for it in reviews table */}
               <p>{review.comment}</p>
               <span>{review.rating} ★</span>
+              <br></br>
               <small>{new Date(review.created_at).toLocaleString()}</small>
             </div>
           ))}
