@@ -14,12 +14,12 @@ import zoo from "../images/EdZoo.jpg"
 import rsnoghost from "../images/Ghostbusters-Header.jpg"
 import clan from "../images/Clan.jpg"
 
-const imageMap = {
-  "BlairDrumond.jpg": Blairimg,
-  "EdZoo.jpg": zoo,
-  "Clan.jpg": clan,
-  "Ghostbusters-Header.jpg": rsnoghost
-}
+  const imageMap = {
+    "BlairDrumond.jpg": Blairimg,
+    "EdZoo.jpg": zoo,
+    "Clan.jpg": clan,
+    "Ghostbusters-Header.jpg": rsnoghost
+  }
 
 export function SpecificAttraction() {
   const { user }= useAuth()
@@ -29,45 +29,44 @@ export function SpecificAttraction() {
   const [showPopUp, setShowPopUp] = useState(false)
   const [loading, setLoading] = useState(true)
 
-  // fetch all attractions and .find the matching one. don't really need to change the controller with extra param becaus ethis is web development and nothing matters just like life
-  useEffect(() => {
-    const fetchAttraction = async () => {
-      try {
-        const response = await fetch('/api/attractions', {
-          credentials: 'include'
-        })
-        const data = await response.json()
-        
-        const foundAttraction = data.attractions.find(att => createSlug(att.title) === slug)
-        
-        setAttraction(foundAttraction)
+    // fetch all attractions and .find the matching one. don't really need to change the controller with extra param becaus ethis is web development and nothing matters just like life
+    useEffect(() => {
+      const fetchAttraction = async () => {
+        try {
+          const response = await fetch('/api/attractions', {
+            credentials: 'include'
+          })
+          const data = await response.json()
+          
+          const foundAttraction = data.attractions.find(att => createSlug(att.title) === slug)
+          
+          setAttraction(foundAttraction)
 
-      } catch (err) {
-        console.error('failed to fetch attraction:', err)
-      } finally {
-        setLoading(false)
+        } catch (err) {
+          console.error('failed to fetch attraction:', err)
+        } finally {
+          setLoading(false)
+        }
       }
+
+      fetchAttraction()
+    }, [slug])
+
+    // fetch all reviews for this attraction
+    useEffect(() => {
+      if (!attraction?.id) return 
+
+      fetch(`/api/reviews/attraction/${attraction.id}`, {
+        credentials: 'include'
+      })
+        .then(res => res.json())
+        .then(data => setReviews(data.reviews || []))
+        .catch(err => console.error("Failed to fetch reviews:", err))
+    }, [attraction])
+
+    const handleBook = () => {
+      setShowPopUp(true);
     }
-
-    fetchAttraction()
-  }, [slug])
-
-  // fetch all reviews for this attraction
-  useEffect(() => {
-    if (!attraction?.id) return 
-
-    fetch(`/api/reviews/attraction/${attraction.id}`, {
-      credentials: 'include'
-    })
-      .then(res => res.json())
-      .then(data => setReviews(data.reviews || []))
-      .catch(err => console.error("Failed to fetch reviews:", err))
-  }, [attraction])
-
-  const handleBook = () => {
-    setShowPopUp(true);
-  }
-
 
   const addReview = async (review) => {
     console.log('review: ', review)
@@ -97,19 +96,14 @@ export function SpecificAttraction() {
           <p>{attraction.description}</p>
           <button className="book-btn" onClick={handleBook}>Book Now</button>
         </div>
-      </div>
-      
-      {showPopUp && <PopUp />}
-      
-      <div className="reviews">
-        <ReviewForm
-          attractionId={attraction.id}
-          onAddReview={addReview}
-        />
         
-        <div className="form">
-          <h2>Reviews</h2>
-          {reviews.length === 0 && <p>No reviews yet.</p>}
+        {showPopUp && <PopUp />}
+        
+        <div className="reviews">
+          <ReviewForm
+            attractionId={attraction.id}
+            onAddReview={addReview}
+          />
           
           {reviews.map(review => (
             <div key={review.id} className="singleReview">
@@ -121,7 +115,7 @@ export function SpecificAttraction() {
             </div>
           ))}
         </div>
-      </div>
+       </div>
     </>
   )
 }
