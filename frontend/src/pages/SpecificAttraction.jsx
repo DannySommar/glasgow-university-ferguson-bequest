@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
 
+import { useAuth } from "../contexts/AuthContext"
 import { createSlug } from "../utils/slug"
 import { PopUp } from "../components/PopUp"
 import './SpecificAttraction.css'
@@ -21,6 +22,7 @@ const imageMap = {
 }
 
 export function SpecificAttraction() {
+  const { user }= useAuth()
   const { slug } = useParams()
   const [attraction, setAttraction] = useState(null)
   const [reviews, setReviews] = useState([])
@@ -77,7 +79,10 @@ export function SpecificAttraction() {
     })
 
     const savedReview = await response.json()
-    setReviews(prev => [savedReview, ...prev])
+    setReviews(prev => {
+      const filtered = prev.filter(r => r.user_id !== user.id) // removes prev user review right away
+      return [savedReview, ...filtered]
+    })
   }
 
   if (loading) return <p>loading attraction... </p>
@@ -108,7 +113,7 @@ export function SpecificAttraction() {
           
           {reviews.map(review => (
             <div key={review.id} className="singleReview">
-              <strong>{review.username || 'Anonymous'}</strong> {/* username from backend */}
+              <strong>{review.username}</strong> {/* add Anonymous later when we add the flag for it in reviews table */}
               <p>{review.comment}</p>
               <span>{review.rating} ★</span>
               <small>{new Date(review.created_at).toLocaleString()}</small>
