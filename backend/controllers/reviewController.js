@@ -46,7 +46,15 @@ export async function createReview(req, res) {
       [user_id, attraction_id, rating, comment]
     )
 
-    res.status(201).json(result.rows[0])
+    const reviewWithUser = await pool.query(
+      `SELECT r.*, u.username
+       FROM reviews r
+       JOIN users u ON r.user_id = u.id
+       WHERE r.id = $1`,
+      [result.rows[0].id]
+    )
+
+    res.status(201).json(reviewWithUser.rows[0])
 
   } catch (err) {
     console.error('error creating review:', err)

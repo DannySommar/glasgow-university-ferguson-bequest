@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
 
+import { useAuth } from "../contexts/AuthContext"
 import { createSlug } from "../utils/slug"
 import { PopUp } from "../components/PopUp"
 import './SpecificAttraction.css'
@@ -20,12 +21,13 @@ import clan from "../images/Clan.jpg"
     "Ghostbusters-Header.jpg": rsnoghost
   }
 
-  export function SpecificAttraction() {
-    const { slug } = useParams()
-    const [attraction, setAttraction] = useState(null)
-    const [reviews, setReviews] = useState([])
-    const [showPopUp, setShowPopUp] = useState(false)
-    const [loading, setLoading] = useState(true)
+export function SpecificAttraction() {
+  const { user }= useAuth()
+  const { slug } = useParams()
+  const [attraction, setAttraction] = useState(null)
+  const [reviews, setReviews] = useState([])
+  const [showPopUp, setShowPopUp] = useState(false)
+  const [loading, setLoading] = useState(true)
 
     // fetch all attractions and .find the matching one. don't really need to change the controller with extra param becaus ethis is web development and nothing matters just like life
     useEffect(() => {
@@ -66,32 +68,33 @@ import clan from "../images/Clan.jpg"
       setShowPopUp(true);
     }
 
+  const addReview = async (review) => {
+    console.log('review: ', review)
+    const response = await fetch('/api/reviews', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify(review)
+    })
 
-    const addReview = async (review) => {
-      console.log('review: ', review)
-      const response = await fetch('/api/reviews', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify(review)
-      })
+    const savedReview = await response.json()
+    setReviews(prev => {
+      const filtered = prev.filter(r => r.user_id !== user.id) // removes prev user review right away
+      return [savedReview, ...filtered]
+    })
+  }
 
-      const savedReview = await response.json()
-      setReviews(prev => [savedReview, ...prev])
-    }
+  if (loading) return <p>loading attraction... </p>
+  if (!attraction) return <p>Attraction not found</p>
 
-    if (loading) return <p>loading attraction... </p>
-    if (!attraction) return <p>Attraction not found</p>
-
-    return (
-      <>
-        <div className="attractionPage">
-          {attraction.img && <img src={imageMap[attraction.img] || null} alt={attraction.title} />}
-          <div className="singleAttractionContent">
-            <h2>{attraction.title}</h2>
-            <p>{attraction.description}</p>
-            <button className="book-btn" onClick={handleBook}>Book Now</button>
-          </div>
+  return (
+    <>
+      <div className="attractionPage">
+        {attraction.img && <img src={imageMap[attraction.img] || null} alt={attraction.title} />}
+        <div className="singleAttractionContent">
+          <h2>{attraction.title}</h2>
+          <p>{attraction.description}</p>
+          <button className="book-btn" onClick={handleBook}>Book Now</button>
         </div>
         
         {showPopUp && <PopUp />}
@@ -102,16 +105,12 @@ import clan from "../images/Clan.jpg"
             onAddReview={addReview}
           />
           
-          <div className="form">
-            <h2>Reviews</h2>
-            {reviews.length === 0 && <p>No reviews yet.</p>}
-            
-            {reviews.map(review => (
-              <div key={review.id} className="singleReview">
-                <strong>{review.username || 'Anonymous'}</strong> {/* username from backend */}
-                <p>{review.comment}</p>
-                <span>{review.rating} ★</span>
-                <small>{new Date(review.created_at).toLocaleString()}</small>
+          {reviews.map(review => (
+            <div key={review.id} className="singleReview">
+              <strong>{review.username}</strong> {/* add Anonymous later when we add the flag for it in reviews table */}
+              <p>{review.comment}</p>
+              <span>{review.rating} ★</span>
+              <small>{new Date(review.created_at).toLocaleString()}</small>
             </div>
           ))}
         </div>
