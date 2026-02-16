@@ -1,71 +1,121 @@
 import { useParams } from "react-router-dom"
+import { useEffect, useState } from "react"
+
+import { createSlug } from "../utils/slug"
+import { PopUp } from "../components/PopUp"
+import './SpecificAttraction.css'
+import ReviewForm from "../components/reviews/ReviewForm"
+import "../components/reviews/Review.css"
+
+// will need to move to /backend/public/images later, but now i know how 2.
 import Blairimg from "../images/BlairDrumond.jpg"
 import zoo from "../images/EdZoo.jpg"
 import rsnoghost from "../images/Ghostbusters-Header.jpg"
 import clan from "../images/Clan.jpg"
-import { useState } from "react"
-import { PopUp } from "../components/PopUp"
-import './SpecificAttraction.css'
 
-const attractionData = {
-  "blair-drummond-safari-park": { 
-    title: "Blair Drummond Safari Park", 
-    img: Blairimg, 
-    showUrl:"https://blairdrummond.com/",
-    description: "Drive through lion and rhino reserves, walk with lemurs, and explore the dinosaur forest and adventure playground. Open mid-March to December—book online for a wild day out!"
-  },
-  "edinburgh-zoo": { 
-    title: "Edinburgh Zoo", 
-    img: zoo, 
-    showUrl:"https://www.edinburghzoo.org.uk/",
-    description: "Home to over 2,500 animals, including giant pandas and penguins. Don’t miss the Giant Lanterns event (Nov 2025–Feb 2026) and new chimpanzee troop!" 
-  },
-  "glasgow-clan-ice-hockey": { 
-    title: "Glasgow Clan Ice Hockey", 
-    img: clan, 
-    showUrl:"https://clanihc.com/",
-    description: "Scotland’s premier ice hockey team in action! Fast-paced, family-friendly entertainment. Check the 2025/26 season schedule and book your seats." 
-  },
-  "rsno-ghostbuster-concert": { 
-    title: "RSNO - Ghostbuster Concert", 
-    img: rsnoghost, 
-    showUrl:"https://www.rsno.org.uk/liveevent/ghostbusters-in-concert/",
-    description: "Experience the original Ghostbusters film with the RSNO performing Elmer Bernstein’s iconic score live. Halloween concerts on 30 & 31 Oct 2025—book now!" 
-  },
-}
-
-export function SpecificAttraction() {
-  const { slug } = useParams(); 
-  const attraction = attractionData[slug];
-
-  if (!attraction) return <p>Attraction not found</p>;
-
-  const [showPopUp, setShowPopUp] = useState(false);
-
-  const handleBook = () => {
-    setShowPopUp(true);
+  const imageMap = {
+    "BlairDrumond.jpg": Blairimg,
+    "EdZoo.jpg": zoo,
+    "Clan.jpg": clan,
+    "Ghostbusters-Header.jpg": rsnoghost
   }
 
-  return (
-    <>
-    <div className="attractionPage">
-        <div className="singleAttractionContent">
-            {attraction.img && <img src={attraction.img} alt={attraction.title} />}
+  export function SpecificAttraction() {
+    const { slug } = useParams()
+    const [attraction, setAttraction] = useState(null)
+    const [reviews, setReviews] = useState([])
+    const [showPopUp, setShowPopUp] = useState(false)
+    const [loading, setLoading] = useState(true)
+
+    // fetch all attractions and .find the matching one. don't really need to change the controller with extra param becaus ethis is web development and nothing matters just like life
+    useEffect(() => {
+      const fetchAttraction = async () => {
+        try {
+          const response = await fetch('/api/attractions', {
+            credentials: 'include'
+          })
+          const data = await response.json()
+          
+          const foundAttraction = data.attractions.find(att => createSlug(att.title) === slug)
+          
+          setAttraction(foundAttraction)
+
+        } catch (err) {
+          console.error('failed to fetch attraction:', err)
+        } finally {
+          setLoading(false)
+        }
+      }
+
+      fetchAttraction()
+    }, [slug])
+
+    // fetch all reviews for this attraction
+    useEffect(() => {
+      if (!attraction?.id) return 
+
+      fetch(`/api/reviews/attraction/${attraction.id}`, {
+        credentials: 'include'
+      })
+        .then(res => res.json())
+        .then(data => setReviews(data.reviews || []))
+        .catch(err => console.error("Failed to fetch reviews:", err))
+    }, [attraction])
+
+    const handleBook = () => {
+      setShowPopUp(true);
+    }
+
+
+    const addReview = async (review) => {
+      console.log('review: ', review)
+      const response = await fetch('/api/reviews', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(review)
+      })
+
+      const savedReview = await response.json()
+      setReviews(prev => [savedReview, ...prev])
+    }
+
+    if (loading) return <p>loading attraction... </p>
+    if (!attraction) return <p>Attraction not found</p>
+
+    return (
+      <>
+        <div className="attractionPage">
+          {attraction.img && <img src={imageMap[attraction.img] || null} alt={attraction.title} />}
+          <div className="singleAttractionContent">
             <h2>{attraction.title}</h2>
-            <p>
-               <a class
-                    href={attraction.showUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                   <strong>Visit Website</strong>
-                </a>
-            </p>
             <p>{attraction.description}</p>
             <button className="book-btn" onClick={handleBook}>Book Now</button>
+          </div>
         </div>
-    </div>
-    {showPopUp && <PopUp />}
+        
+        {showPopUp && <PopUp />}
+        
+        <div className="reviews">
+          <ReviewForm
+            attractionId={attraction.id}
+            onAddReview={addReview}
+          />
+          
+          <div className="form">
+            <h2>Reviews</h2>
+            {reviews.length === 0 && <p>No reviews yet.</p>}
+            
+            {reviews.map(review => (
+              <div key={review.id} className="singleReview">
+                <strong>{review.username || 'Anonymous'}</strong> {/* username from backend */}
+                <p>{review.comment}</p>
+                <span>{review.rating} ★</span>
+                <small>{new Date(review.created_at).toLocaleString()}</small>
+            </div>
+          ))}
+        </div>
+       </div>
     </>
   )
 }

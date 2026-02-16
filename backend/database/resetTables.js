@@ -4,19 +4,27 @@ import { pool } from './index.js'
 
 
 // DONT USE IT DURING DEPLOYMENT
-export async function resetAttractionsTable() {
+export async function resetTables() {
     const client = await pool.connect()
     
     
   try {
-    await client.query('DROP TABLE IF EXISTS ticket_draws CASCADE');
-    await client.query('DROP TABLE IF EXISTS attractions CASCADE');
-
-    await createTables();
-    await seedTables();
-
-    console.log('All tables reset and reseeded');
         
+        // WILL DELETE ALL DATA 
+        await client.query('DROP TABLE IF EXISTS ticket_draw_entries CASCADE')
+        await client.query('DROP TABLE IF EXISTS reviews CASCADE')
+        await client.query('DROP TABLE IF EXISTS bookings CASCADE')
+        await client.query('DROP TABLE IF EXISTS attractions CASCADE')
+        await client.query('DROP TABLE IF EXISTS ticket_draws CASCADE')
+        await client.query('DROP TABLE IF EXISTS users CASCADE')
+
+
+
+        await createTables()
+        await seedTables()
+        
+        console.log('All tables reset and reseeded')
+
     } catch (err) {
         console.error('error dropping table:', err)
         throw err

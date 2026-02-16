@@ -2,13 +2,13 @@ import Blairimg from "../images/BlairDrumond.jpg"
 import zoo from "../images/EdZoo.jpg"
 import rsnoghost from "../images/Ghostbusters-Header.jpg"
 import clan from "../images/Clan.jpg"
-import "./TicketDraws.css"
 import { useState, useEffect } from "react"
 export function TicketDraws() {
 
     const [selected, setSelected] = useState(null);
     const [ticketDraws, setTicketDraws] = useState([]);
     const [isAdmin, setIsAdmin] = useState(false);
+    const [ status, setStatus ] = useState("");
     
     // temporary solution. need to move imgs to public folder when functionality for admin to upload own attractions with imgs
     const imageMap = {
@@ -65,62 +65,76 @@ export function TicketDraws() {
       year: "numeric",
     })
 
-    const handleEnterDraw = (title) => {
-        alert(`Enter draw for ${title}`);
-    }
+    const handleEnterDraw = async (draw) => {
+        setStatus("");
+        try{
+            const res = await fetch("/api/ticket-draws/enter", {
+                method: "Post",
+                headers: { "Content-Type": "application/json"},
+                credentials: "include",
+                body: JSON.stringify({ ticketDrawId: draw.id})
+            });
+            const data = await res.json();
+            if (res.ok) {
+                setSelected(draw.title);
+                setStatus(`You're in the draw for ${draw.title}`);
+            } else if (res.status === 401) {
+                setStatus("Please log in to enter draw.");
+            } else if (res.status === 409) {
+                setStatus("You are already entered for this draw.")
+            } else {
+                setStatus(data.error || "Could not enter draw. Try again.")
+            }
+        } catch (err) {
+            setStatus("Network error. Please Try Again.")
+        }
+    };
 
-    return (
-        <>
-        <h2 className="text-3xl font-bold text-center my-8 text-black-800">Ticket Draws</h2>
-        
-            <div className="ticket-draws-hero">
-                <p>This is the Ticket Draws page, where you can enter draws to get ticket(s) for events.</p>
-                <p>Staff may enter as many draws as they like but can only win one per year. Past winners will be removed</p>
-            </div> 
-        <div className="ticket-draws-page">
-            <div className="ticket-draws-grid">
-                {ticketDraws.map((draw) => (
-            <div
-              key={draw.title}
-              className={`ticket-draws-card ${
-                selected === draw.title ? "active" : ""
-              }`}
-              onClick={() => setSelected(draw.title)}
-            >
-                <img
-                    src={draw.img}
-                    alt={draw.title}
-                />
-              <h3><strong>{draw.title}</strong></h3>
-
-              <p><strong>Venue:</strong> {draw.venue}</p>
-              <p><strong>Enter from:</strong> {formatDate(draw.enterFrom)}</p>
-              <p><strong>Enter until:</strong> {formatDate(draw.enterUntil)}</p>
-
-                <p>
-                  <a
-                    href={draw.showUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    View event details
-                  </a>
-                </p>
-
-              <button
-                type="button"
-                className="enter-draw-btn"
-                onClick={(e) => {
+   return ( 
+   <div className="min-h-screen"> 
+   <h2 className="text-3xl font-bold text-center my-8 text-black-800">Ticket Draws</h2>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12"> 
+      <div className="mb-10 bg-gray-50 rounded-xl shadow-md border border-gray-200 p-6 text-center space-y-2"> 
+        <p className="text-gray-800 text-lg"> This is the Ticket Draws Page, where you can enter draws to win ticket(s) for events. </p> 
+        <p className="text-gray-600 text-sm"> Staff may enter as many draws as they like but can only win one per year. </p> 
+        </div> 
+        {status && ( <div className="mb-6 text-center text-sm text-gray-800">{status}</div> )} 
+        <h3 className="text-2xl font-semibold text-gray-800 border-b-2 border-blue-600 pb-2 mb-6 text-center md:text-left"> Open Draws </h3> 
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"> 
+          {ticketDraws.map((draw) => ( 
+            <div key={draw.id} className={`bg-gray-50 rounded-xl shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition ring-offset-2 cursor-pointer 
+              ${ selected === draw.title ? "ring-2 ring-blue-200" : "" }`} onClick={() => setSelected(draw.title)} > 
+              <img className="w-full h-48 object-cover" src={draw.img} alt={draw.title} /> 
+              <div className="p-5 space-y-3"> 
+                <h4 className="text-xl font-bold text-gray-800">{draw.title}</h4>
+                <p className="text-gray-700"> 
+                <span className="font-medium">Venue:</span> {draw.venue} </p> 
+                <p className="text-gray-700"> 
+                <span className="font-medium">Event date:</span> {formatDate(draw.eventDate)} </p>
+                <p className="text-gray-700"> 
+                <span className="font-medium">Enter from:</span> {formatDate(draw.enterFrom)} </p> 
+                <p className="text-gray-700"> 
+                <span className="font-medium">Enter until:</span> {formatDate(draw.enterUntil)} </p> 
+                <p> 
+               <a href={draw.showUrl} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-blue-600 underline" >
+                View event details 
+                </a> 
+                </p> 
+                <button type="button" className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200" 
+                onClick={(e) => { 
                   e.stopPropagation();
-                  handleEnterDraw(draw.title);
-                }}
-              >
-                Enter Draw
-              </button>
-            </div>
-                ))}
-            </div>
-        </div>
-    </>
-    )
+                  handleEnterDraw(draw);
+                 }} > 
+                Enter Draw 
+              </button> 
+            </div> 
+         </div> 
+        ))} 
+        </div> 
+     </div> 
+    </div> 
+  ) 
 }
