@@ -8,6 +8,7 @@ export function TicketDraws() {
     const [selected, setSelected] = useState(null);
     const [ticketDraws, setTicketDraws] = useState([]);
     const [isAdmin, setIsAdmin] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
     const [ status, setStatus ] = useState("");
     
     // temporary solution. need to move imgs to public folder when functionality for admin to upload own attractions with imgs
@@ -89,6 +90,36 @@ export function TicketDraws() {
             setStatus("Network error. Please Try Again.")
         }
     };
+   
+
+    const handleDelete = async (e, draw) => {
+        e.stopPropagation();
+
+        if (!window.confirm(`Delete "${draw.title}"?`)) return;
+
+        setIsDeleting(true);
+
+        try {
+            const response = await fetch(`/api/ticket-draws/${draw.id}`, {
+                method: 'DELETE',
+                credentials: 'include'
+            });
+
+            if (response.ok) {
+                setTicketDraws(prev => prev.filter(d => d.id !== draw.id));
+                alert('Ticket draw deleted');
+            } else {
+                const error = await response.json();
+                alert(error.error || 'Delete failed');
+            }
+        } catch (err) {
+            console.error('error deleting ticket draw:', err);
+            alert('Network error');
+        } finally {
+            setIsDeleting(false);
+        }
+    };
+
 
    return ( 
    <div className="min-h-screen"> 
@@ -130,6 +161,15 @@ export function TicketDraws() {
                  }} > 
                 Enter Draw 
               </button> 
+              {isAdmin && (
+                <button
+                    className="w-full bg-red-600 hover:bg-red-700 disabled:bg-gray-400 text-white font-medium py-2 px-4 rounded-lg mt-4"
+                    onClick={(e) => handleDelete(e, draw)}
+                    disabled={isDeleting}
+                >
+                    {isDeleting ? 'Deleting...' : 'Delete Ticket Draw'}
+                </button>
+            )}
             </div> 
          </div> 
         ))} 
