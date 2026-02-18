@@ -36,3 +36,60 @@ export async function enterDraw(req, res) {
         client.release();
     }
 }
+
+export async function createTicketDraw(req, res) {
+    let { title, venue, eventdate, enterfrom, enteruntil, showurl, img } = req.body
+
+    title = title.trim()
+    venue = venue.trim()
+    img = img || 'default.jpg'
+
+    const client = await pool.connect()
+
+    try {
+        const result = await client.query(
+            `INSERT INTO ticket_draws 
+            (title, venue, eventdate, enterfrom, enteruntil, showurl, img) 
+            VALUES ($1, $2, $3, $4, $5, $6, $7)
+            RETURNING id, title, venue, eventdate, enterfrom, enteruntil, showurl, img`,
+            [title, venue, eventdate, enterfrom, enteruntil, showurl, img]
+        )
+
+        const draw = result.rows[0]
+
+        res.status(201).json({
+            message: 'ticket draw created',
+            ticket_draw: draw
+        })
+    } catch (err) {
+        console.error('ticket draw creation error:', err.message)
+        res.status(500).json({ error: 'Ticket Draw creation failed. Please try again.' })
+    } finally {
+        client.release()
+    }
+}
+
+export async function deleteTicketDraw(req, res) {
+    try {
+        // check if user is admin!!!
+        if (!req.session.isAdmin) {
+            return res.status(403).json({ error: 'you need to be an admin' });
+        }
+
+        const { id } = req.params;
+        
+        const result = await pool.query(
+            'DELETE FROM ticket_draws WHERE id = $1 RETURNING id',
+            [id]
+        )
+
+        if (result.rowCount === 0) {
+            return res.status(404).json({ error: 'ticket draw not found' });
+        }
+
+        res.json({ message: 'ticket draw deleted' });
+    } catch (err) {
+        console.error('error deleting ticket draw:', err);
+        res.status(500).json({ error: 'deletion of ticket draw failed' });
+    }
+}
