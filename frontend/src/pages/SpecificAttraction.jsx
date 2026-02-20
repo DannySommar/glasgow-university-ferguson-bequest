@@ -99,12 +99,16 @@ export function SpecificAttraction() {
         </div>
         
         {showPopUp && <PopUp />}
+
+        
         
         <div className="reviews">
+          {user &&(
           <ReviewForm
             attractionId={attraction.id}
             onAddReview={addReview}
           />
+          )}
 
           <div className="form">
             <h2>Reviews</h2>
