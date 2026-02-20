@@ -96,6 +96,7 @@ export function SpecificAttraction() {
           <p>{attraction.description}</p>
           <button className="book-btn" onClick={handleBook}>Book Now</button>
         </div>
+        </div>
         
         {showPopUp && <PopUp />}
         
@@ -105,8 +106,8 @@ export function SpecificAttraction() {
             onAddReview={addReview}
           />
 
-          <div className="reviews">
-            <h1>Reviews</h1>
+          <div className="form">
+            <h2>Reviews</h2>
           
           
           {reviews.map(review => (
@@ -121,7 +122,7 @@ export function SpecificAttraction() {
           ))}
           </div>
         </div>
-       </div>
+       
     </>
   )
 }
