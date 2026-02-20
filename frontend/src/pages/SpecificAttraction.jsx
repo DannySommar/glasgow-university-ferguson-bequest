@@ -104,6 +104,10 @@ export function SpecificAttraction() {
             attractionId={attraction.id}
             onAddReview={addReview}
           />
+
+          <div className="reviews">
+            <h1>Reviews</h1>
+          
           
           {reviews.map(review => (
             <div key={review.id} className="singleReview">
@@ -113,7 +117,9 @@ export function SpecificAttraction() {
               <br></br>
               <small>{new Date(review.created_at).toLocaleString()}</small>
             </div>
+            
           ))}
+          </div>
         </div>
        </div>
     </>
