@@ -93,3 +93,39 @@ export async function deleteTicketDraw(req, res) {
         res.status(500).json({ error: 'deletion of ticket draw failed' });
     }
 }
+
+export async function pickWinner(req, res) {
+    if (!req.session.isAdmin) return res.status(403).json({ error: 'Admin Only' });
+
+    const { attraction } = req.body;
+    if (!attraction || !attraction.trim()) {
+        return res.status(400).json({ error:'Attraction is required' });
+    }
+
+    const client = await pool.connect();
+    try {
+        const entry = await client.query(
+            'SELECT user_id FROM ticket_draw_entries WHERE attraction = $1 ORDER BY random() LIMIT 1',
+            [attraction.trim()]
+        );
+
+        if (entry.rowCount === 0) {
+            return res.status(404).json({ error: 'No entries for this draw' });
+        }
+
+        const userId = entry.rows[0].userId;
+
+        await client.query(
+            'INSERT INTO ticket_draw_winners (user_id, attraction) VALUES ($1, $2) ON CONFLICT (attraction, user_id) DO NOTHING',
+            [userId, attraction.trim()]
+        );
+
+        res.json({ winner: userId.rows[0], attraction: attraction.trim() });
+    } catch (err) {
+        console.error('pick winner error:', err);
+        res.status(500).json({ error: 'Could not pick a winner' });
+    } finally {
+        client.release();
+    }
+    
+}
