@@ -96,14 +96,23 @@ export function SpecificAttraction() {
           <p>{attraction.description}</p>
           <button className="book-btn" onClick={handleBook}>Book Now</button>
         </div>
+        </div>
         
         {showPopUp && <PopUp />}
+
+        
         
         <div className="reviews">
+          {user &&(
           <ReviewForm
             attractionId={attraction.id}
             onAddReview={addReview}
           />
+          )}
+
+          <div className="form">
+            <h2>Reviews</h2>
+          
           
           {reviews.map(review => (
             <div key={review.id} className="singleReview">
@@ -113,9 +122,11 @@ export function SpecificAttraction() {
               <br></br>
               <small>{new Date(review.created_at).toLocaleString()}</small>
             </div>
+            
           ))}
+          </div>
         </div>
-       </div>
+       
     </>
   )
 }

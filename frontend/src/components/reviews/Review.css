@@ -9,8 +9,10 @@
   color: black; 
   width: 30%;
   font-size: 16px;
+  margin-top: 30px;
 }
 .reviews {
+  margin-top: 30px;
   display: flex;
   gap: 30px;
   justify-content: center;
@@ -80,8 +82,4 @@ button {
 
 .star.filled {
   color: gold;
-}
-
-.review {
-
 }
