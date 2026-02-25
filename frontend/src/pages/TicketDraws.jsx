@@ -123,13 +123,13 @@ export function TicketDraws() {
     };
 
     const handlePickWinner = async (draw) => {
-        setStatus("");
+        setStatus('Picking Winner...');
         try {
-            const res = await fetch("/api/draws/pick-winner", {
+            const res = await fetch("/api/ticket-draws/pick-winner", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 credentials: "include",
-                body: JSON.stringify({ attraction: draw.title })
+                body: JSON.stringify({ ticketDrawId: draw.id })
             })
             const data = await res.json();
             if (res.ok) {

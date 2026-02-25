@@ -74,10 +74,10 @@ export async function createTables() {
         await client.query(`
             CREATE TABLE IF NOT EXISTS ticket_draw_winners (
                 id SERIAL PRIMARY KEY,
-                attraction VARCHAR(255) NOT NULL,
+                ticket_draw_id INTEGER REFERENCES ticket_draws(id) ON DELETE CASCADE,
                 user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
                 selected_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                UNIQUE(attraction, user_id)
+                UNIQUE(ticket_draw_id, user_id)
             )
         `)
 
