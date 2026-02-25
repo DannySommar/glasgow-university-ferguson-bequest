@@ -30,6 +30,12 @@ app.use(session({
   }
 }))
 
+
+const uploadsPath = '/app/uploads' // in docker its in app, i struggled days trying do do it with path.dirname(fileURLToPath(import.meta.url)), maybe i need to change it when i deploy, but idk
+console.log('Uploading images from:', uploadsPath)
+app.use('/uploads', express.static(uploadsPath))
+
+
 // normal test if backend connected
 app.get('/api/hello', (req, res) => {
     res.json({message: 'Hello from the backend'})

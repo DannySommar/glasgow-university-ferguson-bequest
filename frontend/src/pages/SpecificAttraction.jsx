@@ -8,19 +8,6 @@ import './SpecificAttraction.css'
 import ReviewForm from "../components/reviews/ReviewForm"
 import "../components/reviews/Review.css"
 
-// will need to move to /backend/public/images later, but now i know how 2.
-import Blairimg from "../images/BlairDrumond.jpg"
-import zoo from "../images/EdZoo.jpg"
-import rsnoghost from "../images/Ghostbusters-Header.jpg"
-import clan from "../images/Clan.jpg"
-
-  const imageMap = {
-    "BlairDrumond.jpg": Blairimg,
-    "EdZoo.jpg": zoo,
-    "Clan.jpg": clan,
-    "Ghostbusters-Header.jpg": rsnoghost
-  }
-
 export function SpecificAttraction() {
   const { user }= useAuth()
   const { slug } = useParams()
@@ -29,44 +16,44 @@ export function SpecificAttraction() {
   const [showPopUp, setShowPopUp] = useState(false)
   const [loading, setLoading] = useState(true)
 
-    // fetch all attractions and .find the matching one. don't really need to change the controller with extra param becaus ethis is web development and nothing matters just like life
-    useEffect(() => {
-      const fetchAttraction = async () => {
-        try {
-          const response = await fetch('/api/attractions', {
-            credentials: 'include'
-          })
-          const data = await response.json()
-          
-          const foundAttraction = data.attractions.find(att => createSlug(att.title) === slug)
-          
-          setAttraction(foundAttraction)
+  // fetch all attractions and .find the matching one. don't really need to change the controller with extra param becaus ethis is web development and nothing matters just like life
+  useEffect(() => {
+    const fetchAttraction = async () => {
+      try {
+        const response = await fetch('/api/attractions', {
+          credentials: 'include'
+        })
+        const data = await response.json()
+        
+        const foundAttraction = data.attractions.find(att => createSlug(att.title) === slug)
+        
+        setAttraction(foundAttraction)
 
-        } catch (err) {
-          console.error('failed to fetch attraction:', err)
-        } finally {
-          setLoading(false)
-        }
+      } catch (err) {
+        console.error('failed to fetch attraction:', err)
+      } finally {
+        setLoading(false)
       }
-
-      fetchAttraction()
-    }, [slug])
-
-    // fetch all reviews for this attraction
-    useEffect(() => {
-      if (!attraction?.id) return 
-
-      fetch(`/api/reviews/attraction/${attraction.id}`, {
-        credentials: 'include'
-      })
-        .then(res => res.json())
-        .then(data => setReviews(data.reviews || []))
-        .catch(err => console.error("Failed to fetch reviews:", err))
-    }, [attraction])
-
-    const handleBook = () => {
-      setShowPopUp(true);
     }
+
+    fetchAttraction()
+  }, [slug])
+
+  // fetch all reviews for this attraction
+  useEffect(() => {
+    if (!attraction?.id) return 
+
+    fetch(`/api/reviews/attraction/${attraction.id}`, {
+      credentials: 'include'
+    })
+      .then(res => res.json())
+      .then(data => setReviews(data.reviews || []))
+      .catch(err => console.error("Failed to fetch reviews:", err))
+  }, [attraction])
+
+  const handleBook = () => {
+    setShowPopUp(true);
+  }
 
   const addReview = async (review) => {
     console.log('review: ', review)
@@ -79,7 +66,7 @@ export function SpecificAttraction() {
 
     const savedReview = await response.json()
     setReviews(prev => {
-      const filtered = prev.filter(r => r.user_id !== user.id) // removes prev user review right away
+      const filtered = prev.filter(r => r.user_id !== user?.id) // removes prev user review right away
       return [savedReview, ...filtered]
     })
   }
@@ -90,43 +77,50 @@ export function SpecificAttraction() {
   return (
     <>
       <div className="attractionPage">
-        {attraction.img && <img src={imageMap[attraction.img] || null} alt={attraction.title} />}
+        {attraction.img && (
+          <img 
+            src={attraction.img}
+            alt={attraction.title}
+            onError={(e) => {
+              e.target.onerror = null
+              e.target.src = '/uploads/attractions/default.png'
+            }}
+          />
+        )}
         <div className="singleAttractionContent">
           <h2>{attraction.title}</h2>
           <p>{attraction.description}</p>
           <button className="book-btn" onClick={handleBook}>Book Now</button>
         </div>
-        </div>
-        
-        {showPopUp && <PopUp />}
-
-        
-        
-        <div className="reviews">
-          {user &&(
+      </div>
+      
+      {showPopUp && <PopUp />}
+      
+      <div className="reviews">
+        {user && (
           <ReviewForm
             attractionId={attraction.id}
             onAddReview={addReview}
           />
-          )}
+        )}
 
-          <div className="form">
-            <h2>Reviews</h2>
+        <div className="form">
+          <h2>Reviews</h2>
           
+          {reviews.length === 0 && <p>No reviews yet</p>}
           
           {reviews.map(review => (
             <div key={review.id} className="singleReview">
-              <strong>{review.username}</strong> {/* add Anonymous later when we add the flag for it in reviews table */}
+              <strong>{review.username || 'Anonymous'}</strong>  {/*said anon may be prefered sometimes */}
               <p>{review.comment}</p>
               <span>{review.rating} ★</span>
               <br></br>
               <small>{new Date(review.created_at).toLocaleString()}</small>
             </div>
-            
+
           ))}
-          </div>
         </div>
-       
+      </div>
     </>
   )
 }
