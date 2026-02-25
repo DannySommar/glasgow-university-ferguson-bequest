@@ -103,7 +103,7 @@ export async function pickWinner(req, res) {
     const client = await pool.connect();
     try {
         const entry = await client.query(
-            'SELECT user_id FROM ticket_draw_entries WHERE ticket_draw_id = $1 ORDER BY random() LIMIT 1',
+            'SELECT e.user_id FROM ticket_draw_entries e WHERE e.ticket_draw_id = $1 AND NOT EXISTS (SELECT 1 FROM ticket_draw_winners w WHERE w.user_id = e.user_id AND w.selected_at >= date_trunc(\'year\', CURRENT_DATE)) ORDER BY random() LIMIT 1',
             [ticketDrawId]
         );
 
