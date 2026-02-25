@@ -45,33 +45,37 @@ export async function deleteAttraction(req, res) {
 }
 
 export async function createAttraction(req, res) {
-    let { title, description, location, img } = req.body
+    let { title, description, location } = req.body
 
-    title = title.trim()
-    description = description.trim()
-    location = location.trim()
+    title = title?.trim()
+    description = description?.trim()
+    location = location?.trim()
 
-    img = img || 'default.jpg'
+    if (!title || !location) {
+        return res.status(400).json({ error: 'Title and location required' })
+    }
 
     const client = await pool.connect()
 
     try {
-        const result = await client.query(
-            'INSERT INTO attractions (title, description, location, img) VALUES ($1, $2, $3, $4) returning id, title, description, location',
-            [title, description, location, img]
-        )
+        let imgPath = '/uploads/attractions/default.png'
+        
+        if (req.file) {
+            // multer filename will be diff
+            imgPath = `/uploads/attractions/${req.file.filename}`
+            console.log('File saved in :', req.file.filename) //will be in the docker container, not your working env
+        }
 
-        const attraction = result.rows[0]
+        const result = await client.query(
+            'INSERT INTO attractions (title, description, location, img) VALUES ($1, $2, $3, $4) RETURNING id, title, description, location, img',
+            [title, description, location, imgPath]
+        )
 
         res.status(201).json({
             message: 'attraction created',
-            attraction: {
-                id: attraction.id,
-                title: attraction.title,
-                description: attraction.description,
-                location: attraction.location
-            }
+            attraction: result.rows[0]
         })
+        
     } catch (err) {
         console.error('attraction creation error: ', err.message)
         res.status(500).json({error: 'Attraction creation failed. Please try again. '})
