@@ -71,6 +71,16 @@ export async function createTables() {
             )
         `)
 
+        await client.query(`
+            CREATE TABLE IF NOT EXISTS ticket_draw_winners (
+                id SERIAL PRIMARY KEY,
+                ticket_draw_id INTEGER REFERENCES ticket_draws(id) ON DELETE CASCADE,
+                user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+                selected_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                UNIQUE(ticket_draw_id, user_id)
+            )
+        `)
+
     } catch (err) {
         console.error('error creating attractions table:', err)
         throw err
