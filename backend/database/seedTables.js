@@ -1,5 +1,5 @@
 import { pool } from './index.js'
-import { attractions, ticketDraws } from './data.js'
+import { attractions, ticketDraws, ticketCodes} from './data.js'
 
 export async function seedTables() {
     const client = await pool.connect()
@@ -53,6 +53,22 @@ export async function seedTables() {
         console.log(`made ${ticketDraws.length} ticket draws`)
         } else {
         console.log('ticket_draws table already exists')
+        }
+
+        const codeResult = await client.query('SELECT COUNT(*) FROM ticket_codes')
+        const codeCount = parseInt(codeResult.rows[0].count)
+
+        if (codeCount === 0) {
+            for (const ticketCode of ticketCodes) {
+                await client.query(
+                    `INSERT INTO ticket_codes (code, attraction_id, booking_id)
+                    VALUES ($1, $2, $3)`,
+                    [ticketCode.code, ticketCode.attraction_id, ticketCode.booking_id]
+                )
+            }
+            console.log(`made ${ticketCodes.length} ticket codes`)
+        } else {
+            console.log('ticket_codes table already exists')
         }
 
     } catch (err) {

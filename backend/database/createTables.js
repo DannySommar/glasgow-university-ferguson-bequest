@@ -32,7 +32,7 @@ export async function createTables() {
                 user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
                 attraction_id INTEGER REFERENCES attractions(id) ON DELETE CASCADE,
                 status VARCHAR(20) DEFAULT 'upcoming' 
-                -- upcoming, attended, cansledd, whgatever so that more optians are open
+                -- upcoming, attended, cancelled, etc
             )
         `)
 
@@ -80,6 +80,15 @@ export async function createTables() {
                 UNIQUE(ticket_draw_id, user_id)
             )
         `)
+
+        await client.query(`
+                CREATE TABLE IF NOT EXISTS ticket_codes (
+                    id SERIAL PRIMARY KEY,
+                    code VARCHAR(20) UNIQUE,
+                    attraction_id INTEGER REFERENCES attractions(id) ON DELETE CASCADE,
+                    booking_id INTEGER REFERENCES bookings(id) ON DELETE CASCADE
+                )
+            `)
 
     } catch (err) {
         console.error('error creating attractions table:', err)
