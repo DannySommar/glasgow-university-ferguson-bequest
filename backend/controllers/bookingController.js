@@ -36,6 +36,18 @@ export async function createBooking(req, res) {
     const client = await pool.connect()
 
     try {
+        // Finds bookings for the attraction that a user is trying to book
+        const existingBooking = await client.query(
+            'SELECT * FROM bookings WHERE attraction_id = $1 AND user_id = $2',
+            [attraction_id, user_id]
+        )
+
+        const checkExistingBooking = existingBooking.rows[0]
+        // If there is already an existing booking for the attraction the booking is cancelled
+        if (checkExistingBooking) {
+            return res.status(400).json({error: "There is already an existing booking for that attraction, booking has been cancelled."})
+        }
+
         // Inserts a new booking into the table
         const result = await client.query(
             'INSERT INTO bookings (user_id, attraction_id, status) VALUES ($1, $2, $3) returning id, user_id, attraction_id, status',
@@ -51,8 +63,13 @@ export async function createBooking(req, res) {
         )
 
         const unassigned_code = code.rows[0]
+        // If there are no available codes then the booking is removed
         if (!unassigned_code) {
-            return res.status(400).json({error: "There are no unassigned codes"})
+            const remove = await client.query(
+                'DELETE FROM bookings where id = $1',
+                [booking.id]
+            )
+            return res.status(400).json({error: "There are no unassigned codes, booking has been cancelled."})
         }
 
         // Assigns the code to the new booking that was just created

@@ -113,7 +113,7 @@ export function MyBookings(){
                                                 <span className="font-medium">Location:</span> {booking.location}
                                             </p>
                                             <p className="text-gray-700">
-                                                <span className="font-medium">Ticket Code:</span> {booking.code}
+                                                <span className="font-medium">Ticket Code:</span> <span className="font-bold">{booking.code}</span>
                                             </p>
                                             <button type="button" className="w-full bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200">
                                                 Cancel Booking

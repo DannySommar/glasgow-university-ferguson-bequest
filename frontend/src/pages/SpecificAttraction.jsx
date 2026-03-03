@@ -72,13 +72,13 @@ export function SpecificAttraction() {
 
       const data = await res.json()
       console.log('data from booking creation attempt ', data)
-
-      setTicketCode(data.ticket_code.code)
       
       if (res.ok) {
+        setTicketCode(data.ticket_code.code)
         navigate('/MyBookings')
       } else {
         setError(data.error || 'booking creation failed')
+        alert(data.error || 'Booking creation failed');
       }
     } catch (err) {
       setError('Network error.')
