@@ -8,6 +8,7 @@ import { AttractionCard } from "../components/AttractionCard";
 export function MyBookings(){
     const [bookings, setBookings] = useState([])
     const [loading, setLoading] = useState(true)
+    const [isDeleting, setIsDeleting] = useState(false);
 
     const imageMap = {
         "BlairDrummond.jpg": Blairimg,
@@ -82,6 +83,33 @@ export function MyBookings(){
         getBookings()
     }, [])
 
+    const handleDelete = async (bookingToDelete) => {
+        if (!window.confirm(`Are you sure you want to cancel the booking for ${bookingToDelete.title}?`)) {
+            return;
+        }
+        
+        setIsDeleting(true)
+
+        try {
+            const response = await fetch(`/api/bookings/${bookingToDelete.id}`, {
+                method: 'DELETE',
+                credentials: 'include'
+            });
+
+            if (response.ok) {
+                setBookings(prev => prev.filter(booking => booking.id !== bookingToDelete.id));
+            } else {
+                const error = await response.json();
+                alert(error.error || 'deleting failed');
+            }
+        } catch (err) {
+            console.error('error while deleting: ', err);
+            alert('Network error.')
+        } finally {
+            setIsDeleting(false);
+        }
+    };
+
     const formatDate = (dateString) => {
         return new Date(dateString).toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' });
     };
@@ -115,8 +143,9 @@ export function MyBookings(){
                                             <p className="text-gray-700">
                                                 <span className="font-medium">Ticket Code:</span> <span className="font-bold">{booking.code}</span>
                                             </p>
-                                            <button type="button" className="w-full bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200">
-                                                Cancel Booking
+                                            <button type="button" className="w-full bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200"
+                                            onClick={() => handleDelete(booking)} disabled={isDeleting}>
+                                                {isDeleting ? 'Cancelling...' : 'Cancel Booking'}
                                             </button>
                                         </div>
                                     </div>

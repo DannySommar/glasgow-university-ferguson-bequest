@@ -27,7 +27,7 @@ export function AttractionCard({ attractions, isAdmin, onDelete }) {
                 alert('deleted attraction ok');
             } else {
                 const error = await response.json();
-                alert(error.error || 'deleting faoild');
+                alert(error.error || 'deleting failed');
             }
         }
         catch (err) {

@@ -3,10 +3,10 @@ import { pool } from '../database/index.js'
 export async function getBookings(req, res){
     try {
         const user_id = req.session.userId
-        const client = await pool.connect()
 
-        const result = await client.query(
-            `SELECT B.*, T.code, A.*
+        // Join together all of the information related to a booking
+        const result = await pool.query(
+            `SELECT B.*, T.code, A.title, A.img, A.description, A.location
             FROM bookings B
             JOIN ticket_codes T on B.id = T.booking_id
             JOIN attractions A on B.attraction_id = A.id
@@ -18,8 +18,33 @@ export async function getBookings(req, res){
     } catch (err) {
         console.error('error fetching bookings: ', err)
         res.status(500).json({error: 'failed to fetch the bookings'})
-    } finally {
-        client.release()
+    }
+}
+
+export async function deleteBooking(req, res) {
+    try {
+        const { id } = req.params;
+        
+        // Sets the booking attribute for the code to null, so code is then available again
+        const removeBookingFromCode = await pool.query(
+            'UPDATE ticket_codes SET booking_id = NULL WHERE booking_id = $1',
+            [id]
+        )
+
+        // Deletes the booking from the table
+        const deleteBooking = await pool.query(
+            'DELETE FROM bookings WHERE id = $1 RETURNING id',
+            [id]
+        )
+
+        if (deleteBooking.rowCount === 0) {
+            return res.status(404).json({ error: 'booking not found' });
+        }
+
+        res.json({ message: 'booking deleted' });
+    } catch (err) {
+        console.error('error deleting booking:', err);
+        res.status(500).json({ error: 'deletion of booking failed' });
     }
 }
 
@@ -50,7 +75,7 @@ export async function createBooking(req, res) {
 
         // Inserts a new booking into the table
         const result = await client.query(
-            'INSERT INTO bookings (user_id, attraction_id, status) VALUES ($1, $2, $3) returning id, user_id, attraction_id, status',
+            'INSERT INTO bookings (user_id, attraction_id, status) VALUES ($1, $2, $3) RETURNING *',
             [user_id, attraction_id, status]
         )
 
@@ -74,7 +99,7 @@ export async function createBooking(req, res) {
 
         // Assigns the code to the new booking that was just created
         const updated_code = await client.query(
-            'UPDATE ticket_codes SET booking_id = $1 WHERE id = $2 returning id, code, attraction_id, booking_id',
+            'UPDATE ticket_codes SET booking_id = $1 WHERE id = $2 RETURNING *',
             [booking.id, unassigned_code.id]
         )
 
