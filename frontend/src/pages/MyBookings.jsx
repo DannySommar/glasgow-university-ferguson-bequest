@@ -64,7 +64,7 @@ export function MyBookings(){
                     status: booking.status,
                     code: booking.code,
                     title: booking.title,
-                    img: imageMap[booking.img],
+                    img: booking.img,
                     description: booking.description,
                     location: booking.location
                 }))
