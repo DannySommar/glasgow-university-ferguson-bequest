@@ -58,6 +58,7 @@ export function CreateAttraction() {
             const showUrl = formData.get('showUrl')
             const imgFile = formData.get('img')
             const imgName = imgFile?.name || 'default.jpg'
+            const ticketCodes = formData.get('ticketCodes')
 
             const res = await fetch('/api/ticket-draws', {
                 method: 'POST',
@@ -70,7 +71,8 @@ export function CreateAttraction() {
                     enterfrom: enterFrom,
                     enteruntil: enterUntil,
                     showurl: showUrl,
-                    img: imgName
+                    img: imgName,
+                    ticketCodes: ticketCodes
                 })
             })
 
@@ -126,6 +128,10 @@ export function CreateAttraction() {
                                 accept="image/jpeg,image/png,image/jpg,image/gif,image/webp"
                                 disabled={loading}
                             />
+                        </div>
+
+                        <div className="Input">
+                            <input type="text" name="ticketCodes" placeholder="Ticket Codes" disabled={loading}></input>
                         </div>
 
                         <button type="submit" disabled={loading}>
