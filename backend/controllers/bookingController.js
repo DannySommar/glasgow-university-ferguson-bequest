@@ -127,3 +127,21 @@ export async function createBooking(req, res) {
         client.release()
     }
 }
+
+export async function changeBookingStatus(req, res) {
+    try {
+        const { id } = req.params
+        const newStatus = "attended"
+        
+        // Updates the status of a booking to attended
+        const result = await pool.query(
+            'UPDATE bookings SET status = $1 WHERE id = $2 RETURNING *',
+            [newStatus, id]
+        )
+
+        res.json({ message: "booking updated"})
+    } catch (err) {
+        console.error('error updating bookings: ', err)
+        res.status(500).json({ error: 'failed to update the bookings' })
+    }
+}

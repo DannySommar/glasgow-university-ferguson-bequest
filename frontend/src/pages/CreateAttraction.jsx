@@ -119,6 +119,12 @@ export function CreateAttraction() {
                             <input type="text" name="location" placeholder="Location" required disabled={loading}/>
                         </div>
 
+                        <label>Enter ticket codes in a list<br></br></label>
+                        <label>Example Format: code, code, code</label>
+                        <div className="Input">
+                            <input type="text" name="ticketCodes" placeholder="Ticket Codes" disabled={loading}></input>
+                        </div>
+
                         <label htmlFor="img">Choose an image:</label>
                         <div>
                             <input 
@@ -128,10 +134,6 @@ export function CreateAttraction() {
                                 accept="image/jpeg,image/png,image/jpg,image/gif,image/webp"
                                 disabled={loading}
                             />
-                        </div>
-
-                        <div className="Input">
-                            <input type="text" name="ticketCodes" placeholder="Ticket Codes" disabled={loading}></input>
                         </div>
 
                         <button type="submit" disabled={loading}>
