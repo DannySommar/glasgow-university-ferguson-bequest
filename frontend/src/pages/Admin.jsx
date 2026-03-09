@@ -17,6 +17,10 @@ export function Admin(){
                 </div>
 
                 <div className="admin">
+                        <h2><Link to='/Admin/Announcements'>Manage Announcements</Link></h2>
+                </div>
+
+                <div className="admin">
                 <h2>Booking History</h2></div>
                 <div className="admin">
                 <h2>Reporting</h2></div>

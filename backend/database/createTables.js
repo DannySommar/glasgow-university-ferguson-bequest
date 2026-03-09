@@ -81,6 +81,16 @@ export async function createTables() {
             )
         `)
 
+        await client.query(`
+            CREATE TABLE IF NOT EXISTS announcements (
+                id SERIAL PRIMARY KEY,
+                title TEXT NOT NULL,
+                body TEXT NOT NULL,
+                created_at TIMESTAMP DEFAULT NOW(),
+                created_by INTEGER REFERENCES users(id)
+            )
+        `)
+
     } catch (err) {
         console.error('error creating attractions table:', err)
         throw err
