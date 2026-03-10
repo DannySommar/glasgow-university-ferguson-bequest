@@ -23,10 +23,10 @@ export default function AnnouncementForm({ user, onAdd }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="announcement-form">
-      <h2>Create Announcement</h2>
+    <form onSubmit={handleSubmit} className="mb-10 bg-lightgray-50 rounded-xl shadow-md border border-lightgray-200 p-6 text-center space-y-2">
+      <h2 className = "text-3xl font-bold text-center my-8 text-gray-700">Create Announcement</h2>
 
-      <input
+      <input className = "text-center"
         type="text"
         placeholder="Announcement title"
         value={title}

@@ -30,29 +30,31 @@ export function Announcements() {
  }
 
   return (
-    <div className="container">
-      <h2>Announcements</h2>
+    <div className="min-h-screen">
+      <h2 className = "text-3xl font-bold text-center my-8 text-black-800">Announcements</h2>
 
       {user?.isAdmin && (
         <AnnouncementForm user={user} onAdd={handleAdd} />
       )}
 
       {announcements.map(a => (
-        <div key={a.id} className="announcement-card">
-          <h2>{a.title}</h2>
-          <p>{a.body}</p>
+        <div key={a.id} className ="mb-10 bg-gray-50 rounded-xl shadow-md border border-gray-200 p-6 text-center space-y-2">
+          <h3 className="text-xl font-bold text-gray-800 mb-3">{a.title}</h3>
+          <p className="text-gray-700">{a.body}</p>
           <small>
             Posted by {a.admin_name || 'Admin'} on{' '}
             {new Date(a.created_at).toLocaleString()}
           </small>
 
         {user?.isAdmin && (
+            <div className="p-5 pt-0">
             <button
-                className="delete-btn"
+                className = "bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200"
                 onClick={() => handleDelete(a.id)}
             >
                 Delete
             </button>
+            </div>
             )}
         </div>
       ))}
