@@ -34,6 +34,10 @@ export async function createReview(req, res) {
       return res.status(401).json({ error: 'not logged in' })
     }
 
+    if (!attraction_id || !rating || !comment) {
+      return res.status(400).json({ error: "Missing fields" });
+    }
+
     const result = await pool.query(
       `INSERT INTO reviews (user_id, attraction_id, rating, comment)
        VALUES ($1, $2, $3, $4)
