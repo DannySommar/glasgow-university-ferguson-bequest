@@ -63,3 +63,66 @@ export const ticketDraws = [
         "showUrl": "https://www.atgtickets.com/shows/scottish-ballet-starstruck/theatre-royal-glasgow/",
     },
 ]
+
+export const ticketCodes = [
+  {
+    "id": 1,
+    "code": "BD4839201",
+    "attraction_id": 1,
+    "booking_id": null
+  },
+  {
+    "id": 2,
+    "code": "BD8392017",
+    "attraction_id": 1,
+    "booking_id": null
+  },
+  {
+    "id": 3,
+    "code": "BD5829301",
+    "attraction_id": 1,
+    "booking_id": null
+  },
+  {
+    "id": 4,
+    "code": "BD4928371",
+    "attraction_id": 1,
+    "booking_id": null
+  },
+  {
+    "id": 5,
+    "code": "BD8472910",
+    "attraction_id": 1,
+    "booking_id": null
+  },
+  {
+    "id": 6,
+    "code": "EZC48392",
+    "attraction_id": 2,
+    "booking_id": null
+  },
+  {
+    "id": 7,
+    "code": "EZC83920",
+    "attraction_id": 2,
+    "booking_id": null
+  },
+  {
+    "id": 8,
+    "code": "EZC58293",
+    "attraction_id": 2,
+    "booking_id": null
+  }, 
+  {
+    "id": 9,
+    "code": "EZC49283",
+    "attraction_id": 2,
+    "booking_id": null
+  },
+  {
+    "id": 10,
+    "code": "EZC84729",
+    "attraction_id": 2,
+    "booking_id": null
+  }
+]

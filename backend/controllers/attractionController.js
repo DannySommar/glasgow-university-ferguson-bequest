@@ -27,7 +27,13 @@ export async function deleteAttraction(req, res) {
         }
 
         const { id } = req.params;
-        
+
+        // Deletes the ticket codes for the attraction
+        const removeCodes = await pool.query(
+            'DELETE FROM ticket_codes WHERE attraction_id = $1 RETURNING id',
+            [id]
+        )
+
         const result = await pool.query(
             'DELETE FROM attractions WHERE id = $1 RETURNING id',
             [id]
@@ -45,11 +51,12 @@ export async function deleteAttraction(req, res) {
 }
 
 export async function createAttraction(req, res) {
-    let { title, description, location } = req.body
+    let { title, description, location, ticketCodes } = req.body
 
     title = title?.trim()
     description = description?.trim()
     location = location?.trim()
+    ticketCodes = ticketCodes?.split(",").map(code => code.trim())
 
     if (!title || !location) {
         return res.status(400).json({ error: 'Title and location required' })
@@ -70,6 +77,16 @@ export async function createAttraction(req, res) {
             'INSERT INTO attractions (title, description, location, img) VALUES ($1, $2, $3, $4) RETURNING id, title, description, location, img',
             [title, description, location, imgPath]
         )
+
+        const attraction_id = result.rows[0].id
+
+        // Loops through ticket code array and add each one into database
+        for (const code of ticketCodes) {
+            const insertCodes = await client.query(
+                'INSERT INTO ticket_codes (code, attraction_id, booking_id) VALUES ($1, $2, $3) RETURNING id, code, attraction_id, booking_id',
+                [code, attraction_id, null]
+            )
+        }
 
         res.status(201).json({
             message: 'attraction created',

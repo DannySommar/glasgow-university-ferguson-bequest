@@ -58,6 +58,7 @@ export function CreateAttraction() {
             const showUrl = formData.get('showUrl')
             const imgFile = formData.get('img')
             const imgName = imgFile?.name || 'default.jpg'
+            const ticketCodes = formData.get('ticketCodes')
 
             const res = await fetch('/api/ticket-draws', {
                 method: 'POST',
@@ -70,7 +71,8 @@ export function CreateAttraction() {
                     enterfrom: enterFrom,
                     enteruntil: enterUntil,
                     showurl: showUrl,
-                    img: imgName
+                    img: imgName,
+                    ticketCodes: ticketCodes
                 })
             })
 
@@ -115,6 +117,12 @@ export function CreateAttraction() {
 
                         <div className="Input">
                             <input type="text" name="location" placeholder="Location" required disabled={loading}/>
+                        </div>
+
+                        <label>Enter ticket codes in a list<br></br></label>
+                        <label>Example Format: code, code, code</label>
+                        <div className="Input">
+                            <input type="text" name="ticketCodes" placeholder="Ticket Codes" disabled={loading}></input>
                         </div>
 
                         <label htmlFor="img">Choose an image:</label>

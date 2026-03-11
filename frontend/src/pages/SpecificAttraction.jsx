@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
-
+import { useNavigate } from "react-router-dom"
 import { useAuth } from "../contexts/AuthContext"
 import { createSlug } from "../utils/slug"
 import { PopUp } from "../components/PopUp"
@@ -15,6 +15,9 @@ export function SpecificAttraction() {
   const [reviews, setReviews] = useState([])
   const [showPopUp, setShowPopUp] = useState(false)
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
+  const [ticketCode, setTicketCode] = useState(null)
+  const navigate = useNavigate()
 
   // fetch all attractions and .find the matching one. don't really need to change the controller with extra param becaus ethis is web development and nothing matters just like life
   useEffect(() => {
@@ -53,6 +56,35 @@ export function SpecificAttraction() {
 
   const handleBook = () => {
     setShowPopUp(true);
+  }
+
+  const handleAccept = async () => {
+    setShowPopUp(false);
+    setLoading(true);
+    setError('');
+    try {
+      const res = await fetch('/api/bookings', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        credentials: 'include',
+        body: JSON.stringify({attraction_id: attraction.id})
+      })
+
+      const data = await res.json()
+      console.log('data from booking creation attempt ', data)
+      
+      if (res.ok) {
+        setTicketCode(data.ticket_code.code)
+        navigate('/MyBookings')
+      } else {
+        setError(data.error || 'booking creation failed')
+        alert(data.error || 'Booking creation failed');
+      }
+    } catch (err) {
+      setError('Network error.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   const addReview = async (review) => {
@@ -94,7 +126,7 @@ export function SpecificAttraction() {
         </div>
       </div>
       
-      {showPopUp && <PopUp />}
+      {showPopUp && <PopUp onClick={handleAccept}/>}
       
       <div className="reviews">
         {user && (
