@@ -45,8 +45,9 @@ describe('Attractions API', () => {
     const newAttraction = {
       title: '  London Eye  ',
       description: '  Big wheel  ',
-      location: ' London '
-    };
+      location: ' London ',
+      ticketCodes: ` CODE${Date.now()}, CODE${Date.now()+1} ` 
+     };
 
     const res = await request(app)
       .post('/api/attractions')
@@ -82,7 +83,7 @@ describe('Attractions API', () => {
     const createRes = await request(app)
       .post('/api/attractions')
       .set('Cookie', adminCookie)
-      .send({ title: 'Delete Me', location: 'Nowhere' });
+      .send({ title: 'Delete Me', location: 'Nowhere',  ticketCodes: 'CODE1' });
 
     const id = createRes.body.attraction.id;
 

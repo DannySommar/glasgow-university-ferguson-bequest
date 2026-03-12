@@ -27,6 +27,7 @@ export function Navbar(){
                 <Link to='/About'><button>About</button></Link>
                 <Link to='/Attractions'><button>Attractions</button></Link>
                 <Link to='/TicketDraws'><button>Ticket Draws</button></Link>
+                <Link to='/Announcements'><button> Announcements </button></Link>
                 
                 {user ? (
                     <>

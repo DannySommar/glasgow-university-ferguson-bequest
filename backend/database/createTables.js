@@ -82,13 +82,22 @@ export async function createTables() {
         `)
 
         await client.query(`
-                CREATE TABLE IF NOT EXISTS ticket_codes (
-                    id SERIAL PRIMARY KEY,
-                    code VARCHAR(20) UNIQUE,
-                    attraction_id INTEGER REFERENCES attractions(id) ON DELETE CASCADE,
-                    booking_id INTEGER REFERENCES bookings(id) ON DELETE CASCADE
-                )
-            `)
+            CREATE TABLE IF NOT EXISTS announcements (
+                id SERIAL PRIMARY KEY,
+                title TEXT NOT NULL,
+                body TEXT NOT NULL,
+                created_at TIMESTAMP DEFAULT NOW(),
+                created_by INTEGER REFERENCES users(id)
+            )
+        `)
+        await client.query(`
+            CREATE TABLE IF NOT EXISTS ticket_codes (
+                id SERIAL PRIMARY KEY,
+                code VARCHAR(20) UNIQUE,
+                attraction_id INTEGER REFERENCES attractions(id) ON DELETE CASCADE,
+                booking_id INTEGER REFERENCES bookings(id) ON DELETE CASCADE
+            )
+        `)
 
     } catch (err) {
         console.error('error creating attractions table:', err)
