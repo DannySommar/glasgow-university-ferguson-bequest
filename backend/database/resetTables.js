@@ -11,6 +11,7 @@ export async function resetTables() {
   try {
         
         // WILL DELETE ALL DATA 
+        await client.query('DROP TABLE IF EXISTS ticket_codes CASCADE')
         await client.query('DROP TABLE IF EXISTS ticket_draw_entries CASCADE')
         await client.query('DROP TABLE IF EXISTS reviews CASCADE')
         await client.query('DROP TABLE IF EXISTS bookings CASCADE')

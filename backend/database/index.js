@@ -5,6 +5,8 @@ if (process.env.NODE_ENV !== 'production') {
 
 import { Pool } from 'pg'
 
+console.log("Connected to DB:", process.env.DB_NAME);
+
 // try to integrate .enf file somehow in here and docker compose later on
 export const pool = new Pool({
   host: process.env.DB_HOST ||'db',

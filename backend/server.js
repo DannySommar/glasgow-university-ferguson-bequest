@@ -11,6 +11,7 @@ import { announcementsRouter } from './routes/announcements.js'
 import { createTables } from './database/createTables.js';
 import { seedTables } from './database/seedTables.js';
 import { pool } from './database/index.js';
+import { bookingRouter } from './routes/bookings.js';
 //import { resetTables } from './database/resetTables.js';
 
 const PORT = 8000;
@@ -89,6 +90,7 @@ app.use('/api/ticket-draws', ticketDrawRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/reviews', reviewsRouter)
 app.use('/api/announcements', announcementsRouter)
+app.use('/api/bookings', bookingRouter)
 
 async function initializeDatabase() {
   try {
