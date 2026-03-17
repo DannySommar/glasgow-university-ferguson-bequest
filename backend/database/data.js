@@ -3,25 +3,25 @@ export const attractions = [
       "id": 1,
       "title": "Blair Drummond Safari Park",
       "img": "/uploads/attractions/BlairDrumond.jpg",
-      "description": "some info"
+      "description": "Blair Drummond Safari Park is one of Scotland’s top family attractions, located just outside Stirling. The park spans over 120 acres and is home to 300+ animals, many of which roam freely in large, natural style enclosures. Visitors can enjoy a drive through safari, walk around exhibits, animal presentations, a giant adventure playground, and themed areas such as the Dinosaur Forest. It is a full day experience designed for families, animal lovers, and anyone looking for an exciting outdoor adventure."
     },
     {
       "id": 2, 
       "title": "Edinburgh Zoo",
       "img": "/uploads/attractions/EdZoo.jpg",
-      "description": "some info"
+      "description": "Set across 82 acres on Corstorphine Hill, Edinburgh Zoo is home to more than 2,500 animals and offers immersive habitats, daily keeper talks and the iconic Penguin Parade. Ideal for families and wildlife enthusiasts, the zoo combines memorable encounters with a strong conservation mission."
     },
     {
       "id": 3,
       "title": "Glasgow Clan Ice Hockey", 
       "img": "/uploads/attractions/Clan.jpg",
-      "description": "some info"
+      "description": "Glasgow Clan are a professional ice hockey club based near Glasgow, competing in the Elite Ice Hockey League. Fans can expect fast paced, family friendly hockey at Braehead Arena, regular themed match nights, and a lively atmosphere created by the club’s dedicated supporters. Plan ahead for ticketing and arrive early for pre‑game entertainment and merchandise. "
     },
     {
       "id": 4,
       "title": "RSNO - Ghostbuster Concert",
       "img": "/uploads/attractions/Ghostbusters-Header.jpg", 
-      "description": "some info"
+      "description": "Experience the 1984 film Ghostbusters on the big screen with the Royal Scottish National Orchestra performing Elmer Bernstein’s score live. The RSNO presents this cinematic concert as part of its 2025/26 season at major Scottish venues, offering a family friendly Halloween event that blends film, live orchestral performance, and theatrical atmosphere."
     }
 ]
 

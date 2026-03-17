@@ -148,10 +148,26 @@ export function TicketDraws() {
         <h2 className="text-3xl font-bold text-center my-8 text-black-800">Ticket Draws</h2>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12"> 
-            <div className="mb-10 bg-gray-50 rounded-xl shadow-md border border-gray-200 p-6 text-center space-y-2"> 
-                <p className="text-gray-800 text-lg"> This is the Ticket Draws Page, where you can enter draws to win ticket(s) for events. </p> 
-                <p className="text-gray-600 text-sm"> Staff may enter as many draws as they like but can only win one per year. </p> 
-            </div> 
+                <p className="text-gray-800 text-lg text-center mb-4"> 
+                    This is the Ticket Draws Page, where you can enter draws to win ticket(s) for events. </p> 
+                <div className='mb-10 bg-gray-50 rounded-xl shadow-md border border-gray-200 p-6'>
+                    <p className="text-gray-700 text-center font-semibold mb-3">T&Cs:</p>
+                    <ul className="list-disc list-inside text-dark-gray-600 text-sm space-y-2">
+                        <li>Staff can enter the draw to win 2 tickets for which winners will be selected at random. </li>
+                        <li>Ticket Draws are available to any member of staff of the University, who has not won a draw in 2026, holding a contract of employment with the University. Excluding registered honorary & affiliate status holders, casual workers, or individuals employed directly by other organisations but paid via University payroll. </li>
+                        <li>Please do NOT apply for the draw unless you are able to attend the show! Tickets cannot easily be reallocated and there has been a flurry of staff entering draws then rejecting tickets. The tickets are bought and paid for, and we do not want them to go to waste. If staff do not use the tickets then we will not be able to purchase tickets in the future. So if you enter the draw, please make sure you can attend, otherwise you are taking away the chance for another staff member to win! </li>
+                        <li>It is your responsibility to ensure the event is suitable for all members of your party. </li>
+                        <li>If you win but do not attend the event, you may not enter further Ticket Draws within the same year. </li>
+                        <li>If you believe you will not be able to attend the event, please contact fergusonbequest@glasgow.ac.uk before the draw date to request removal from the draw.  </li>
+                        <li>Winners of draws will be removed from all future draws in 2026 - we want everyone to have an opportunity to win! </li>
+                        <li>Tickets are non-transferable and should not be passed to another person or another staff member. </li>
+                        <li>Tickets are equivalent to event entry on the date advertised and cannot be used as a substitution for monetary value towards goods and/or services. </li>
+                        <li>The University is in no way liable or responsible for other costs incurred during visits, nor attraction cancellations or closures.</li>
+                        <li>Staff are required to present their staff card and e-ticket codes as well as any entry tickets on the day.</li>
+                        <li>Staff are subject to venue policies, procedures and safety measures.</li>
+                        <li>During visits, staff should be mindful that they are representing the University of Glasgow and ensure they, and members of their party, conduct themselves in a manner appropriate to the University and its values.</li>
+                    </ul>
+                </div>
         
             {status && ( <div className="mb-6 text-center text-sm text-gray-800">{status}</div> )} 
             
@@ -228,8 +244,8 @@ export function TicketDraws() {
                     </div>
                 </div> 
             ))} 
+        </div>
         </div> 
-     </div> 
     </div> 
   ) 
 }
