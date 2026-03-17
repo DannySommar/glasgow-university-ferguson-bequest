@@ -19,6 +19,15 @@ const secret = process.env.SESSION_SECRET || 'skibidi';
 app.use(cors());
 app.use(express.json());
 
+// for sso proxy
+app.use(async (req, res, next) => {
+  const guid = req.headers['somethig guid']
+  const email = req.readers['somethong email']
+
+  console.log(`attempleted sso login with ${guid}, ${email}`)
+  // I can do everything else from here on out
+})
+
 app.use(session({
   secret: secret,
   resave: false,
