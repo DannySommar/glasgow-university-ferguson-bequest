@@ -126,3 +126,25 @@ export async function logoutUser(req, res) {
         res.json({message: 'Logged out successfully'})
     })
 }
+
+export async function ssoAutoLogin(req, res, next) {
+    const guid = req.headers['dh75hdyt76'];
+    const name = req.headers['dh75hdyt77'];
+    const email = req.headers['dh75hdyt80'];
+  
+    if (guid) {
+        console.log('='.repeat(50));
+        console.log('SSO DETECTED');
+        console.log(`GUID: ${guid}`);
+        console.log(`Name: ${name}`);
+        console.log(`Email: ${email}`);
+        console.log('='.repeat(50));
+        
+        // put into database
+    }
+    
+    
+
+
+    next();
+}
