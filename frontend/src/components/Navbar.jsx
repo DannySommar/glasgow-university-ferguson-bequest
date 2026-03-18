@@ -17,8 +17,12 @@ export function Navbar(){
         navigate('/')
     }
 
-    const handleSSOLogin = () => {
+    const handleSSODebug = () => {
         navigate('/debug-sso')
+    }
+
+    const handleSSOLogin = () => {
+        window.open('https://studentproject-gateway.dcs.gla.ac.uk/psd/api/auth/sso', '_blank');
     }
 
     return (
@@ -42,12 +46,23 @@ export function Navbar(){
                     </>
                 ) : (
                     <>
-                        <button onClick={handleSSOLogin} className="sso-test-btn">
-                            Test SSO Login
+                        <button onClick={handleSSODebug} className="sso-test-btn">
+                            SSO Debug
                         </button>
 
                         {/* for now ill keep the og login */}
-                        <Link to='/Login'><button>Log In</button></Link>
+
+                        <button onClick={handleSSOLogin} className="sso-test-btn">
+                            Test SSO Login
+                        </button>
+                        {/* <a 
+                            href="https://studentproject-gateway.dcs.gla.ac.uk/psd/api/auth/sso"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            Test SSO Lohin
+                        </a> */}
+                        {/* <Link to='/Login'><button>Log In</button></Link> */}
                         <Link to='/Signup'><button>Sign Up</button></Link>
                     </>
                 )}

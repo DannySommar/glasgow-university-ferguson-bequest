@@ -10,7 +10,7 @@ authRouter.post('/login', loginUser)
 authRouter.get('/logout', logoutUser)
 authRouter.get('/me', getCurrentUser)
 
-authRouter.get('/sso', (req, res) => {
+authRouter.get('/sso', ssoAutoLogin, (req, res) => {
   res.json({ 
     message: 'SSO headers received',
     headers: {
