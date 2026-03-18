@@ -6,7 +6,7 @@ export function DebugSSO() {
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        fetch('/api/debug-headers')
+        fetch('studentproject-gateway.dcs.gla.ac.uk/psd/api/debug-headers')
         .then(() => {
                 setStatus('ok')
                 setLoading(false)
