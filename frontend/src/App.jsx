@@ -15,6 +15,7 @@ import { MyBookings } from './pages/MyBookings'
 import { Login } from './pages/Login'
 import { Signup } from './pages/Signup'
 import { CreateAttraction } from './pages/CreateAttraction'
+import { DebugSSO } from './pages/DebugSSO'
 
 function App() {
   const [message, setMessage] = useState('')
@@ -55,6 +56,7 @@ function App() {
           <Route path='/Admin/CreateAttraction' element={<CreateAttraction/>}></Route>
           <Route path='/Login' element={<Login/>}></Route>
           <Route path='/Signup' element={<Signup/>}></Route>
+          <Route path="/debug-sso" element={<DebugSSO />} />
         </Route> 
         </Routes>
       </Router>

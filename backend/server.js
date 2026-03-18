@@ -19,14 +19,6 @@ const secret = process.env.SESSION_SECRET || 'skibidi';
 app.use(cors());
 app.use(express.json());
 
-// for sso proxy
-app.use(async (req, res, next) => {
-  const guid = req.headers['somethig guid']
-  const email = req.readers['somethong email']
-
-  console.log(`attempleted sso login with ${guid}, ${email}`)
-  // I can do everything else from here on out
-})
 
 app.use(session({
   secret: secret,
@@ -38,6 +30,21 @@ app.use(session({
     sameSite: 'lax'
   }
 }))
+
+// TEMPORARY SSO DEBUG ENDPOINT CHANGE AFTER TESTING
+app.get('/api/debug-headers', (req, res) => {
+  console.log('='.repeat(50))
+  console.log(' SSO DEBUG ')
+  console.log('Headers:')
+  console.log(JSON.stringify(req.headers, null, 2))
+  console.log('='.repeat(50))
+
+  res.json({ 
+    message: 'Headers logged to console',
+    timestamp: new Date().toISOString()
+  })
+
+})
 
 // normal test if backend connected
 app.get('/api/hello', (req, res) => {

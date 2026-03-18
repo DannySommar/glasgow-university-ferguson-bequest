@@ -17,6 +17,10 @@ export function Navbar(){
         navigate('/')
     }
 
+    const handleSSOLogin = () => {
+        navigate('/debug-sso')
+    }
+
     return (
         <nav className="navbar">
             <Link to="/" className="nav-logo">
@@ -38,6 +42,11 @@ export function Navbar(){
                     </>
                 ) : (
                     <>
+                        <button onClick={handleSSOLogin} className="sso-test-btn">
+                            Test SSO Login
+                        </button>
+
+                        {/* for now ill keep the og login */}
                         <Link to='/Login'><button>Log In</button></Link>
                         <Link to='/Signup'><button>Sign Up</button></Link>
                     </>
