@@ -100,3 +100,30 @@ export async function createAttraction(req, res) {
         client.release()
     }
 }
+
+export async function updateAttraction(req, res) {
+
+    if (!req.session.isAdmin) return res.status(403).json({error: 'Admin required'});
+    const { id } = req.params;
+    const { title, description, location } = req.body;
+    const imgPath = req.file ? `/uploads/attractions/${req.file.filename}` : undefined;
+
+    try {
+        const result = await pool.query(
+            `UPDATE attractions 
+            SET title = COALESCE($1, title),
+                description = COALESCE($2, description),
+                location = COALESCE($3, location),
+                img = COALESCE($4, img)
+            WHERE id = $5
+            RETURNING *`,
+            [title?.trim(), description?.trim(), location?.trim(), imgPath, id]
+        );
+    
+        if (result.rowCount === 0) return res.status(404).json({error: 'Attraction Not Found'});
+        res.json({ message: 'Attraction Updated', attraction: result.rows[0] });
+    } catch (err) {
+        console.error('Error Updating Attraction:', err);
+        res.status(500).json({ error: 'Failed To Update Attraction' })
+    }
+}

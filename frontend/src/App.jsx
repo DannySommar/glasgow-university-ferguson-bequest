@@ -16,6 +16,9 @@ import { Login } from './pages/Login'
 import { Signup } from './pages/Signup'
 import { CreateAttraction } from './pages/CreateAttraction'
 import { Announcements } from './pages/Announcements'
+import { EditAttraction } from './pages/EditAttraction'
+import { EditTicketDraw } from './pages/EditTicketDraw'
+import { EditAnnouncement } from './pages/EditAnnouncement'
 
 function App() {
   const [message, setMessage] = useState('')
@@ -57,6 +60,9 @@ function App() {
           <Route path="/Announcements" element={<Announcements/>}></Route>
           <Route path='/Login' element={<Login/>}></Route>
           <Route path='/Signup' element={<Signup/>}></Route>
+          <Route path='/attractions/:id/edit' element={<EditAttraction />} />
+          <Route path='/ticket-draws/:id/edit' element={<EditTicketDraw />} />
+          <Route path='/announcements/:id/edit' element={<EditAnnouncement />} />
         </Route> 
         </Routes>
       </Router>

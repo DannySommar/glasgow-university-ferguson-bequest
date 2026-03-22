@@ -80,3 +80,37 @@ export async function deleteAnnouncement(req, res) {
     res.status(500).json({ error: 'failed to delete announcement' })
   }
 }
+
+export async function updateAnnouncement(req, res) {
+
+  const adminId = req.session.userId
+  if (!adminId) {
+    return res.status(401).json({ error: 'Not Logged In' })
+  }
+  const userCheck = await pool.query(`SELECT is_admin FROM users WHERE id = $1`, [adminId])
+  if (!userCheck.rows[0]?.is_admin) {
+    return res.status(403).json({ error: 'Admin Only' })
+  } 
+  
+  const {title, body} = req.body
+  try {
+    const result = await pool.query(
+      `UPDATE announcements
+      SET title = COALESCE($1, title),
+          body = COALESCE($2, body)
+      WHERE id = $3
+      RETURNING *`,
+      [title?.trim() || null, body?.trim() || null, req.params.id]
+    )
+
+    if (result.rowCount === 0){
+      return res.status(404).json({ error: 'Announcement Not Found' })
+    }
+    return res.json({ message: 'Announcement Updated', announcements: result.rows[0] })
+  } catch (err) {
+    console.error('Error Updating Announcement:', err)
+    res.status(500).json({ error: 'Failed To Update Announcement' })
+  }
+
+}
+
