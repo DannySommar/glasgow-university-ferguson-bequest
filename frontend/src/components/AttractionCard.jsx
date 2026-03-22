@@ -48,7 +48,7 @@ export function AttractionCard({ attractions, isAdmin, onDelete }) {
                 )}  
                 <div className="p-5 space-y-3">
                     <h4 className="text-xl font-bold text-gray-800">{attractions.title}</h4>
-                    <p className="text-gray-700 text-sm leading-relaxed">{attractions.description}</p>
+                    <p className="text-gray-700 text-sm leading-relaxed"> Learn more about this attraction. </p>
                 </div>
             </Link>
 

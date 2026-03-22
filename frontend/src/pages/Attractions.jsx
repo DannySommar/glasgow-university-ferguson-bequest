@@ -40,16 +40,15 @@ export function Attractions (){
     return (
         <div className='min-h-screen'>
             <h2 className='text-3xl font-bold text-center my-8 text-black-800'>Attractions</h2>
-
             <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12'>
-                <div className='mb-10 bg-gray-50 rounded-xl shadow-md border border-gray-200 p-6 text-center space-y-2'>
-                    <p className='text-gray-800 text-lg'>
+            <div className='mb-10 bg-gray-50 rounded-xl shadow-md border border-gray-200 p-6 text-center'>
+                    <p className='text-gray-800 text-lg text-center mb-4'>
                         This is the Attraction page, where you can book ticket(s) for attractions.
                     </p>
                     <p className='text-gray-600 text-sm'>
                         Staff can apply for 3 attractions per year.
                     </p>
-                </div>
+            </div>
 
                 <div>
                     <h3 className='text-2xl font-semibold text-gray-800 border-b-2 border-blue-600 pb-2 mb-6 text-center md:text-left'>

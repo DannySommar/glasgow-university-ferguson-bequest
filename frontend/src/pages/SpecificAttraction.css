@@ -5,7 +5,7 @@
 }
 
 .singleAttractionContent {
-    background-color: rgb(230, 231, 233); 
+  background-color: rgb(230, 231, 233); 
   padding: 30px;
   border-radius: 10px;       
   box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
@@ -16,6 +16,26 @@
   width: 30%;
   margin: auto;
   font-size: 16px;
+}
+
+.book-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: #2563eb;
+  color: #ffffff;      
+  font-weight: 600;          
+  padding: 0.5rem 1rem;     
+  border-radius: 0.5rem;     
+  border: none;
+  cursor: pointer;
+  transition: background-color 200ms ease, transform 120ms ease;
+}
+
+.book-btn:hover {
+  background-color: #1d4ed8; 
+  transform: translateY(-1px);
 }
 
 .singleAttractionContent a {

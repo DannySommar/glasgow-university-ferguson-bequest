@@ -115,7 +115,7 @@ export function SpecificAttraction() {
             alt={attraction.title}
             onError={(e) => {
               e.target.onerror = null
-              e.target.src = '/uploads/attractions/default.png'
+              e.target.src = '/uploads/attractions/default.jpeg'
             }}
           />
         )}
