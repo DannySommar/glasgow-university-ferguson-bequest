@@ -4,6 +4,7 @@ import rsnoghost from "../images/Ghostbusters-Header.jpg"
 import clan from "../images/Clan.jpg"
 import { useState, useEffect } from "react"
 import { useAuth } from "../contexts/AuthContext"
+import { Link } from "react-router-dom"
 
 export function TicketDraws() {
 
@@ -202,6 +203,12 @@ export function TicketDraws() {
 
                                 {isAdmin && (
                                 <>
+                                    <Link to ={`/ticket-draws/${draw.id}/edit`}
+                                    className="w-full inline-block text-center bg-amber-500 hover:bg-amber-600 text-white font-medium py-2 px-4 rounded-lg"
+                                    onClick={e => e.stopPropagation()}
+                                    >
+                                        Edit Ticket Draw
+                                    </Link>
                                     <button
                                         className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg"
                                         onClick={(e) => {

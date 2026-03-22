@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useAuth } from '../contexts/AuthContext'
+import { Link } from 'react-router-dom'
 import AnnouncementForm from './AnnouncementForm'
 
 export function Announcements() {
@@ -47,7 +48,12 @@ export function Announcements() {
           </small>
 
         {user?.isAdmin && (
-            <div className="p-5 pt-0">
+            <div className="p-5 pt-0 space-x-3">
+              <Link to={`/announcements/${a.id}/edit`}
+              className="inline-block bg-amber-500 hover:bg-amber-600 text-white font-medium py-2 px-4 rounded-lg transition"
+              >
+                Edit Announcement
+              </Link>
             <button
                 className = "bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200"
                 onClick={() => handleDelete(a.id)}

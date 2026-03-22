@@ -53,7 +53,13 @@ export function AttractionCard({ attractions, isAdmin, onDelete }) {
             </Link>
 
             {isAdmin && (
-                <div className="p-5 pt-0">
+                <div className="p-5 pt-0 space-y-2">
+                    <Link to={`/attractions/${attractions.id}/edit`} 
+                    className="w-full inline-block text-center bg-amber-500 hover:bg-amber-600 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200"
+                    onClick={e => e.stopPropagation()}
+                    >
+                        Edit Attraction
+                    </Link>
                     <button
                         className="w-full bg-red-600 hover:bg-red-700 disabled:bg-gray-400 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200"
                         onClick={handleDelete}

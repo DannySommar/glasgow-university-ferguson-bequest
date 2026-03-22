@@ -127,3 +127,32 @@ export async function pickWinner(req, res) {
     }
     
 }
+
+export async function updateTicketDraw(req, res) {
+
+    if (!req.session.isAdmin) return res.status(403).json({error: 'Admin Only'});
+    const { id } = req.params;
+    const { title, venue, eventdate, enterfrom, enteruntil, showurl, img } = req.body;
+
+    try {
+        const result = await pool.query(
+            `UPDATE ticket_draws 
+            SET title = COALESCE($1, title),
+                venue = COALESCE($2, venue),
+                eventdate = COALESCE($3, eventdate),
+                enterfrom = COALESCE($4, enterfrom),
+                enteruntil = COALESCE($5, enteruntil),
+                showurl = COALESCE($6, showurl),
+                img = COALESCE($7, img)
+            WHERE id = $8
+            RETURNING *`,
+            [title?.trim() || null, venue?.trim() || null, eventdate || null, enterfrom || null, enteruntil || null, showurl || null, img || null, id]
+        );
+    
+        if (result.rowCount === 0) return res.status(404).json({error: 'Ticket Draw Not Found'});
+        res.json({ message: 'Ticket Draw Updated', ticketDraw: result.rows[0] });
+    } catch (err) {
+        console.error('Error Updating Ticket Draw:', err);
+        res.status(500).json({ error: 'Failed To Update Ticket Draw' })
+    }
+}
