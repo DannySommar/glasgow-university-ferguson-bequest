@@ -5,6 +5,7 @@ import clan from "../images/Clan.jpg"
 import { useState, useEffect } from "react"
 import { useAuth } from "../contexts/AuthContext"
 import { Link } from "react-router-dom"
+import { PopUp } from "../components/PopUp"
 
 export function TicketDraws() {
 
@@ -13,7 +14,9 @@ export function TicketDraws() {
     const [isAdmin, setIsAdmin] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
     const [ status, setStatus ] = useState("");
-    
+    const [showPopUp, setShowPopUp] = useState(false); 
+    const [pendingDraw, setPendingDraw] = useState(null); 
+
     // temporary solution. need to move imgs to public folder when functionality for admin to upload own attractions with imgs
     const imageMap = {
         "BlairDrumond.jpg": Blairimg,
@@ -69,19 +72,28 @@ export function TicketDraws() {
       year: "numeric",
     })
 
-    const handleEnterDraw = async (draw) => {
+    const handleEnterDrawClick = (draw) => {
+        setPendingDraw(draw); 
+        setShowPopUp(true);
+    }
+
+    const handleAcceptTerms = async () => {
+        setShowPopUp(false);
+        
+        if (!pendingDraw) return;
+        
         setStatus("");
         try{
             const res = await fetch("/api/ticket-draws/enter", {
-                method: "Post",
+                method: "POST",
                 headers: { "Content-Type": "application/json"},
                 credentials: "include",
-                body: JSON.stringify({ ticketDrawId: draw.id})
+                body: JSON.stringify({ ticketDrawId: pendingDraw.id})
             });
             const data = await res.json();
             if (res.ok) {
-                setSelected(draw.title);
-                setStatus(`You're in the draw for ${draw.title}`);
+                setSelected(pendingDraw.title);
+                setStatus(`You're in the draw for ${pendingDraw.title}`);
             } else if (res.status === 401) {
                 setStatus("Please log in to enter draw.");
             } else if (res.status === 409) {
@@ -147,13 +159,11 @@ export function TicketDraws() {
    return (
     <div className="min-h-screen"> 
         <h2 className="text-3xl font-bold text-center my-8 text-black-800">Ticket Draws</h2>
-        
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12"> 
-            <div className="mb-10 bg-gray-50 rounded-xl shadow-md border border-gray-200 p-6 text-center space-y-2"> 
-                <p className="text-gray-800 text-lg"> This is the Ticket Draws Page, where you can enter draws to win ticket(s) for events. </p> 
-                <p className="text-gray-600 text-sm"> Staff may enter as many draws as they like but can only win one per year. </p> 
-            </div> 
-        
+        <div className='mb-10 bg-gray-50 rounded-xl shadow-md border border-gray-200 p-6 text-center'>
+                <p className="text-gray-800 text-lg text-center mb-4"> 
+                    This is the Ticket Draws Page, where you can enter draws to win ticket(s) for events. </p> 
+        </div>
             {status && ( <div className="mb-6 text-center text-sm text-gray-800">{status}</div> )} 
             
             <h3 className="text-2xl font-semibold text-gray-800 border-b-2 border-blue-600 pb-2 mb-6 text-center md:text-left"> Open Draws </h3> 
@@ -195,7 +205,7 @@ export function TicketDraws() {
                                         className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200" 
                                         onClick={(e) => { 
                                             e.stopPropagation();
-                                            handleEnterDraw(draw);
+                                            handleEnterDrawClick(draw);
                                     }} 
                                 > 
                                     Enter Draw 
@@ -229,14 +239,19 @@ export function TicketDraws() {
                                 >
                                     {isDeleting ? 'Deleting...' : 'Delete Ticket Draw'}
                                     </button>
-                                </>
+                                </>                                      
                             )}
                         </div> 
                     </div>
                 </div> 
             ))} 
+        </div>
         </div> 
-     </div> 
+        {showPopUp && (
+            <PopUp 
+                onClick={handleAcceptTerms}
+            />
+        )}
     </div> 
   ) 
 }

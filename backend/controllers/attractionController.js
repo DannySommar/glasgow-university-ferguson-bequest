@@ -65,7 +65,7 @@ export async function createAttraction(req, res) {
     const client = await pool.connect()
 
     try {
-        let imgPath = '/uploads/attractions/default.png'
+        let imgPath = '/uploads/attractions/default.jpeg'
         
         if (req.file) {
             // multer filename will be diff
