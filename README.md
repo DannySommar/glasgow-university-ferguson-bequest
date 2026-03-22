@@ -1,7 +1,6 @@
 # SH40 Main
 
 
-
 ## Getting started
 
 To make it easy for you to get started with GitLab, here's a list of recommended next steps.
@@ -44,37 +43,61 @@ Use the built-in continuous integration in GitLab.
 
 ***
 
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
+# SH40 Ferguson Bequest
 
 ## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+This project was part of the Level 3 Team Project course to develop a piece of software for use by the customer. 
+Ferguson Bequest is a system that brings together available attractions, ticket draws and booking information in one place. It exists to help University of Glasgow staff access and enjoy various activities. 
+The aim of this project was to redesign the website for better usability and ease of use for administrators.
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+### Features
+- Simple, modern interface
+- Attraction booking
+- Ticket draw entering
+- Booking history
+- Announcements
+- Reviews for attractions
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+### Additional Features for Admins
+- Add and delete attractions and ticket draws
+- Pick a winner from a ticket draw
+- Edit attractions/ticket draws
+- Post and delete announcements
+
+
+
+## Requirements
+You must have Docker installed on your desktop. Go to [Docker](https://www.docker.com/) and click on Download Docker Desktop. Choose the download for your operating system.
 
 ## Installation
 Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
 
+- Fork this project
+- 
+
+
+
 ## Usage
 Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+
+To run tests:
+- Open the folder of this project in terminal (right click folder in File Explorer and click Open in Terminal)
+- Run ```npm run test``` in the terminal and press enter
+- The status of the test run should be displayed: which tests and tests filed passed/failed
+
+Frontend:
+Tests - Tests for some elements/components
+Pages - Contains each web page and associate style sheet
+Images - All images used in the web pages. More get added when creating a new attraction or ticket draw
+Components - Reusable elements used in the application
+
+Backend:
+Uploads - images stored in the database
+
 
 ## Support
 Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
 
 ## Contributing
 State if you are open to contributions and what your requirements are for accepting them.
@@ -84,12 +107,19 @@ For people who want to make changes to your project, it's helpful to have some d
 You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
 
 ## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+- Andrea Alexander
+- Danny Shevchuk
+- Diana Polese-Abramowicz
+- Hammaad Uddin
+- Lewis Gray
+
+We want to thank the Ferguson Bequest team for allowing us to partake in this project.
 
 ## License
-For open source projects, say how it is licensed.
+This project is licensed under the MIT License. [Learn More](https://opensource.org/license/MIT)
 
 ## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+The development of this project has ceased by the authors of this project. 
+
 
 
