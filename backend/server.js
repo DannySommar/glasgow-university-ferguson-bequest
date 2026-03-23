@@ -43,8 +43,6 @@ const uploadsPath = '/app/uploads' // in docker its in app, i struggled days try
 console.log('Uploading images from:', uploadsPath)
 app.use('/uploads', express.static(uploadsPath))
 
-}));
-
 // TEMPORARY SSO DEBUG ENDPOINT CHANGE AFTER TESTING
 app.get('/api/debug-headers', (req, res) => {
   console.log('='.repeat(50))
