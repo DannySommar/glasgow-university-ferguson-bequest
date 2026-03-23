@@ -1,6 +1,6 @@
 import express from 'express'
 import { upload } from '../middleware/upload.js'
-import { getAttractions, deleteAttraction, createAttraction, updateAttraction} from '../controllers/attractionController.js'
+import { getAttractions, deleteAttraction, createAttraction, updateAttraction, addTicketCodes} from '../controllers/attractionController.js'
 
 
 export const attractionsRouter = express.Router()
@@ -28,3 +28,4 @@ attractionsRouter.put('/:id',
     upload.single('img'),
     updateAttraction
 )
+attractionsRouter.post('/:id/add-ticket-codes', addTicketCodes)

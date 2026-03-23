@@ -64,6 +64,7 @@ export const ticketDraws = [
     },
 ]
 
+/*
 export const ticketCodes = [
   {
     "id": 1,
@@ -126,3 +127,4 @@ export const ticketCodes = [
     "booking_id": null
   }
 ]
+*/
