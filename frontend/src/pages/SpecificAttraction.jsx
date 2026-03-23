@@ -1,31 +1,23 @@
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
-
+import { useNavigate } from "react-router-dom"
+import { useAuth } from "../contexts/AuthContext"
 import { createSlug } from "../utils/slug"
 import { PopUp } from "../components/PopUp"
 import './SpecificAttraction.css'
 import ReviewForm from "../components/reviews/ReviewForm"
 import "../components/reviews/Review.css"
 
-// will need to move to /backend/public/images later, but now i know how 2.
-import Blairimg from "../images/BlairDrumond.jpg"
-import zoo from "../images/EdZoo.jpg"
-import rsnoghost from "../images/Ghostbusters-Header.jpg"
-import clan from "../images/Clan.jpg"
-
-const imageMap = {
-  "BlairDrumond.jpg": Blairimg,
-  "EdZoo.jpg": zoo,
-  "Clan.jpg": clan,
-  "Ghostbusters-Header.jpg": rsnoghost
-}
-
 export function SpecificAttraction() {
+  const { user }= useAuth()
   const { slug } = useParams()
   const [attraction, setAttraction] = useState(null)
   const [reviews, setReviews] = useState([])
   const [showPopUp, setShowPopUp] = useState(false)
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
+  const [ticketCode, setTicketCode] = useState(null)
+  const navigate = useNavigate()
 
   // fetch all attractions and .find the matching one. don't really need to change the controller with extra param becaus ethis is web development and nothing matters just like life
   useEffect(() => {
@@ -66,6 +58,34 @@ export function SpecificAttraction() {
     setShowPopUp(true);
   }
 
+  const handleAccept = async () => {
+    setShowPopUp(false);
+    setLoading(true);
+    setError('');
+    try {
+      const res = await fetch('/api/bookings', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        credentials: 'include',
+        body: JSON.stringify({attraction_id: attraction.id})
+      })
+
+      const data = await res.json()
+      console.log('data from booking creation attempt ', data)
+      
+      if (res.ok) {
+        setTicketCode(data.ticket_code.code)
+        navigate('/MyBookings')
+      } else {
+        setError(data.error || 'booking creation failed')
+        alert(data.error || 'Booking creation failed');
+      }
+    } catch (err) {
+      setError('Network error.')
+    } finally {
+      setLoading(false)
+    }
+  }
 
   const addReview = async (review) => {
     console.log('review: ', review)
@@ -77,7 +97,10 @@ export function SpecificAttraction() {
     })
 
     const savedReview = await response.json()
-    setReviews(prev => [savedReview, ...prev])
+    setReviews(prev => {
+      const filtered = prev.filter(r => r.user_id !== user?.id) // removes prev user review right away
+      return [savedReview, ...filtered]
+    })
   }
 
   if (loading) return <p>loading attraction... </p>
@@ -86,7 +109,16 @@ export function SpecificAttraction() {
   return (
     <>
       <div className="attractionPage">
-        {attraction.img && <img src={imageMap[attraction.img] || null} alt={attraction.title} />}
+        {attraction.img && (
+          <img 
+            src={attraction.img}
+            alt={attraction.title}
+            onError={(e) => {
+              e.target.onerror = null
+              e.target.src = '/uploads/attractions/default.jpeg'
+            }}
+          />
+        )}
         <div className="singleAttractionContent">
           <h2>{attraction.title}</h2>
           <p>{attraction.description}</p>
@@ -94,25 +126,30 @@ export function SpecificAttraction() {
         </div>
       </div>
       
-      {showPopUp && <PopUp />}
+      {showPopUp && <PopUp onClick={handleAccept}/>}
       
       <div className="reviews">
-        <ReviewForm
-          attractionId={attraction.id}
-          onAddReview={addReview}
-        />
-        
+        {user && (
+          <ReviewForm
+            attractionId={attraction.id}
+            onAddReview={addReview}
+          />
+        )}
+
         <div className="form">
           <h2>Reviews</h2>
-          {reviews.length === 0 && <p>No reviews yet.</p>}
+          
+          {reviews.length === 0 && <p>No reviews yet</p>}
           
           {reviews.map(review => (
             <div key={review.id} className="singleReview">
-              <strong>{review.username || 'Anonymous'}</strong> {/* username from backend */}
+              <strong>{review.username || 'Anonymous'}</strong>  {/*said anon may be prefered sometimes */}
               <p>{review.comment}</p>
               <span>{review.rating} ★</span>
+              <br></br>
               <small>{new Date(review.created_at).toLocaleString()}</small>
             </div>
+
           ))}
         </div>
       </div>

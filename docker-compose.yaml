@@ -3,6 +3,8 @@ services:
     build: ./backend
     ports:
       - "8000:8000"
+    volumes:
+      - ./backend/uploads:/app/uploads
     environment:
       - DB_HOST=db
       - DB_PORT=5432

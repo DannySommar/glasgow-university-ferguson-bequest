@@ -1,4 +1,11 @@
+import dotenv from 'dotenv';
+if (process.env.NODE_ENV !== 'production') { 
+  dotenv.config({ path: `.env.${process.env.NODE_ENV || 'development'}` }); 
+}
+
 import { Pool } from 'pg'
+
+console.log("Connected to DB:", process.env.DB_NAME);
 
 // try to integrate .enf file somehow in here and docker compose later on
 export const pool = new Pool({

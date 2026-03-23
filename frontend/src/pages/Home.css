@@ -4,7 +4,7 @@
   gap: 10px;
   font-family: "Source Sans Pro", "Source Sans 3", Arial, Helvetica, sans-serif;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: center; 
 }
 
 .Information {  
@@ -12,7 +12,7 @@
   padding: 30px;
   border-radius: 12px;       
   box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
-  text-align: left; 
+  text-align: left;
   transition: transform 0.2s ease, background-color 0.2s ease;
   color: black;
   flex: 1;

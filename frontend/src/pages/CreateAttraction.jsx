@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 export function CreateAttraction() {
+    const [isTicketDraw, setIsTicketDraw] = useState(false)
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
@@ -14,20 +15,15 @@ export function CreateAttraction() {
 
         try {
             const formData = new FormData(e.target)
-            const title = formData.get('title').trim()
-            const description = formData.get('description').trim()
-            const location = formData.get('location').trim()
-            const imgFile = formData.get('img')
-
-            const imgName = imgFile && imgFile.name ? imgFile.name : 'default.jpg'
-
-            console.log({ title, description, location, imgName})
+            
+            for (let pair of formData.entries()) {
+                console.log(pair[0] + ': ' + pair[1])
+            }
 
             const res = await fetch('/api/attractions', {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                credentials : 'include',
-                body: JSON.stringify({ title, description, location, img: imgName})
+                credentials: 'include',
+                body: formData  // no more JSON because we need to send the form in whatever way the bowser decides
             })
 
             const data = await res.json()
@@ -39,6 +35,56 @@ export function CreateAttraction() {
                 setError(data.error || 'attraction creation failed')
             }
         } catch(err) {
+            console.error('Network error:', err)
+            setError('Network error.')
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    // Needs to be changed to send FormData later on 
+    const handleTicketDrawSubmit = async (e) => {
+        e.preventDefault()
+        setLoading(true)
+        setError('')
+
+        try {
+            const formData = new FormData(e.target)
+            const title = formData.get('title').trim()
+            const venue = formData.get('venue').trim()
+            const eventDate = formData.get('eventDate')
+            const enterFrom = formData.get('enterFrom')
+            const enterUntil = formData.get('enterUntil')
+            const showUrl = formData.get('showUrl')
+            const imgFile = formData.get('img')
+            const imgName = imgFile?.name || 'default.jpg'
+            const ticketCodes = formData.get('ticketCodes')
+
+            const res = await fetch('/api/ticket-draws', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify({
+                    title,
+                    venue,
+                    eventdate: eventDate,
+                    enterfrom: enterFrom,
+                    enteruntil: enterUntil,
+                    showurl: showUrl,
+                    img: imgName,
+                    ticketCodes: ticketCodes
+                })
+            })
+
+            const data = await res.json()
+            console.log('ticket draw creation:', data)
+
+            if (res.ok) {
+                navigate('/TicketDraws')
+            } else {
+                setError(data.error || 'ticket draw creation failed')
+            }
+        } catch (err) {
             setError('Network error.')
         } finally {
             setLoading(false)
@@ -48,30 +94,99 @@ export function CreateAttraction() {
     return (
         <div className="CreateAttractionPage">
             <div className="CreateAttractionContent">
-                <form onSubmit={handleSubmit}>
-                    <h1>Create New Attraction</h1>
+                <label className="Toggle">
+                    <input 
+                        type="checkbox" 
+                        checked={isTicketDraw} 
+                        onChange={(e) => setIsTicketDraw(e.target.checked)} 
+                    />
+                    Create Ticket Draw instead
+                </label>
                 
-                    <div className="Input">
-                        <input type="text" name="title" placeholder="Title" required/>
-                    </div>
+                {!isTicketDraw && (
+                    <form onSubmit={handleSubmit} encType="multipart/form-data">
+                        <h1>Create New Attraction</h1>
+                    
+                        <div className="Input">
+                            <input type="text" name="title" placeholder="Title" required disabled={loading}/>
+                        </div>
 
-                    <div className="Input">
-                        <input type="text" name="description" placeholder="Description" required/>
-                    </div>
+                        <div className="Input">
+                            <input type="text" name="description" placeholder="Description" required disabled={loading}/>
+                        </div>
 
-                    <div className="Input">
-                        <input type="text" name="location" placeholder="Location" required/>
-                    </div>
+                        <div className="Input">
+                            <input type="text" name="location" placeholder="Location" required disabled={loading}/>
+                        </div>
 
-                    <label for="img">Choose an image:</label>
-                    <div>
-                        <input type="file" name="img" id="img" placeholder="Image" />
-                    </div>
+                        <label>Enter ticket codes in a list<br></br></label>
+                        <label>Example Format: code, code, code</label>
+                        <div className="Input">
+                            <input type="text" name="ticketCodes" placeholder="Ticket Codes" disabled={loading}></input>
+                        </div>
 
-                    <button type="submit">
-                        Submit
-                    </button>
-                </form>
+                        <label htmlFor="img">Choose an image:</label>
+                        <div>
+                            <input 
+                                type="file" 
+                                name="img" 
+                                id="img" 
+                                accept="image/jpeg,image/png,image/jpg,image/gif,image/webp"
+                                disabled={loading}
+                            />
+                        </div>
+
+                        <button type="submit" disabled={loading}>
+                            {loading ? 'Creating...' : 'Submit'}
+                        </button>
+                    </form>
+                )}
+                
+                {isTicketDraw && (
+                    <form onSubmit={handleTicketDrawSubmit} encType="multipart/form-data">
+                        <h1>Create Ticket Draw</h1>
+
+                        <div className="Input">
+                            <input type="text" name="title" placeholder="Title" required disabled={loading} />
+                        </div>
+
+                        <div className="Input">
+                            <input type="text" name="venue" placeholder="Venue" required disabled={loading} />
+                        </div>
+
+                        <div className="floating-label">
+                            <input type="date" name="eventDate" id="eventDate" required disabled={loading} />
+                            <label htmlFor="eventDate">Event Date</label>
+                        </div>
+
+                        <div className="floating-label">
+                            <input type="date" name="enterFrom" id="enterFrom" required disabled={loading} />
+                            <label htmlFor="enterFrom">Enter From</label>
+                        </div>
+
+                        <div className="floating-label">
+                            <input type="date" name="enterUntil" id="enterUntil" required disabled={loading} />
+                            <label htmlFor="enterUntil">Enter Until</label>
+                        </div>
+
+                        <div className="Input">
+                            <input type="text" name="showUrl" placeholder="Show URL" disabled={loading} />
+                        </div>
+
+                        <label htmlFor="img">Choose an image:</label>
+                        <input 
+                            type="file" 
+                            name="img" 
+                            id="img" 
+                            accept="image/jpeg,image/png,image/jpg,image/gif,image/webp"
+                            disabled={loading}
+                        />
+
+                        <button type="submit" disabled={loading}>
+                            {loading ? 'Creating...' : 'Create Ticket Draw'}
+                        </button>
+                    </form>
+                )}
             </div>
         </div>
     )

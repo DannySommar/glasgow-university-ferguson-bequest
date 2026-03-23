@@ -15,6 +15,10 @@ import { MyBookings } from './pages/MyBookings'
 import { Login } from './pages/Login'
 import { Signup } from './pages/Signup'
 import { CreateAttraction } from './pages/CreateAttraction'
+import { Announcements } from './pages/Announcements'
+import { EditAttraction } from './pages/EditAttraction'
+import { EditTicketDraw } from './pages/EditTicketDraw'
+import { EditAnnouncement } from './pages/EditAnnouncement'
 import { DebugSSO } from './pages/DebugSSO'
 
 function App() {
@@ -54,8 +58,12 @@ function App() {
           <Route path='/Terms' element={<TermsAndConditions />}></Route>
           <Route path='/Admin' element={<Admin/>}></Route>
           <Route path='/Admin/CreateAttraction' element={<CreateAttraction/>}></Route>
+          <Route path="/Announcements" element={<Announcements/>}></Route>
           <Route path='/Login' element={<Login/>}></Route>
           <Route path='/Signup' element={<Signup/>}></Route>
+          <Route path='/attractions/:id/edit' element={<EditAttraction />} />
+          <Route path='/ticket-draws/:id/edit' element={<EditTicketDraw />} />
+          <Route path='/announcements/:id/edit' element={<EditAnnouncement />} />
           <Route path="/debug-sso" element={<DebugSSO />} />
         </Route> 
         </Routes>

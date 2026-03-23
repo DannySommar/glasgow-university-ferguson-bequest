@@ -10,6 +10,10 @@ vi.mock('react-router-dom', async () => {
         return { ...actual, useNavigate: () => mockNavigate };
     });
 
+vi.mock('../contexts/AuthContext', () => ({
+    useAuth: () => ({ login: vi.fn(), logout: vi.fn(), user: null})
+}));
+
 const renderLogin = () => 
     render(
         <MemoryRouter>

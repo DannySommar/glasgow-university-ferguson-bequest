@@ -12,7 +12,7 @@
 }
 
 .nav-logo { 
-  position: absolute;
+  position: static;
   left: 12px;
 }
 

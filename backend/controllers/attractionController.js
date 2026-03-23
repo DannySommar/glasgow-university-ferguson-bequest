@@ -27,7 +27,13 @@ export async function deleteAttraction(req, res) {
         }
 
         const { id } = req.params;
-        
+
+        // Deletes the ticket codes for the attraction
+        const removeCodes = await pool.query(
+            'DELETE FROM ticket_codes WHERE attraction_id = $1 RETURNING id',
+            [id]
+        )
+
         const result = await pool.query(
             'DELETE FROM attractions WHERE id = $1 RETURNING id',
             [id]
@@ -45,37 +51,79 @@ export async function deleteAttraction(req, res) {
 }
 
 export async function createAttraction(req, res) {
-    let { title, description, location, img } = req.body
+    let { title, description, location, ticketCodes } = req.body
 
-    title = title.trim()
-    description = description.trim()
-    location = location.trim()
+    title = title?.trim()
+    description = description?.trim()
+    location = location?.trim()
+    ticketCodes = ticketCodes?.split(",").map(code => code.trim())
 
-    img = img || 'default.jpg'
+    if (!title || !location) {
+        return res.status(400).json({ error: 'Title and location required' })
+    }
 
     const client = await pool.connect()
 
     try {
+        let imgPath = '/uploads/attractions/default.jpeg'
+        
+        if (req.file) {
+            // multer filename will be diff
+            imgPath = `/uploads/attractions/${req.file.filename}`
+            console.log('File saved in :', req.file.filename) //will be in the docker container, not your working env
+        }
+
         const result = await client.query(
-            'INSERT INTO attractions (title, description, location, img) VALUES ($1, $2, $3, $4) returning id, title, description, location',
-            [title, description, location, img]
+            'INSERT INTO attractions (title, description, location, img) VALUES ($1, $2, $3, $4) RETURNING id, title, description, location, img',
+            [title, description, location, imgPath]
         )
 
-        const attraction = result.rows[0]
+        const attraction_id = result.rows[0].id
+
+        // Loops through ticket code array and add each one into database
+        for (const code of ticketCodes) {
+            const insertCodes = await client.query(
+                'INSERT INTO ticket_codes (code, attraction_id, booking_id) VALUES ($1, $2, $3) RETURNING id, code, attraction_id, booking_id',
+                [code, attraction_id, null]
+            )
+        }
 
         res.status(201).json({
             message: 'attraction created',
-            attraction: {
-                id: attraction.id,
-                title: attraction.title,
-                description: attraction.description,
-                location: attraction.location
-            }
+            attraction: result.rows[0]
         })
+        
     } catch (err) {
         console.error('attraction creation error: ', err.message)
         res.status(500).json({error: 'Attraction creation failed. Please try again. '})
     } finally {
         client.release()
+    }
+}
+
+export async function updateAttraction(req, res) {
+
+    if (!req.session.isAdmin) return res.status(403).json({error: 'Admin required'});
+    const { id } = req.params;
+    const { title, description, location } = req.body;
+    const imgPath = req.file ? `/uploads/attractions/${req.file.filename}` : undefined;
+
+    try {
+        const result = await pool.query(
+            `UPDATE attractions 
+            SET title = COALESCE($1, title),
+                description = COALESCE($2, description),
+                location = COALESCE($3, location),
+                img = COALESCE($4, img)
+            WHERE id = $5
+            RETURNING *`,
+            [title?.trim(), description?.trim(), location?.trim(), imgPath, id]
+        );
+    
+        if (result.rowCount === 0) return res.status(404).json({error: 'Attraction Not Found'});
+        res.json({ message: 'Attraction Updated', attraction: result.rows[0] });
+    } catch (err) {
+        console.error('Error Updating Attraction:', err);
+        res.status(500).json({ error: 'Failed To Update Attraction' })
     }
 }

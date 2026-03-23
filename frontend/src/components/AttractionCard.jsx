@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-
 import { createSlug } from "../utils/slug";
 
 export function AttractionCard({ attractions, isAdmin, onDelete }) {
@@ -28,7 +27,7 @@ export function AttractionCard({ attractions, isAdmin, onDelete }) {
                 alert('deleted attraction ok');
             } else {
                 const error = await response.json();
-                alert(error.error || 'deleting faoild');
+                alert(error.error || 'deleting failed');
             }
         }
         catch (err) {
@@ -42,20 +41,33 @@ export function AttractionCard({ attractions, isAdmin, onDelete }) {
     };
 
     return (
-        <div className="attraction">
-            <Link to={path}>
-                <h2 className="text-xl font-bold text-center my-8 text-gray-800">{attractions.title}</h2>
-                {attractions.img && <img src={attractions.img} alt={attractions.title} />}
-                <h3>{attractions.description}</h3>
+        <div className="bg-gray-50 rounded-xl shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition">
+            <Link to={path} className="block">
+                {attractions.img && (
+                    <img className="w-full h-48 object-cover" src={attractions.img} alt={attractions.title} />
+                )}  
+                <div className="p-5 space-y-3">
+                    <h4 className="text-xl font-bold text-gray-800">{attractions.title}</h4>
+                    <p className="text-gray-700 text-sm leading-relaxed"> Learn more about this attraction. </p>
+                </div>
             </Link>
-            
+
             {isAdmin && (
-                <button className="w-full bg-red-600 hover:bg-red-700 disabled:bg-gray-400 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 mt-4"
-                    onClick={handleDelete}
-                    disabled={isDeleting}
-                >
-                    {isDeleting ? 'Deleting...' : 'Delete Attraction'}
-                </button>
+                <div className="p-5 pt-0 space-y-2">
+                    <Link to={`/attractions/${attractions.id}/edit`} 
+                    className="w-full inline-block text-center bg-amber-500 hover:bg-amber-600 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200"
+                    onClick={e => e.stopPropagation()}
+                    >
+                        Edit Attraction
+                    </Link>
+                    <button
+                        className="w-full bg-red-600 hover:bg-red-700 disabled:bg-gray-400 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200"
+                        onClick={handleDelete}
+                        disabled={isDeleting}
+                    >
+                        {isDeleting ? 'Deleting...' : 'Delete Attraction'}
+                    </button>
+                </div>
             )}
         </div>
     );

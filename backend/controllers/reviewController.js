@@ -34,6 +34,10 @@ export async function createReview(req, res) {
       return res.status(401).json({ error: 'not logged in' })
     }
 
+    if (!attraction_id || !rating || !comment) {
+      return res.status(400).json({ error: "Missing fields" });
+    }
+
     const result = await pool.query(
       `INSERT INTO reviews (user_id, attraction_id, rating, comment)
        VALUES ($1, $2, $3, $4)
@@ -46,7 +50,15 @@ export async function createReview(req, res) {
       [user_id, attraction_id, rating, comment]
     )
 
-    res.status(201).json(result.rows[0])
+    const reviewWithUser = await pool.query(
+      `SELECT r.*, u.username
+       FROM reviews r
+       JOIN users u ON r.user_id = u.id
+       WHERE r.id = $1`,
+      [result.rows[0].id]
+    )
+
+    res.status(201).json(reviewWithUser.rows[0])
 
   } catch (err) {
     console.error('error creating review:', err)

@@ -2,14 +2,23 @@ import Blairimg from "../images/BlairDrumond.jpg";
 import zoo from "../images/EdZoo.jpg";
 import rsnoghost from "../images/Ghostbusters-Header.jpg";
 import clan from "../images/Clan.jpg";
+import { useEffect, useState } from "react";
+import { AttractionCard } from "../components/AttractionCard";
 
 export function MyBookings(){
-    const blairdrummond = {title: "Blair Drummond Safari Park", img:Blairimg}
-    const edizoo = {title: "Edinburgh Zoo", img:zoo}
-    const hockey = {title: "Glasgow Clan Ice Hockey", img:clan}
-    const rsno = {title: "RSNO - Ghostbuster Concert",  img:rsnoghost}
-    
+    const [bookings, setBookings] = useState([])
+    const [loading, setLoading] = useState(true)
+    const [isDeleting, setIsDeleting] = useState(false);
+    const [isUpdating, setIsUpdating] = useState(false);
 
+    const imageMap = {
+        "BlairDrummond.jpg": Blairimg,
+        "EdZoo.jpg": zoo,
+        "Clan.jpg" : clan,
+        "Ghostbusters-Header": rsnoghost
+    }
+    
+    /*
     const pastAttractions = [
         {
             ...edizoo,
@@ -39,11 +48,186 @@ export function MyBookings(){
             status: "Confirmed"
         }
     ];
+    */
+
+    useEffect(() => {
+        getBookings()
+    }, [])
+
+            const getBookings = async () => {
+            try {
+                const response = await fetch('/api/bookings', {
+                    credentials: 'include'
+                })
+                const data = await response.json()
+                
+                const transformed = data.bookings.map(booking => ({
+                    id: booking.id,
+                    user_id: booking.user_id,
+                    attraction_id: booking.attraction_id,
+                    status: booking.status,
+                    code: booking.code,
+                    title: booking.title,
+                    img: booking.img,
+                    description: booking.description,
+                    location: booking.location
+                }))
+
+                console.log(transformed)
+
+                setBookings(transformed)
+            } catch(error) {
+                console.error('Error fetching bookings: ', error)
+                setBookings([])
+            } finally {
+                setLoading(false)
+            }
+        }
+
+    const handleDelete = async (bookingToDelete) => {
+        if (!window.confirm(`Are you sure you want to cancel the booking for ${bookingToDelete.title}?`)) {
+            return;
+        }
+        
+        setIsDeleting(true)
+
+        try {
+            const response = await fetch(`/api/bookings/${bookingToDelete.id}`, {
+                method: 'DELETE',
+                credentials: 'include'
+            });
+
+            if (response.ok) {
+                setBookings(prev => prev.filter(booking => booking.id !== bookingToDelete.id));
+            } else {
+                const error = await response.json();
+                alert(error.error || 'deleting failed');
+            }
+        } catch (err) {
+            console.error('error while deleting: ', err);
+            alert('Network error.')
+        } finally {
+            setIsDeleting(false);
+        }
+    };
+
+    const handleUpdate = async (bookingToUpdate) => {
+        setIsUpdating(true);
+
+        try {
+            const response = await fetch(`/api/bookings/${bookingToUpdate.id}`, {
+                method: 'POST',
+                credentials: 'include'
+            });
+
+            if (response.ok) {
+                await getBookings()
+                console.log('update successful')
+            } else {
+                const error = await response.json();
+                alert(error.error || 'updating failed');
+            }
+        } catch (err) {
+            console.error('error while deleteing: ', err);
+            alert('Network error.')
+        } finally {
+            setIsUpdating(false);
+        }
+    }
 
     const formatDate = (dateString) => {
         return new Date(dateString).toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' });
     };
 
+    return (
+        <div className="min-h-screen">
+            <h2 className="text-3xl font-bold text-center my-8 text-black-800">My Bookings</h2>
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+                <div className="mb-12">
+                    <h3 className="text-2xl font-semibold, text-gray-800 border-b-2 border-blue-600 pb-2 mb-6">
+                        Upcoming Bookings
+                    </h3>
+                    {bookings.filter(booking => booking.status === "upcoming").length === 0 ? (
+                        <div className="text-center py-12 bg-gray-50 rounded-lg">
+                            <p className="text-gray-600 text-lg italic">No Upcoming Bookings</p>
+                        </div>
+                    ) : (
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {bookings.filter(booking => booking.status === "upcoming").map((booking) => (
+                                <div className="bg-gray-50 rounded-xl shadow-md overflow-hidden border border-gray-200" key={booking.id}>
+                                    <img className="w-full h-48 object-cover" src={booking.img} alt={booking.title}/>
+                                    <div className="p-5">
+                                        <h4 className="text-xl font-bold text-gray-800 mb-3">{booking.title}</h4>
+                                        <div className="space-y-2 mb-4">
+                                            <p className="text-gray-700">
+                                                <span className="font-medium">Description:</span> {booking.description}
+                                            </p>
+                                            <p className="text-gray-700">
+                                                <span className="font-medium">Location:</span> {booking.location}
+                                            </p>
+                                            <p className="text-gray-700">
+                                                <span className="font-medium">Ticket Code:</span> <span className="font-bold">{booking.code}</span>
+                                            </p>
+                                            <span className="inline-block px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                                                {booking.status}
+                                            </span>
+                                            <button type="button" className="w-full bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200"
+                                            onClick={() => handleDelete(booking)} disabled={isDeleting}>
+                                                {isDeleting ? 'Cancelling...' : 'Cancel Booking'}
+                                            </button>
+                                            <button type="button" className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200"
+                                            onClick={() => handleUpdate(booking)} disabled={isUpdating}>
+                                                {isUpdating ? 'Marking As Attended...' : 'Mark As Attended'}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+
+                <div className="mb-12">
+                    <h3 className="text-2xl font-semibold, text-gray-800 border-b-2 border-blue-600 pb-2 mb-6">
+                        Attended Bookings
+                    </h3>
+                    {bookings.filter(booking => booking.status === "attended").length === 0 ? (
+                        <div className="text-center py-12 bg-gray-50 rounded-lg">
+                            <p className="text-gray-600 text-lg italic">No Attended Bookings</p>
+                        </div>
+                    ) : (
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {bookings.filter(booking => booking.status === "attended").map((booking) => (
+                                <div className="bg-gray-50 rounded-xl shadow-md overflow-hidden border border-gray-200" key={booking.id}>
+                                    <img className="w-full h-48 object-cover" src={booking.img} alt={booking.title}/>
+                                    <div className="p-5">
+                                        <h4 className="text-xl font-bold text-gray-800 mb-3">{booking.title}</h4>
+                                        <div className="space-y-2 mb-4">
+                                            <p className="text-gray-700">
+                                                <span className="font-medium">Description:</span> {booking.description}
+                                            </p>
+                                            <p className="text-gray-700">
+                                                <span className="font-medium">Location:</span> {booking.location}
+                                            </p>
+                                            <p className="text-gray-700">
+                                                <span className="font-medium">Ticket Code:</span> <span className="font-bold">{booking.code}</span>
+                                            </p>
+                                            <span className="inline-block px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+                                                {booking.status}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            </div>
+        </div>
+    );
+}
+
+/*
     return (
         <div className="min-h-screen">
             <h2 className="text-3xl font-bold text-center my-8 text-black-800">My Bookings</h2>
@@ -143,3 +327,4 @@ export function MyBookings(){
         </div>
     );
 }
+*/

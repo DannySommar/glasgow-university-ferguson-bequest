@@ -3,12 +3,15 @@ import cors from 'cors';
 import session from 'express-session';
 
 import { attractionsRouter } from './routes/attractions.js';
+import { ticketDrawRouter } from './routes/ticketDraws.js'
 import { authRouter } from './routes/auth.js'
 import { reviewsRouter } from './routes/reviews.js';
+import { announcementsRouter } from './routes/announcements.js'
 
 import { createTables } from './database/createTables.js';
 import { seedTables } from './database/seedTables.js';
 import { pool } from './database/index.js';
+import { bookingRouter } from './routes/bookings.js';
 
 import { ssoAutoLogin, completeSSOLogin } from './controllers/authController.js';
 
@@ -33,6 +36,13 @@ app.use(session({
     path: '/',
     domain: 'maloelap.dcs.gla.ac.uk'  // ← Match the domain
   }
+}))
+
+
+const uploadsPath = '/app/uploads' // in docker its in app, i struggled days trying do do it with path.dirname(fileURLToPath(import.meta.url)), maybe i need to change it when i deploy, but idk
+console.log('Uploading images from:', uploadsPath)
+app.use('/uploads', express.static(uploadsPath))
+
 }));
 
 // TEMPORARY SSO DEBUG ENDPOINT CHANGE AFTER TESTING
@@ -101,8 +111,11 @@ app.get('/api/db-attractions', async (req, res) => {
 })
 
 app.use('/api/attractions', attractionsRouter)
+app.use('/api/ticket-draws', ticketDrawRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/reviews', reviewsRouter)
+app.use('/api/announcements', announcementsRouter)
+app.use('/api/bookings', bookingRouter)
 
 async function initializeDatabase() {
   try {
@@ -113,7 +126,6 @@ async function initializeDatabase() {
     
     const testResult = await pool.query('SELECT NOW()');
     console.log('db connected:', testResult.rows[0].now);
-    
     
     
     await createTables();
@@ -131,13 +143,19 @@ async function initializeDatabase() {
 }
 
 // start server AFTER db is ready
-initializeDatabase().then(() => {
-  app.listen(PORT, "0.0.0.0", () => {
-    console.log(`server running on http://localhost:${PORT}`);
-    console.log(`http://localhost:${PORT}/api/health`);
-    console.log(`http://localhost:${PORT}/api/db-test`);
-    console.log(`http://localhost:${PORT}/api/db-attractions`);
-  }).on('error', (err) => {
-    console.error(':( ', err);
+if (process.env.NODE_ENV !== 'test') {
+  initializeDatabase().then(() => {
+    app.listen(PORT, "0.0.0.0", () => {
+      console.log(`server running on http://localhost:${PORT}`);
+      console.log(`http://localhost:${PORT}/api/health`);
+      console.log(`http://localhost:${PORT}/api/db-test`);
+      console.log(`http://localhost:${PORT}/api/db-attractions`);
+    }).on('error', (err) => {
+      console.error(':( ', err);
+    });
   });
-});
+
+}
+
+export { app, initializeDatabase };
+export default app;

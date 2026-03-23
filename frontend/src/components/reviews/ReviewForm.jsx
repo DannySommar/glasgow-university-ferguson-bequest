@@ -37,14 +37,7 @@ const ReviewForm = ({ attractionId, onAddReview }) => {
         onChange={(e) => setComment(e.target.value)} 
       />
       <h3>Give a Rating:</h3>
-      {/* <input 
-        type="number" 
-        placeholder="Rating (1-5)" 
-        min="1" 
-        max="5" 
-        value={rating} 
-        onChange={(e) => setRating(parseInt(e.target.value))} 
-      /> */}
+   
 
 
     <div className="star-rating">
