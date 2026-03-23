@@ -143,6 +143,17 @@ export async function ssoAutoLogin(req, res, next) {
         const client = await pool.connect();
         
         try {
+
+            const adminEmails = [
+                'Sarah.Finlayson@glasgow.ac.uk',
+                '2913985S@student.gla.ac.uk',
+                '2787006U@student.gla.ac.uk',
+                '2887454G@student.gla.ac.uk',
+                '2881748P@student.gla.ac.uk',
+                '2892128A@student.gla.ac.uk',
+            ];
+            const isAdmin = adminEmails.includes(email);
+
             let user;
             
             const existing = await client.query(
@@ -156,15 +167,20 @@ export async function ssoAutoLogin(req, res, next) {
                 // user exists
                 user = existing.rows[0];
                 console.log('user exists');
+
+                if (user.is_admin !== isAdmin) {
+                    await client.query(
+                        'UPDATE users SET is_admin = $1 WHERE id = $2',
+                        [isAdmin, user.id]
+                    );
+                    console.log(`Updated admin status for ${user.email}: ${isAdmin}`);
+                    user.is_admin = isAdmin;
+                }
+
             } else {
                 // new user
                 console.log('new user, creating account');
                 
-                const adminEmails = [
-                    'Sarah.Finlayson@glasgow.ac.uk',
-                    '2913985S@student.gla.ac.uk'
-                ];
-                const isAdmin = adminEmails.includes(email);
                 
                 // Generate random password (won't be used for login)
                 const randomPassword = Math.random().toString(36).slice(-16);
