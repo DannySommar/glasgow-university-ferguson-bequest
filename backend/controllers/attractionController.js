@@ -127,3 +127,29 @@ export async function updateAttraction(req, res) {
         res.status(500).json({ error: 'Failed To Update Attraction' })
     }
 }
+
+export async function addTicketCodes(req, res) {
+    if (!req.session.isAdmin) return res.status(403).json({error: 'Admin required'})
+    const {id} = req.params
+    let { ticketCodes } = req.body;
+    ticketCodes = ticketCodes?.split(",").map(code => code.trim())
+
+    const client = await pool.connect()
+
+    try {
+        // Loops through ticket code array and add each one into database
+        for (const code of ticketCodes) {
+            const insertCodes = await client.query(
+                'INSERT INTO ticket_codes (code, attraction_id, booking_id) VALUES ($1, $2, $3) RETURNING id, code, attraction_id, booking_id',
+                [code, id, null]
+            )
+        }
+
+        res.status(201).json({message: 'ticket codes added'})
+    } catch(err) {
+        console.error('adding ticket codes error: ', err.message)
+        res.status(500).json({error: 'Adding ticket codes failed. Please try again. '})
+    } finally {
+        client.release()
+    }
+}
