@@ -140,3 +140,6 @@ vite.config.ts.timestamp-*
 
 # frontend build stuff
 frontend/dist/
+
+# uploads
+backend/uploads/

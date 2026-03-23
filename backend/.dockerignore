@@ -3,3 +3,6 @@ npm-debug.log
 .env
 .git
 /dist
+
+// not sure if we want this bacause of how docker works
+/uploads
