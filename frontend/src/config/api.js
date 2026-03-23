@@ -1,1 +1,0 @@
-export const API_BASE = window.location.hostname === 'maloelap.dcs.gla.ac.uk' ? 'https://studentproject-gateway.dcs.gla.ac.uk/psd/api' : '/api';

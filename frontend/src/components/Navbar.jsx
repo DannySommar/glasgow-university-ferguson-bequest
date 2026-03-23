@@ -21,9 +21,11 @@ export function Navbar(){
         navigate('/debug-sso')
     }
 
+    const GATEWAY_URL = import.meta.env.VITE_GATEWAY_URL || 'https://studentproject-gateway.dcs.gla.ac.uk/psd';
+
     const handleSSOLogin = () => {
-    window.location.href = 'https://studentproject-gateway.dcs.gla.ac.uk/psd/api/auth/sso';
-}
+        window.location.href = `${GATEWAY_URL}/api/auth/sso`;
+    };
 
     return (
         <nav className="navbar">

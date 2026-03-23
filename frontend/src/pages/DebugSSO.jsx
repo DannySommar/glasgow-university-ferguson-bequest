@@ -2,6 +2,8 @@ import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
 export function DebugSSO() {
+    const GATEWAY_URL = (import.meta.env.VITE_GATEWAY_URL || 'https://studentproject-gateway.dcs.gla.ac.uk/psd') + '/api/debug-headers';
+
     return (
         <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif', maxWidth: '600px', margin: '0 auto' }}>
             <h1 style={{ color: '#333', borderBottom: '2px solid #0078d4', paddingBottom: '10px' }}>
@@ -23,13 +25,13 @@ export function DebugSSO() {
                         </p>
                     </li>
                     <li>
-                        <strong>Step 1:</strong> Click the link below to visit the gateway debug endpoint (https://studentproject-gateway.dcs.gla.ac.uk/psd/api/debug-headers)
+                        <strong>Step 1:</strong> Click the link below to visit the gateway debug endpoint ({GATEWAY_URL})
                     </li>
                     <li>
                         <strong>Step 2:</strong> You'll be redirected to University GUID login (if not already logged in)
                     </li>
                     <li>
-                        <strong>Step 3:</strong> After login, check the backend console on maloelap (can open a new window with sudo docker logs -f sh40-main-backend-1)
+                        <strong>Step 3:</strong> After login, check the backend console on dev server (can open a new window with sudo docker logs -f sh40-main-backend-1)
                     </li>
                     <li>
                         <strong>Step 4:</strong> Look for these headers in the logs:
@@ -44,7 +46,7 @@ export function DebugSSO() {
 
                 <div style={{ marginTop: '25px', textAlign: 'center' }}>
                     <a 
-                        href="https://studentproject-gateway.dcs.gla.ac.uk/psd/api/debug-headers"
+                        href={GATEWAY_URL}
                         target="_blank"
                         rel="noopener noreferrer"
                         style={{
