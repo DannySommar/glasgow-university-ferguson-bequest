@@ -1,6 +1,6 @@
 server {
-    listen 0.0.0.0:5000;
-    server_name _;
+    listen 0.0.0.0:${NGINX_PORT}; # 5000 in dev
+    server_name ${SERVER_NAME};
     root /usr/share/nginx/html;
     index index.html index.htm;
 
@@ -13,7 +13,7 @@ server {
 
     # Proxy API requests to the backend service
     location /api/ {
-        proxy_pass http://backend:8000;
+        proxy_pass ${BACKEND_URL}; # http://backend:8000 in dev
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -21,6 +21,6 @@ server {
     }
 
     location /uploads/ {
-        proxy_pass http://backend:8000/uploads/;
+        proxy_pass ${BACKEND_URL}/uploads/;
     }
 }
