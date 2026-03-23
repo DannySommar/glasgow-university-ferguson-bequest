@@ -22,8 +22,8 @@ export function Navbar(){
     }
 
     const handleSSOLogin = () => {
-        window.open('https://studentproject-gateway.dcs.gla.ac.uk/psd/api/auth/sso', '_blank');
-    }
+    window.location.href = 'https://studentproject-gateway.dcs.gla.ac.uk/psd/api/auth/sso';
+}
 
     return (
         <nav className="navbar">
@@ -62,7 +62,7 @@ export function Navbar(){
                         >
                             Test SSO Lohin
                         </a> */}
-                        {/* <Link to='/Login'><button>Log In</button></Link> */}
+                        <Link to='/Login'><button>Log In</button></Link>
                         <Link to='/Signup'><button>Sign Up</button></Link>
                     </>
                 )}

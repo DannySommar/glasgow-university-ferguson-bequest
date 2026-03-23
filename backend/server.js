@@ -27,9 +27,11 @@ app.use(session({
   cookie: {
     httpOnly: true,
     secure: false,
-    sameSite: 'lax'
+    sameSite: 'lax',
+    path: '/',
+    domain: 'maloelap.dcs.gla.ac.uk'  // ← Match the domain
   }
-}))
+}));
 
 // TEMPORARY SSO DEBUG ENDPOINT CHANGE AFTER TESTING
 app.get('/api/debug-headers', (req, res) => {
@@ -101,7 +103,7 @@ async function initializeDatabase() {
   try {
     console.log('init db');
 
-    //resetTables();
+    // await resetTables();
     
     const testResult = await pool.query('SELECT NOW()');
     console.log('db connected:', testResult.rows[0].now);

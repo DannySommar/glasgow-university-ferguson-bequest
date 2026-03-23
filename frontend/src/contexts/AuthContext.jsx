@@ -12,16 +12,22 @@ export function AuthProvider({ children }){
 
     const checkAuth = async () => {
         try {
-            const res = await fetch('/api/auth/me', { credentials: 'include' })
-            const data = await res.json()
-
-            if (data.isLoggedIn){
+            console.log('Running checkAuth...');
+            const res = await fetch('/api/auth/me', { credentials: 'include' });
+            const data = await res.json();
+            console.log('checkAuth response:', data);
+            
+            if (data.isLoggedIn) {
+                console.log('User is logged in, updating state');
                 setUser({ 
                     id: data.id, 
                     username: data.username,
                     email: data.email,
                     isAdmin: data.isAdmin 
                 });
+            } else {
+                console.log('No active session');
+                setUser(null);
             }
         } catch (err) {
             console.error('checkAuth error:', err);

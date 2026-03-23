@@ -10,13 +10,4 @@ authRouter.post('/login', loginUser)
 authRouter.get('/logout', logoutUser)
 authRouter.get('/me', getCurrentUser)
 
-authRouter.get('/sso', ssoAutoLogin, (req, res) => {
-  res.json({ 
-    message: 'SSO headers received',
-    headers: {
-      guid: req.headers['dh75hdyt76'],
-      name: req.headers['dh75hdyt77'],
-      email: req.headers['dh75hdyt80']
-    }
-  });
-});
+authRouter.get('/sso', ssoAutoLogin);

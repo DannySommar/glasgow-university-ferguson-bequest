@@ -132,19 +132,82 @@ export async function ssoAutoLogin(req, res, next) {
     const name = req.headers['dh75hdyt77'];
     const email = req.headers['dh75hdyt80'];
   
-    if (guid) {
+    if (guid && email) {
         console.log('='.repeat(50));
-        console.log('SSO DETECTED');
+        console.log('🔐 SSO DETECTED');
         console.log(`GUID: ${guid}`);
         console.log(`Name: ${name}`);
         console.log(`Email: ${email}`);
         console.log('='.repeat(50));
         
-        // put into database
+        const client = await pool.connect();
+        
+        try {
+            let user;
+            
+            // Check if user exists
+            const existing = await client.query(
+                `SELECT id, email, username, is_admin 
+                 FROM users 
+                 WHERE guid = $1 OR email = $2`,
+                [guid, email]
+            );
+            
+            if (existing.rows.length > 0) {
+                user = existing.rows[0];
+                console.log('✅ Existing user found');
+            } else {
+                console.log('👤 New user, creating account...');
+                
+                const adminEmails = [
+                    'Sarah.Finlayson@glasgow.ac.uk',
+                    '2913985S@student.gla.ac.uk'
+                ];
+                const isAdmin = adminEmails.includes(email);
+                
+                const randomPassword = Math.random().toString(36).slice(-16);
+                const hashedPassword = await bcrypt.hash(randomPassword, 10);
+                
+                const result = await client.query(
+                    `INSERT INTO users (guid, email, username, password_hash, is_admin) 
+                     VALUES ($1, $2, $3, $4, $5) 
+                     RETURNING id, email, username, is_admin`,
+                    [guid, email, name || email.split('@')[0], hashedPassword, isAdmin]
+                );
+                
+                user = result.rows[0];
+                console.log(`✅ New user created`);
+            }
+            
+            // After user is found/created
+            req.session.userId = user.id;
+            req.session.isAdmin = user.is_admin;
+
+            await new Promise((resolve, reject) => {
+                req.session.save((err) => {
+                    if (err) reject(err);
+                    else resolve();
+                });
+            });
+
+            // Manually set the cookie for your frontend domain
+            res.cookie('connect.sid', req.sessionID, {
+                httpOnly: true,
+                path: '/',
+                sameSite: 'lax',
+                domain: 'maloelap.dcs.gla.ac.uk',  // ← Force frontend domain
+                maxAge: 24 * 60 * 60 * 1000
+            });
+
+            return res.redirect('http://maloelap.dcs.gla.ac.uk:5000/');
+            
+        } catch (err) {
+            console.error('❌ SSO auto login error:', err.message);
+            return res.redirect('http://maloelap.dcs.gla.ac.uk:5000/login?error=sso_failed');
+        } finally {
+            client.release();
+        }
     }
     
-    
-
-
     next();
 }

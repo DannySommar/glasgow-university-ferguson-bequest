@@ -16,6 +16,7 @@ import { Login } from './pages/Login'
 import { Signup } from './pages/Signup'
 import { CreateAttraction } from './pages/CreateAttraction'
 import { DebugSSO } from './pages/DebugSSO'
+import { SSOCallback } from './pages/SSOCallback'
 
 function App() {
   const [message, setMessage] = useState('')
@@ -57,6 +58,7 @@ function App() {
           <Route path='/Login' element={<Login/>}></Route>
           <Route path='/Signup' element={<Signup/>}></Route>
           <Route path="/debug-sso" element={<DebugSSO />} />
+          <Route path="/sso-callback" element={<SSOCallback />} />
         </Route> 
         </Routes>
       </Router>
