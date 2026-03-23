@@ -10,4 +10,4 @@ authRouter.post('/login', loginUser)
 authRouter.get('/logout', logoutUser)
 authRouter.get('/me', getCurrentUser)
 
-authRouter.get('/sso', ssoAutoLogin);
+//authRouter.get('/sso', ssoAutoLogin);

@@ -19,9 +19,11 @@ export async function createTables() {
                 id SERIAL PRIMARY KEY,
                 guid VARCHAR(50) UNIQUE,
                 email VARCHAR(255) UNIQUE NOT NULL,
-                username VARCHAR(50) NOT NULL,
+                username VARCHAR(50),
                 password_hash TEXT NOT NULL,
-                is_admin BOOLEAN DEFAULT FALSE
+                is_admin BOOLEAN DEFAULT FALSE,
+                login_token VARCHAR(64),
+                token_expires TIMESTAMP
             )
         `)
 

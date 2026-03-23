@@ -10,6 +10,8 @@ import { createTables } from './database/createTables.js';
 import { seedTables } from './database/seedTables.js';
 import { pool } from './database/index.js';
 
+import { ssoAutoLogin, completeSSOLogin } from './controllers/authController.js';
+
 import { resetTables } from './database/resetTables.js';
 
 const PORT = 8000;
@@ -47,6 +49,9 @@ app.get('/api/debug-headers', (req, res) => {
   })
 
 })
+
+app.get('/api/auth/sso', ssoAutoLogin);
+app.get('/api/auth/complete-sso', completeSSOLogin);
 
 // normal test if backend connected
 app.get('/api/hello', (req, res) => {
@@ -103,6 +108,7 @@ async function initializeDatabase() {
   try {
     console.log('init db');
 
+    // comment out once used once
     // await resetTables();
     
     const testResult = await pool.query('SELECT NOW()');

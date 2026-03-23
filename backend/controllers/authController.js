@@ -134,7 +134,7 @@ export async function ssoAutoLogin(req, res, next) {
   
     if (guid && email) {
         console.log('='.repeat(50));
-        console.log('🔐 SSO DETECTED');
+        console.log('SSO DETECTED');
         console.log(`GUID: ${guid}`);
         console.log(`Name: ${name}`);
         console.log(`Email: ${email}`);
@@ -145,7 +145,6 @@ export async function ssoAutoLogin(req, res, next) {
         try {
             let user;
             
-            // Check if user exists
             const existing = await client.query(
                 `SELECT id, email, username, is_admin 
                  FROM users 
@@ -154,10 +153,12 @@ export async function ssoAutoLogin(req, res, next) {
             );
             
             if (existing.rows.length > 0) {
+                // user exists
                 user = existing.rows[0];
-                console.log('✅ Existing user found');
+                console.log('user exists');
             } else {
-                console.log('👤 New user, creating account...');
+                // new user
+                console.log('new user, creating account');
                 
                 const adminEmails = [
                     'Sarah.Finlayson@glasgow.ac.uk',
@@ -165,49 +166,112 @@ export async function ssoAutoLogin(req, res, next) {
                 ];
                 const isAdmin = adminEmails.includes(email);
                 
+                // Generate random password (won't be used for login)
                 const randomPassword = Math.random().toString(36).slice(-16);
                 const hashedPassword = await bcrypt.hash(randomPassword, 10);
+                
+                // Create username if doesnt exist for some reason
+                const username = name || email.split('@')[0];
                 
                 const result = await client.query(
                     `INSERT INTO users (guid, email, username, password_hash, is_admin) 
                      VALUES ($1, $2, $3, $4, $5) 
                      RETURNING id, email, username, is_admin`,
-                    [guid, email, name || email.split('@')[0], hashedPassword, isAdmin]
+                    [guid, email, username, hashedPassword, isAdmin]
                 );
                 
                 user = result.rows[0];
-                console.log(`✅ New user created`);
+                console.log(`New user created: ${user.email} (admin: ${user.is_admin})`);
             }
             
-            // After user is found/created
-            req.session.userId = user.id;
-            req.session.isAdmin = user.is_admin;
-
-            await new Promise((resolve, reject) => {
-                req.session.save((err) => {
-                    if (err) reject(err);
-                    else resolve();
-                });
-            });
-
-            // Manually set the cookie for your frontend domain
-            res.cookie('connect.sid', req.sessionID, {
-                httpOnly: true,
-                path: '/',
-                sameSite: 'lax',
-                domain: 'maloelap.dcs.gla.ac.uk',  // ← Force frontend domain
-                maxAge: 24 * 60 * 60 * 1000
-            });
-
-            return res.redirect('http://maloelap.dcs.gla.ac.uk:5000/');
+            // Generate a one-time token
+            const crypto = await import('crypto');
+            const token = crypto.randomBytes(32).toString('hex');
+            
+            // Store token in database with expiration (5 minutes)
+            await client.query(
+                `UPDATE users 
+                 SET login_token = $1, 
+                     token_expires = NOW() + INTERVAL '5 minutes'
+                 WHERE id = $2`,
+                [token, user.id]
+            );
+            console.log(`Generated login token for user ${user.id}`);
+            
+            // Redirect to frontend endpoint that will set the cookie
+            const redirectUrl = `http://maloelap.dcs.gla.ac.uk:5000/api/auth/complete-sso?token=${token}`;
+            console.log(`Redirecting to: ${redirectUrl}`);
+            
+            return res.redirect(redirectUrl);
             
         } catch (err) {
-            console.error('❌ SSO auto login error:', err.message);
-            return res.redirect('http://maloelap.dcs.gla.ac.uk:5000/login?error=sso_failed');
+            console.error('SSO auto login error: ', err.message);
+            return res.redirect('http://maloelap.dcs.gla.ac.uk:5000/login?error=sso_failed');  // these basically signal error codes that will never be implemented
         } finally {
             client.release();
         }
     }
     
     next();
+}
+
+export async function completeSSOLogin(req, res) {
+    const { token } = req.query;
+    
+    if (!token) {
+        console.log('No token provided');
+        return res.redirect('http://maloelap.dcs.gla.ac.uk:5000/login?error=missing_token');
+    }
+    
+    const client = await pool.connect();
+    
+    try {
+        const result = await client.query(
+            `SELECT id, email, username, is_admin 
+             FROM users 
+             WHERE login_token = $1 
+               AND token_expires > NOW()`,
+            [token]
+        );
+        
+        if (result.rows.length === 0) {
+            console.log('Invalid or expired token');
+            return res.redirect('http://maloelap.dcs.gla.ac.uk:5000/login?error=invalid_token');
+        }
+        
+        const user = result.rows[0];
+        console.log(`Valid token for user: ${user.email}`);
+        
+        // Clear the token so it can't be reused
+        await client.query(
+            'UPDATE users SET login_token = NULL, token_expires = NULL WHERE id = $1',
+            [user.id]
+        );
+        
+        // Set the session cookie on maloelap domain
+        req.session.userId = user.id;
+        req.session.isAdmin = user.is_admin;
+        
+        await new Promise((resolve, reject) => {
+            req.session.save((err) => {
+                if (err) {
+                    console.error('Session save error:', err);
+                    reject(err);
+                } else {
+                    console.log('Session saved for user:', user.id);
+                    resolve();
+                }
+            });
+        });
+        
+        // Redirect response to frontend
+        console.log('SSO login complete, redirecting to home');
+        return res.redirect('http://maloelap.dcs.gla.ac.uk:5000/');
+        
+    } catch (err) {
+        console.error('Complete SSO error:', err.message);
+        return res.redirect('http://maloelap.dcs.gla.ac.uk:5000/login?error=sso_failed');
+    } finally {
+        client.release();
+    }
 }

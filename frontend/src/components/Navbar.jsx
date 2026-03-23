@@ -49,21 +49,13 @@ export function Navbar(){
                         <button onClick={handleSSODebug} className="sso-test-btn">
                             SSO Debug
                         </button>
-
-                        {/* for now ill keep the og login */}
-
+                        
                         <button onClick={handleSSOLogin} className="sso-test-btn">
-                            Test SSO Login
+                            SSO Login
                         </button>
-                        {/* <a 
-                            href="https://studentproject-gateway.dcs.gla.ac.uk/psd/api/auth/sso"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            Test SSO Lohin
-                        </a> */}
-                        <Link to='/Login'><button>Log In</button></Link>
-                        <Link to='/Signup'><button>Sign Up</button></Link>
+                        
+                        {/* <Link to='/Login'><button>Log In</button></Link> */}
+                        {/* <Link to='/Signup'><button>Sign Up</button></Link> */}
                     </>
                 )}
             </div>
