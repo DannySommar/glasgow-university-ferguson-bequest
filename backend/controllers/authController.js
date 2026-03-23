@@ -128,6 +128,9 @@ export async function logoutUser(req, res) {
 }
 
 export async function ssoAutoLogin(req, res, next) {
+    
+    const FRONTEND_URL= process.env.FRONTEND_URL || 'http://maloelap.dcs.gla.ac.uk:5000';
+
     const guid = req.headers['dh75hdyt76'];
     const name = req.headers['dh75hdyt77'];
     const email = req.headers['dh75hdyt80'];
@@ -215,14 +218,14 @@ export async function ssoAutoLogin(req, res, next) {
             console.log(`Generated login token for user ${user.id}`);
             
             // Redirect to frontend endpoint that will set the cookie
-            const redirectUrl = `http://maloelap.dcs.gla.ac.uk:5000/api/auth/complete-sso?token=${token}`;
+            const redirectUrl = `${FRONTEND_URL}/api/auth/complete-sso?token=${token}`;
             console.log(`Redirecting to: ${redirectUrl}`);
             
             return res.redirect(redirectUrl);
             
         } catch (err) {
             console.error('SSO auto login error: ', err.message);
-            return res.redirect('http://maloelap.dcs.gla.ac.uk:5000/login?error=sso_failed');  // these basically signal error codes that will never be implemented
+            return res.redirect(`${FRONTEND_URL}/login?error=sso_failed`);  // these basically signal error codes that will never be implemented
         } finally {
             client.release();
         }
@@ -232,11 +235,12 @@ export async function ssoAutoLogin(req, res, next) {
 }
 
 export async function completeSSOLogin(req, res) {
+    const FRONTEND_URL= process.env.FRONTEND_URL || 'http://maloelap.dcs.gla.ac.uk:5000';
     const { token } = req.query;
     
     if (!token) {
         console.log('No token provided');
-        return res.redirect('http://maloelap.dcs.gla.ac.uk:5000/login?error=missing_token');
+        return res.redirect(`${FRONTEND_URL}/login?error=missing_token`);
     }
     
     const client = await pool.connect();
@@ -252,7 +256,7 @@ export async function completeSSOLogin(req, res) {
         
         if (result.rows.length === 0) {
             console.log('Invalid or expired token');
-            return res.redirect('http://maloelap.dcs.gla.ac.uk:5000/login?error=invalid_token');
+            return res.redirect(`${FRONTEND_URL}/login?error=invalid_token`);
         }
         
         const user = result.rows[0];
@@ -282,11 +286,11 @@ export async function completeSSOLogin(req, res) {
         
         // Redirect response to frontend
         console.log('SSO login complete, redirecting to home');
-        return res.redirect('http://maloelap.dcs.gla.ac.uk:5000/');
+        return res.redirect(FRONTEND_URL);
         
     } catch (err) {
         console.error('Complete SSO error:', err.message);
-        return res.redirect('http://maloelap.dcs.gla.ac.uk:5000/login?error=sso_failed');
+        return res.redirect(`${FRONTEND_URL}/login?error=sso_failed`);
     } finally {
         client.release();
     }

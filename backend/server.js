@@ -17,29 +17,35 @@ import { ssoAutoLogin, completeSSOLogin } from './controllers/authController.js'
 
 import { resetTables } from './database/resetTables.js';
 
-const PORT = 8000;
+const PORT = process.env.BACKEND_PORT || 8000;
+const SESSION_SECRET = process.env.SESSION_SECRET || 'skibidi';
+const COOKIE_DOMAIN = process.env.COOKIE_DOMAIN || null;  // null = no set domain
+const NODE_ENV = process.env.NODE_ENV || 'development';
+const FRONTEND_URL= process.env.FRONTEND_URL || 'http://maloelap.dcs.gla.ac.uk:5000';
+
 const app = express();
-const secret = process.env.SESSION_SECRET || 'skibidi';
 
 app.use(cors());
 app.use(express.json());
 
 
-app.use(session({
-  secret: secret,
+const sessionConfig = {
+  secret: SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
   cookie: {
     httpOnly: true,
-    secure: false,
+    secure: process.env.COOKIE_SECURE === 'true' || false,
     sameSite: 'lax',
-    path: '/',
-    domain: 'maloelap.dcs.gla.ac.uk'  // ← Match the domain
+    path: '/'
   }
-}))
+};
+if (COOKIE_DOMAIN) {
+  sessionConfig.cookie.domain = COOKIE_DOMAIN;
+}
+app.use(session(sessionConfig));
 
-
-const uploadsPath = '/app/uploads' // in docker its in app, i struggled days trying do do it with path.dirname(fileURLToPath(import.meta.url)), maybe i need to change it when i deploy, but idk
+const uploadsPath = '/app/uploads'
 console.log('Uploading images from:', uploadsPath)
 app.use('/uploads', express.static(uploadsPath))
 
@@ -141,13 +147,13 @@ async function initializeDatabase() {
 }
 
 // start server AFTER db is ready
-if (process.env.NODE_ENV !== 'test') {
+if (NODE_ENV !== 'test') {
   initializeDatabase().then(() => {
     app.listen(PORT, "0.0.0.0", () => {
-      console.log(`server running on http://localhost:${PORT}`);
-      console.log(`http://localhost:${PORT}/api/health`);
-      console.log(`http://localhost:${PORT}/api/db-test`);
-      console.log(`http://localhost:${PORT}/api/db-attractions`);
+      console.log(`server running on ${FRONTEND_URL}`);
+      console.log(`${FRONTEND_URL}/api/health`);
+      console.log(`${FRONTEND_URL}/api/db-test`);
+      console.log(`${FRONTEND_URL}/api/db-attractions`);
     }).on('error', (err) => {
       console.error(':( ', err);
     });
