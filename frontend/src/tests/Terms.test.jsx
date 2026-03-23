@@ -3,7 +3,7 @@ import { render, screen, fireEvent, cleanup, queryByText, getByText} from '@test
 import { MemoryRouter, useParams } from 'react-router-dom';
 import { AuthProvider, useAuth } from "../contexts/AuthContext.jsx";
 import { PopUp } from '../components/PopUp.jsx';
-import { SpecificAttraction } from './SpecificAttraction.jsx';
+import { SpecificAttraction } from '../pages/SpecificAttraction.jsx';
 
 
 vi.mock('react-router-dom', async () => {

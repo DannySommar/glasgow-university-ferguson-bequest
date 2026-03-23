@@ -1,6 +1,6 @@
 import { vi, test, beforeEach, describe, expect, afterEach} from 'vitest';
 import { render, screen, fireEvent, cleanup} from '@testing-library/react';
-import {Navbar} from './Navbar.jsx';
+import {Navbar} from '../components/Navbar.jsx';
 import { MemoryRouter } from 'react-router-dom';
 import { useAuth } from "../contexts/AuthContext.jsx";
 
