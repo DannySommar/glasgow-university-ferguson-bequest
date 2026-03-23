@@ -1,7 +1,7 @@
 import { vi, test, beforeEach, describe, expect, afterEach} from 'vitest';
 import { render, screen, fireEvent, cleanup} from '@testing-library/react';
 //import { MemoryRouter } from 'react-router-dom';
-import ReviewForm from './ReviewForm.jsx';
+import ReviewForm from '../components/reviews/ReviewForm.jsx';
 
 
 describe('ReviewForm', () => {
