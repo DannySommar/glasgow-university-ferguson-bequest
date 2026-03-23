@@ -11,6 +11,7 @@ services:
       - DB_NAME=sh40db
       - DB_USER=sh40user
       - DB_PASSWORD=sh40password
+      # SESSION_SECRET if not wish to use default one in server.js
     depends_on:
       - db
     restart: unless-stopped
