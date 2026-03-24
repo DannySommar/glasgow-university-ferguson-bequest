@@ -13,11 +13,13 @@ export async function resetTables() {
         // WILL DELETE ALL DATA 
         await client.query('DROP TABLE IF EXISTS ticket_codes CASCADE')
         await client.query('DROP TABLE IF EXISTS ticket_draw_entries CASCADE')
+        await client.query('DROP TABLE IF EXISTS ticket_draw_winners CASCADE')
         await client.query('DROP TABLE IF EXISTS reviews CASCADE')
         await client.query('DROP TABLE IF EXISTS bookings CASCADE')
         await client.query('DROP TABLE IF EXISTS attractions CASCADE')
         await client.query('DROP TABLE IF EXISTS ticket_draws CASCADE')
         await client.query('DROP TABLE IF EXISTS users CASCADE')
+        await client.query('DROP TABLE IF EXISTS announcements CASCADE')
 
 
 

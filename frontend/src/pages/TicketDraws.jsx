@@ -91,6 +91,7 @@ export function TicketDraws() {
                 body: JSON.stringify({ ticketDrawId: pendingDraw.id})
             });
             const data = await res.json();
+            console.log(data)
             if (res.ok) {
                 setSelected(pendingDraw.title);
                 setStatus(`You're in the draw for ${pendingDraw.title}`);
@@ -145,6 +146,7 @@ export function TicketDraws() {
                 body: JSON.stringify({ ticketDrawId: draw.id })
             })
             const data = await res.json();
+            console.log(data)
             if (res.ok) {
                 setStatus(`Winner for ${draw.title}: ${data.winner?.username || "Unknown"} (${data.winner?.email || "no email"})`)
             } else {

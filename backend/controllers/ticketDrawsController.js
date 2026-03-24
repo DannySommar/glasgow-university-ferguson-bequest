@@ -103,11 +103,22 @@ export async function pickWinner(req, res) {
     const client = await pool.connect();
     try {
         const entry = await client.query(
-            'SELECT e.user_id FROM ticket_draw_entries e WHERE e.ticket_draw_id = $1 AND NOT EXISTS (SELECT 1 FROM ticket_draw_winners w WHERE w.user_id = e.user_id AND w.selected_at >= date_trunc(\'year\', CURRENT_DATE)) ORDER BY random() LIMIT 1',
+            `SELECT e.user_id 
+             FROM ticket_draw_entries e 
+             WHERE e.ticket_draw_id = $1 
+               AND e.user_id NOT IN (
+                   SELECT w.user_id 
+                   FROM ticket_draw_winners w 
+                   WHERE w.ticket_draw_id = $1
+               ) 
+             ORDER BY random() 
+             LIMIT 1`,
             [ticketDrawId]
         );
 
-        if (entry.rowCount === 0) return res.status(404).json({ error: 'No entries for this draw' });
+        if (entry.rowCount === 0) {
+            return res.status(404).json({ error: 'No eligible entries for this draw' });
+        }
         
         const userId = entry.rows[0].user_id;
 
@@ -116,7 +127,7 @@ export async function pickWinner(req, res) {
             [ticketDrawId, userId]
         );
 
-        const user = await client.query('SELECT id, username, email FROM users WHERE id = $1', [userId])
+        const user = await client.query('SELECT id, username, email FROM users WHERE id = $1', [userId]);
 
         res.json({ winner: user.rows[0], ticketDrawId });
     } catch (err) {
