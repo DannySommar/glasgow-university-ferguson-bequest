@@ -19,9 +19,11 @@ import { resetTables } from './database/resetTables.js';
 
 const PORT = process.env.BACKEND_PORT || 8000;
 const SESSION_SECRET = process.env.SESSION_SECRET || 'skibidi';
-const COOKIE_DOMAIN = process.env.COOKIE_DOMAIN || null;  // null = no set domain
+const COOKIE_DOMAIN = process.env.COOKIE_DOMAIN || 'maloelap.dcs.gla.ac.uk';
 const NODE_ENV = process.env.NODE_ENV || 'development';
 const FRONTEND_URL= process.env.FRONTEND_URL || 'http://maloelap.dcs.gla.ac.uk:5000';
+const COOKIE_SECURE = process.env.COOKIE_SECURE
+console.log('cookie: ', COOKIE_SECURE)
 
 const app = express();
 
@@ -35,7 +37,7 @@ const sessionConfig = {
   saveUninitialized: false,
   cookie: {
     httpOnly: true,
-    secure: process.env.COOKIE_SECURE === 'true' || false,
+    secure: COOKIE_SECURE === 'true' || false,
     sameSite: 'lax',
     path: '/'
   }
