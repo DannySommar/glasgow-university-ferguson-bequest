@@ -131,9 +131,9 @@ export async function ssoAutoLogin(req, res, next) {
     
     const FRONTEND_URL= process.env.FRONTEND_URL || 'http://maloelap.dcs.gla.ac.uk:5000';
 
-    const guid = req.headers['dh75hdyt76'];
-    const name = req.headers['dh75hdyt77'];
-    const email = req.headers['dh75hdyt80'];
+    const guid = req.headers[process.env.SSO_HEADER_GUID];
+    const name = req.headers[process.env.SSO_HEADER_NAME];
+    const email = req.headers[process.env.SSO_HEADER_EMAIL];
   
     if (guid && email) {
         console.log('='.repeat(50));
@@ -147,14 +147,7 @@ export async function ssoAutoLogin(req, res, next) {
         
         try {
 
-            const adminEmails = [
-                'Sarah.Finlayson@glasgow.ac.uk',
-                '2913985S@student.gla.ac.uk',
-                '2787006U@student.gla.ac.uk',
-                '2887454G@student.gla.ac.uk',
-                '2881748P@student.gla.ac.uk',
-                '2892128A@student.gla.ac.uk',
-            ];
+            const adminEmails = process.env.ADMIN_EMAILS
             const isAdmin = adminEmails.includes(email);
 
             let user;

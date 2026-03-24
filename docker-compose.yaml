@@ -14,6 +14,11 @@ services:
       - SESSION_SECRET=${SESSION_SECRET:-skibidi}
       - COOKIE_DOMAIN=${COOKIE_DOMAIN:-maloelap.dcs.gla.ac.uk}
       - COOKIE_SECURE=${COOKIE_SECURE}
+      - ADMIN_EMAILS=${ADMIN_EMAILS:-Sarah.Finlayson@glasgow.ac.uk,2786624G@student.gla.ac.uk}
+      - SSO_HEADER_GUID=${SSO_HEADER_GUID:-dh75hdyt76}
+      - SSO_HEADER_NAME=${SSO_HEADER_NAME:-dh75hdyt77}
+      - SSO_HEADER_EMAIL=${SSO_HEADER_EMAIL:-dh75hdyt80}
+
     depends_on:
       - db
     restart: unless-stopped
