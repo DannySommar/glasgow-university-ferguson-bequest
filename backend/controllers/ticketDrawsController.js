@@ -38,21 +38,31 @@ export async function enterDraw(req, res) {
 }
 
 export async function createTicketDraw(req, res) {
-    let { title, venue, eventdate, enterfrom, enteruntil, showurl, img } = req.body
+    let { title, venue, eventdate, enterfrom, enteruntil, showurl } = req.body
 
-    title = title.trim()
-    venue = venue.trim()
-    img = img || 'default.jpg'
+    title = title?.trim()
+    venue = venue?.trim()
+
+    if (!title || !venue || !eventdate || !enterfrom || !enteruntil) {
+        return res.status(400).json({ error: 'Title, venue, and dates are required' })
+    }
 
     const client = await pool.connect()
 
     try {
+        let imgPath = '/uploads/ticket-draws/default.jpeg'
+        
+        if (req.file) {
+            imgPath = `/uploads/ticket-draws/${req.file.filename}`
+            console.log('File saved in :', req.file.filename)
+        }
+
         const result = await client.query(
             `INSERT INTO ticket_draws 
             (title, venue, eventdate, enterfrom, enteruntil, showurl, img) 
             VALUES ($1, $2, $3, $4, $5, $6, $7)
             RETURNING id, title, venue, eventdate, enterfrom, enteruntil, showurl, img`,
-            [title, venue, eventdate, enterfrom, enteruntil, showurl, img]
+            [title, venue, eventdate, enterfrom, enteruntil, showurl || null, imgPath]
         )
 
         const draw = result.rows[0]
@@ -62,8 +72,8 @@ export async function createTicketDraw(req, res) {
             ticket_draw: draw
         })
     } catch (err) {
-        console.error('ticket draw creation error:', err.message)
-        res.status(500).json({ error: 'Ticket Draw creation failed. Please try again.' })
+        console.error('Ticket draw creation error:', err.message)
+        res.status(500).json({ error: 'Ticket draw creation failed. Please try again.' })
     } finally {
         client.release()
     }
@@ -140,12 +150,17 @@ export async function pickWinner(req, res) {
 }
 
 export async function updateTicketDraw(req, res) {
-
-    if (!req.session.isAdmin) return res.status(403).json({error: 'Admin Only'});
+    if (!req.session.isAdmin) return res.status(403).json({ error: 'Admin Only' });
+    
     const { id } = req.params;
-    const { title, venue, eventdate, enterfrom, enteruntil, showurl, img } = req.body;
+    const { title, venue, eventdate, enterfrom, enteruntil, showurl } = req.body;
 
     try {
+        let imgPath = undefined;
+        if (req.file) {
+            imgPath = `/uploads/ticket-draws/${req.file.filename}`;
+        }
+
         const result = await pool.query(
             `UPDATE ticket_draws 
             SET title = COALESCE($1, title),
@@ -157,10 +172,22 @@ export async function updateTicketDraw(req, res) {
                 img = COALESCE($7, img)
             WHERE id = $8
             RETURNING *`,
-            [title?.trim() || null, venue?.trim() || null, eventdate || null, enterfrom || null, enteruntil || null, showurl || null, img || null, id]
+            [
+                title?.trim() || null, 
+                venue?.trim() || null, 
+                eventdate || null, 
+                enterfrom || null, 
+                enteruntil || null, 
+                showurl || null, 
+                imgPath || null, 
+                id
+            ]
         );
     
-        if (result.rowCount === 0) return res.status(404).json({error: 'Ticket Draw Not Found'});
+        if (result.rowCount === 0) {
+            return res.status(404).json({ error: 'Ticket Draw Not Found' });
+        }
+        
         res.json({ message: 'Ticket Draw Updated', ticketDraw: result.rows[0] });
     } catch (err) {
         console.error('Error Updating Ticket Draw:', err);

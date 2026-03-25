@@ -36,18 +36,17 @@ export function TicketDraws() {
             const data = await response.json()
 
             const transformed = data.ticketDraws.map(draw => ({
-              id: draw.id, 
-              title: draw.title, 
-              venue: draw.venue, 
-              eventDate: draw.eventdate, 
-              enterFrom: draw.enterfrom, 
-              enterUntil: draw.enteruntil, 
-              img: imageMap[draw.img], 
-              showUrl: draw.showurl
+                id: draw.id,
+                title: draw.title,
+                venue: draw.venue,
+                eventDate: draw.eventdate,
+                enterFrom: draw.enterfrom,
+                enterUntil: draw.enteruntil,
+                
+                img: draw.img
             }))
 
-            console.log(transformed)
-
+            console.log('tickets from backend:', transformed)
             setTicketDraws(transformed)
         } catch (error) {
             console.error('Error fetching ticket draws:', error)

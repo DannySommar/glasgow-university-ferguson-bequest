@@ -42,7 +42,6 @@ export function CreateAttraction() {
         }
     }
 
-    // Needs to be changed to send FormData later on 
     const handleTicketDrawSubmit = async (e) => {
         e.preventDefault()
         setLoading(true)
@@ -50,30 +49,15 @@ export function CreateAttraction() {
 
         try {
             const formData = new FormData(e.target)
-            const title = formData.get('title').trim()
-            const venue = formData.get('venue').trim()
-            const eventDate = formData.get('eventDate')
-            const enterFrom = formData.get('enterFrom')
-            const enterUntil = formData.get('enterUntil')
-            const showUrl = formData.get('showUrl')
-            const imgFile = formData.get('img')
-            const imgName = imgFile?.name || 'default.jpg'
-            const ticketCodes = formData.get('ticketCodes')
+            
+            for (let pair of formData.entries()) {
+                console.log(pair[0] + ': ' + pair[1])
+            }
 
             const res = await fetch('/api/ticket-draws', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',
-                body: JSON.stringify({
-                    title,
-                    venue,
-                    eventdate: eventDate,
-                    enterfrom: enterFrom,
-                    enteruntil: enterUntil,
-                    showurl: showUrl,
-                    img: imgName,
-                    ticketCodes: ticketCodes
-                })
+                body: formData
             })
 
             const data = await res.json()
@@ -85,6 +69,7 @@ export function CreateAttraction() {
                 setError(data.error || 'ticket draw creation failed')
             }
         } catch (err) {
+            console.error('Network error:', err)
             setError('Network error.')
         } finally {
             setLoading(false)
@@ -155,22 +140,22 @@ export function CreateAttraction() {
                         </div>
 
                         <div className="floating-label">
-                            <input type="date" name="eventDate" id="eventDate" required disabled={loading} />
-                            <label htmlFor="eventDate">Event Date</label>
+                            <input type="date" name="eventdate" id="eventdate" required disabled={loading} />
+                            <label htmlFor="eventdate">Event Date</label>
                         </div>
 
                         <div className="floating-label">
-                            <input type="date" name="enterFrom" id="enterFrom" required disabled={loading} />
-                            <label htmlFor="enterFrom">Enter From</label>
+                            <input type="date" name="enterfrom" id="enterfrom" required disabled={loading} />
+                            <label htmlFor="enterfrom">Enter From</label>
                         </div>
 
                         <div className="floating-label">
-                            <input type="date" name="enterUntil" id="enterUntil" required disabled={loading} />
-                            <label htmlFor="enterUntil">Enter Until</label>
+                            <input type="date" name="enteruntil" id="enteruntil" required disabled={loading} />
+                            <label htmlFor="enteruntil">Enter Until</label>
                         </div>
 
                         <div className="Input">
-                            <input type="text" name="showUrl" placeholder="Show URL" disabled={loading} />
+                            <input type="text" name="showurl" placeholder="Show URL" disabled={loading} />
                         </div>
 
                         <label htmlFor="img">Choose an image:</label>
