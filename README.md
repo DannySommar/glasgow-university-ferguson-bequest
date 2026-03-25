@@ -26,14 +26,15 @@ You must have Docker installed on your desktop. Go to [Docker](https://www.docke
 To inspect the code, you must have an Integrated Development Environment (IDE). We would suggest using Visual Studio Code which can be downloaded [here](https://code.visualstudio.com/).
 
 ## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+- Clone this project
+  ```git clone https://github.com/DannySommar/glasgow-university-ferguson-bequest.git```
+- Open the project in the terminal
 
-- Fork this project
-- 
 
+## Viewing the website on the University network
+Visit ```http://maloelap.dcs.gla.ac.uk:5000/```  when connected to the University network or using the University VPN.
 
 ## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
 Description of files in the project:
 Frontend:
 This is what the user can see, click, interact with. It is what gets displayed on the web page.
@@ -49,12 +50,11 @@ This is what the user cannot see. It includes the "behind-the-scenes" parts such
 - Uploads - Images used in the website
 - Controllers - Functions used for requests from the website
 - Routes - Maps given request to the correct controller
-- Data - 
-- Middleware - 
-
+- Data
+- Middleware 
 
 To run tests:
-- Open the folder of this project in terminal (right click folder in File Explorer and click Open in Terminal)
+- Open the folder of this project in terminal
 - Run ```npm run test``` in the terminal and press enter
 - The status of the test run should be displayed: which tests and tests files passed/failed
 
@@ -67,13 +67,6 @@ If you need help, please contact one of the authors of this project:
 - **Hammaad Uddin 2787006U@student.gla.ac.uk**
 - **Andrea Alexander 2892128A@student.gla.ac.uk**
 
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
 
 ## Authors and acknowledgment
 - Andrea Alexander
