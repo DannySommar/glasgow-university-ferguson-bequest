@@ -45,18 +45,23 @@ export function Navbar(){
                         {user.isAdmin && (
                             <Link to='/Admin'><button>Admin</button></Link>
                         )}
-                        <button onClick={handleLogout}>Log Out</button>
+
+                        {/* user can still log out if knows api endpoint, but backend is safe from unregistered users */}
+                        {/* <button onClick={handleLogout}>Log Out</button> */}
                     </>
                 ) : (
+                    // // these are no longer needed, 
                     <>
-                        <button onClick={handleSSODebug} className="sso-test-btn">
+                        {/* useful for dubug stuff (logs headers only in backend) */}
+                        {/* <button onClick={handleSSODebug} className="sso-test-btn">
                             SSO Debug
                         </button>
                         
                         <button onClick={handleSSOLogin} className="sso-test-btn">
                             SSO Login
-                        </button>
-                        
+                        </button> */}
+
+                        {/* older stuff for when we did not have dev server */}
                         {/* <Link to='/Login'><button>Log In</button></Link> */}
                         {/* <Link to='/Signup'><button>Sign Up</button></Link> */}
                     </>

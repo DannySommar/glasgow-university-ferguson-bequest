@@ -19,18 +19,14 @@ export function AuthProvider({ children }){
             
             if (data.isLoggedIn) {
                 console.log('User is logged in, updating state');
-                setUser({ 
-                    id: data.id, 
-                    username: data.username,
-                    email: data.email,
-                    isAdmin: data.isAdmin 
-                });
+                setUser({ ...data });
             } else {
-                console.log('No active session');
-                setUser(null);
+                console.log('Making them log in');
+                window.location.href = `${import.meta.env.VITE_GATEWAY_URL}/api/auth/sso`;
             }
         } catch (err) {
             console.error('checkAuth error:', err);
+            window.location.href = `${import.meta.env.VITE_GATEWAY_URL}/api/auth/sso`;
         } finally {
             setLoading(false);
         }

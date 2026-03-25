@@ -55,7 +55,7 @@ export function Attractions (){
                         Available Attractions
                     </h3>
 
-                    {attractions.length === 0 ? (
+                    {!attractions?.length ? (
                         <div className='text-center py-12 bg-gray-50 rounded-lg'>
                             <p className='text-gray-600 text-lg italic'>No attractions available</p>
                         </div>

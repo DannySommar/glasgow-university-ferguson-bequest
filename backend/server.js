@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import session from 'express-session';
 
+import { requireAuth } from './middleware/requireAuth.js';
 import { attractionsRouter } from './routes/attractions.js';
 import { ticketDrawRouter } from './routes/ticketDraws.js'
 import { authRouter } from './routes/auth.js'
@@ -51,7 +52,17 @@ const uploadsPath = '/app/uploads'
 console.log('Uploading images from:', uploadsPath)
 app.use('/uploads', express.static(uploadsPath))
 
-// TEMPORARY SSO DEBUG ENDPOINT CHANGE AFTER TESTING
+// DEBUG: normal test if backend connected
+app.get('/api/hello', (req, res) => {
+    res.json({message: 'Hello from the backend'})
+})
+
+
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'OK', message: 'Server is running' })
+})
+
+// DEBUG: log SSO headers
 app.get('/api/debug-headers', (req, res) => {
   console.log('='.repeat(50))
   console.log(' SSO DEBUG ')
@@ -66,20 +77,7 @@ app.get('/api/debug-headers', (req, res) => {
 
 })
 
-app.get('/api/auth/sso', ssoAutoLogin);
-app.get('/api/auth/complete-sso', completeSSOLogin);
-
-// normal test if backend connected
-app.get('/api/hello', (req, res) => {
-    res.json({message: 'Hello from the backend'})
-})
-
-
-app.get('/api/health', (req, res) => {
-  res.json({ status: 'OK', message: 'Server is running' })
-})
-
-// basic database connection test
+// DEBUG: basic database connection test
 app.get('/api/db-test', async (req, res) => {
   try {
     const result = await pool.query('SELECT NOW() as curr_time');
@@ -97,7 +95,7 @@ app.get('/api/db-test', async (req, res) => {
   }
 })
 
-// attraction count endpoint
+// DEBUG: attraction count endpoint
 app.get('/api/db-attractions', async (req, res) => {
   try
   {
@@ -116,12 +114,18 @@ app.get('/api/db-attractions', async (req, res) => {
   }
 })
 
-app.use('/api/attractions', attractionsRouter)
-app.use('/api/ticket-draws', ticketDrawRouter)
-app.use('/api/auth', authRouter)
-app.use('/api/reviews', reviewsRouter)
-app.use('/api/announcements', announcementsRouter)
-app.use('/api/bookings', bookingRouter)
+
+// these need not be in auth router for they are responsible for making a valid session
+app.get('/api/auth/sso', ssoAutoLogin);
+app.get('/api/auth/complete-sso', completeSSOLogin);
+
+// every important request protected by auth check
+app.use('/api/attractions', requireAuth, attractionsRouter)
+app.use('/api/ticket-draws', requireAuth, ticketDrawRouter)
+app.use('/api/auth', requireAuth, authRouter)
+app.use('/api/reviews', requireAuth, reviewsRouter)
+app.use('/api/announcements', requireAuth, announcementsRouter)
+app.use('/api/bookings', requireAuth, bookingRouter)
 
 async function initializeDatabase() {
   try {

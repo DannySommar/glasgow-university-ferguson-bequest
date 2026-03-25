@@ -1,13 +1,16 @@
 import express from 'express'
 
-import { registerUser, loginUser, logoutUser, ssoAutoLogin} from "../controllers/authController.js";
+import { registerUser, loginUser, logoutUser, ssoAutoLogin, completeSSOLogin} from "../controllers/authController.js";
 import {getCurrentUser} from "../controllers/meController.js"
 
 export const authRouter = express.Router()
 
-authRouter.post('/register', registerUser)
-authRouter.post('/login', loginUser)
+// authRouter.post('/register', registerUser) // no longer in use
+// authRouter.post('/login', loginUser) // no longer in use
+
 authRouter.get('/logout', logoutUser)
 authRouter.get('/me', getCurrentUser)
 
-//authRouter.get('/sso', ssoAutoLogin);
+// // used in server.js already by themseves
+// authRouter.get('/sso', ssoAutoLogin)
+// authRouter.get('/complete-sso', completeSSOLogin)
