@@ -38,7 +38,11 @@ export function Announcements() {
         <AnnouncementForm user={user} onAdd={handleAdd} />
       )}
 
-      {announcements.map(a => (
+      {!announcements?.length ? (
+        <div className='text-center py-12 bg-gray-50 rounded-lg'>
+          <p className='text-gray-600 text-lg italic'>No announcements available</p>
+        </div>
+      ) : (announcements.map(a => (
         <div key={a.id} className ="mb-10 bg-gray-50 rounded-xl shadow-md border border-gray-200 p-6 text-center space-y-2">
           <h3 className="text-xl font-bold text-gray-800 mb-3">{a.title}</h3>
           <p className="text-gray-700">{a.body}</p>
@@ -63,7 +67,7 @@ export function Announcements() {
             </div>
             )}
         </div>
-      ))}
+      )))}
     </div>
   )
 }

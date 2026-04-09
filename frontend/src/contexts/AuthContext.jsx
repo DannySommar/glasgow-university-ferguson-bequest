@@ -2,12 +2,17 @@ import { createContext, useState, useContext, useEffect } from 'react';
 
 const AuthContext = createContext();
 
-export function AuthProvider({ children }){
-    const [user, setUser] = useState(null)
-    const [loading, setLoading] = useState(true)
+export function AuthProvider({ children }) {
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [authMode, setAuthMode] = useState(null);
 
+    // check if run in local/development mode
     useEffect(() => {
-        checkAuth();
+        fetch('/api/auth/mode')
+            .then(res => res.json())
+            .then(data => setAuthMode(data.mode))
+            .catch(err => console.error('Failed to fetch auth mode:', err));
     }, []);
 
     const checkAuth = async () => {
@@ -21,16 +26,29 @@ export function AuthProvider({ children }){
                 console.log('User is logged in, updating state');
                 setUser({ ...data });
             } else {
-                console.log('Making them log in');
-                window.location.href = `${import.meta.env.VITE_GATEWAY_URL}/api/auth/sso`;
+                // redirect to SSO if not in local mode
+                if (authMode !== 'local') {
+                    console.log('Not logged in, redirecting to SSO');
+                    window.location.href = `${import.meta.env.VITE_GATEWAY_URL}/api/auth/sso`;
+                } else {
+                    console.log('Local mode – user not logged in, staying on page');
+                }
             }
         } catch (err) {
             console.error('checkAuth error:', err);
-            window.location.href = `${import.meta.env.VITE_GATEWAY_URL}/api/auth/sso`;
+            if (authMode !== 'local') {
+                window.location.href = `${import.meta.env.VITE_GATEWAY_URL}/api/auth/sso`;
+            }
         } finally {
             setLoading(false);
         }
     };
+
+    useEffect(() => {
+        if (authMode !== null) {
+            checkAuth();
+        }
+    }, [authMode]);
 
     const login = (userData) => { setUser(userData); };
 
@@ -43,6 +61,7 @@ export function AuthProvider({ children }){
         <AuthContext.Provider value={{ 
             user, 
             loading, 
+            authMode,
             login, 
             logout, 
             checkAuth 
@@ -54,8 +73,8 @@ export function AuthProvider({ children }){
 
 export const useAuth = () => {
     const context = useContext(AuthContext);
-    if (!context) { // i forgoir to put it inside AuthProvider so let this check be
-        throw new Error('useAuth must be used within AuthProvider in app or somewhere!!!!!!');
+    if (!context) {
+        throw new Error('useAuth must be used within AuthProvider');
     }
     return context;
 };

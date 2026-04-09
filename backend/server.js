@@ -114,15 +114,18 @@ app.get('/api/db-attractions', async (req, res) => {
   }
 })
 
+app.get('/api/auth/mode', (req, res) => {
+    res.json({ 
+        mode: process.env.NODE_ENV || 'development',
+        ssoEnabled: process.env.NODE_ENV !== 'local'
+    });
+});
 
-// these need not be in auth router for they are responsible for making a valid session
-app.get('/api/auth/sso', ssoAutoLogin);
-app.get('/api/auth/complete-sso', completeSSOLogin);
 
 // every important request protected by auth check
 app.use('/api/attractions', requireAuth, attractionsRouter)
 app.use('/api/ticket-draws', requireAuth, ticketDrawRouter)
-app.use('/api/auth', requireAuth, authRouter)
+app.use('/api/auth', authRouter) // requireAuth is inside of the router for certain endpoints
 app.use('/api/reviews', requireAuth, reviewsRouter)
 app.use('/api/announcements', requireAuth, announcementsRouter)
 app.use('/api/bookings', requireAuth, bookingRouter)
@@ -132,7 +135,7 @@ async function initializeDatabase() {
     console.log('init db');
 
     // comment out once used once
-    // await resetTables();
+    await resetTables();
     
     const testResult = await pool.query('SELECT NOW()');
     console.log('db connected:', testResult.rows[0].now);

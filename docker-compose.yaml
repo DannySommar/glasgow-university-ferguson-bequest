@@ -6,6 +6,7 @@ services:
     volumes:
       - ./backend/uploads:/app/uploads
     environment:
+      - NODE_ENV=${NODE_ENV:-local}
       - DB_HOST=${DB_HOST:-db}
       - DB_PORT=${DB_PORT:-5432}
       - DB_NAME=${DB_NAME:-sh40db}

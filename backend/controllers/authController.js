@@ -128,6 +128,12 @@ export async function logoutUser(req, res) {
 }
 
 export async function ssoAutoLogin(req, res, next) {
+        
+    if (process.env.NODE_ENV === 'local') {
+        console.log('local mode: SSO disabled, redirecting to login page');
+        const FRONTEND_URL = 'http://localhost:5000';
+        return res.redirect(`${FRONTEND_URL}/login`);
+    }
     
     const FRONTEND_URL= process.env.FRONTEND_URL || 'http://maloelap.dcs.gla.ac.uk:5000';
 

@@ -1,15 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
-
-
 import { useAuth } from "../contexts/AuthContext";
 import "./NavBar.css"
 import uofgLogo from "../images/uofgLogo.jpg";
 
-
-
 export function Navbar(){
-    const { user, logout } = useAuth()
+    const { user, logout, authMode } = useAuth()
     const navigate = useNavigate()
 
     const handleLogout = async () => {
@@ -30,14 +25,14 @@ export function Navbar(){
     return (
         <nav className="navbar">
             <Link to="/" className="nav-logo">
-                <img src={uofgLogo} alt="Univeristy of Glasgow" />
+                <img src={uofgLogo} alt="University of Glasgow" />
             </Link>
             <div className="nav-links">
                 <Link to='/'><button>Home</button></Link>
                 <Link to='/About'><button>About</button></Link>
                 <Link to='/Attractions'><button>Attractions</button></Link>
                 <Link to='/TicketDraws'><button>Ticket Draws</button></Link>
-                <Link to='/Announcements'><button> Announcements </button></Link>
+                <Link to='/Announcements'><button>Announcements</button></Link>
                 
                 {user ? (
                     <>
@@ -45,25 +40,29 @@ export function Navbar(){
                         {user.isAdmin && (
                             <Link to='/Admin'><button>Admin</button></Link>
                         )}
-
-                        {/* user can still log out if knows api endpoint, but backend is safe from unregistered users */}
-                        {/* <button onClick={handleLogout}>Log Out</button> */}
+                        <button onClick={handleLogout}>Log Out</button>
                     </>
                 ) : (
-                    // // these are no longer needed, 
                     <>
-                        {/* useful for dubug stuff (logs headers only in backend) */}
+                        {/* old login for local setup */}
+                        {authMode === 'local' && (
+                            <>
+                                <Link to='/Login'><button>Log In</button></Link>
+                                <Link to='/Signup'><button>Sign Up</button></Link>
+                            </>
+                        )}
+
+                        {/* non-local mode (development/production) with sso integration */}
+                        {authMode !== 'local' && authMode !== null && (
+                            <button onClick={handleSSOLogin} className="sso-test-btn">
+                                SSO Login
+                            </button>
+                        )}
+
+                        {/* Debug button (optional – keep for testing) */}
                         {/* <button onClick={handleSSODebug} className="sso-test-btn">
                             SSO Debug
-                        </button>
-                        
-                        <button onClick={handleSSOLogin} className="sso-test-btn">
-                            SSO Login
                         </button> */}
-
-                        {/* older stuff for when we did not have dev server */}
-                        {/* <Link to='/Login'><button>Log In</button></Link> */}
-                        {/* <Link to='/Signup'><button>Sign Up</button></Link> */}
                     </>
                 )}
             </div>
