@@ -20,32 +20,46 @@ import { resetTables } from './database/resetTables.js';
 
 const PORT = process.env.BACKEND_PORT || 8000;
 const SESSION_SECRET = process.env.SESSION_SECRET || 'skibidi';
-const COOKIE_DOMAIN = process.env.COOKIE_DOMAIN || 'maloelap.dcs.gla.ac.uk';
 const NODE_ENV = process.env.NODE_ENV || 'development';
-const FRONTEND_URL= process.env.FRONTEND_URL || 'http://maloelap.dcs.gla.ac.uk:5000';
-const COOKIE_SECURE = process.env.COOKIE_SECURE
-console.log('cookie: ', COOKIE_SECURE)
+const FRONTEND_URL = process.env.FRONTEND_URL || (NODE_ENV === 'local' ? 'http://localhost:5000' : 'http://maloelap.dcs.gla.ac.uk:5000');
+const COOKIE_SECURE = process.env.COOKIE_SECURE === 'true';
+
+// use COOKIE_DOMAIN from env if not in local mode
+let COOKIE_DOMAIN = null;
+if (NODE_ENV !== 'local') {
+    COOKIE_DOMAIN = process.env.COOKIE_DOMAIN || 'maloelap.dcs.gla.ac.uk';
+}
+
+console.log('Mode:', NODE_ENV);
+console.log('Cookie secure: ', COOKIE_SECURE);
+console.log('Cookie domain: ', COOKIE_DOMAIN);
 
 const app = express();
 
-app.use(cors());
+const corsOptions = {
+    origin: FRONTEND_URL,
+    credentials: true
+};
+app.use(cors(corsOptions));
 app.use(express.json());
 
-
 const sessionConfig = {
-  secret: SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    httpOnly: true,
-    secure: COOKIE_SECURE === 'true' || false,
-    sameSite: 'lax',
-    path: '/'
-  }
+    secret: SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        httpOnly: true,
+        secure: COOKIE_SECURE,
+        sameSite: 'lax',
+        path: '/'
+    }
 };
+
+// only set domain if we have one (no in local)
 if (COOKIE_DOMAIN) {
-  sessionConfig.cookie.domain = COOKIE_DOMAIN;
+    sessionConfig.cookie.domain = COOKIE_DOMAIN;
 }
+
 app.use(session(sessionConfig));
 
 const uploadsPath = '/app/uploads'
