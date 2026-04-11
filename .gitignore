@@ -74,6 +74,7 @@ web_modules/
 backend/.env
 backend/.env.*
 !backend/.env.example
+!backend/.env.test
 
 frontend/.env
 frontend/.env.*

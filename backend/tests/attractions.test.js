@@ -4,6 +4,7 @@ import { pool } from '../database/index.js';
 import bcrypt from 'bcrypt';
 
 let adminCookie;
+let nonAdminCookie;
 
 beforeAll(async () => {
   // Clean test DB
@@ -13,19 +14,32 @@ beforeAll(async () => {
   `);
 
   // Create admin user
-  const hash = await bcrypt.hash('adminpass', 10);
+  const adminHash = await bcrypt.hash('adminpass', 10);
   await pool.query(
     `INSERT INTO users (email, username, password_hash, is_admin)
      VALUES ($1, $2, $3, $4)`,
-    ['admin@example.com', 'admin', hash, true]
+    ['admin@example.com', 'admin', adminHash, true]
+  );
+
+  // Create non-admin user
+  const userHash = await bcrypt.hash('userpass', 10);
+  await pool.query(
+    `INSERT INTO users (email, username, password_hash, is_admin)
+     VALUES ($1, $2, $3, $4)`,
+    ['user@example.com', 'user', userHash, false]
   );
 
   // Login admin to get session cookie
-  const loginRes = await request(app)
+  const adminLoginRes = await request(app)
     .post('/api/auth/login')
     .send({ username: 'admin', password: 'adminpass' });
+  adminCookie = adminLoginRes.headers['set-cookie'];
 
-  adminCookie = loginRes.headers['set-cookie'];
+  // Login non-admin to get session cookie
+  const userLoginRes = await request(app)
+    .post('/api/auth/login')
+    .send({ username: 'user', password: 'userpass' });
+  nonAdminCookie = userLoginRes.headers['set-cookie'];
 });
 
 afterAll(async () => {
@@ -47,7 +61,7 @@ describe('Attractions API', () => {
       description: '  Big wheel  ',
       location: ' London ',
       ticketCodes: ` CODE${Date.now()}, CODE${Date.now()+1} ` 
-     };
+    };
 
     const res = await request(app)
       .post('/api/attractions')
@@ -63,10 +77,11 @@ describe('Attractions API', () => {
   test('POST /api/attractions fails for non-admin (router-level)', async () => {
     const res = await request(app)
       .post('/api/attractions')
+      .set('Cookie', nonAdminCookie)
       .send({ title: 'Test', location: 'Test' });
 
     expect(res.statusCode).toBe(403);
-    expect(res.body.error).toBe('Admin required');
+    expect(res.body.error).toBe('Admin access required');
   });
 
   test('POST /api/attractions validates missing fields', async () => {
@@ -105,10 +120,11 @@ describe('Attractions API', () => {
 
   test('DELETE /api/attractions/:id fails for non-admin (controller-level)', async () => {
     const res = await request(app)
-      .delete('/api/attractions/1');
+      .delete('/api/attractions/1')
+      .set('Cookie', nonAdminCookie);
 
     expect(res.statusCode).toBe(403);
-    expect(res.body.error).toBe('you need to me an admin');
+    expect(res.body.error).toBe('Admin access required');
   });
 
 });

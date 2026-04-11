@@ -129,7 +129,7 @@ export async function logoutUser(req, res) {
 
 export async function ssoAutoLogin(req, res, next) {
         
-    if (process.env.NODE_ENV === 'local') {
+    if (process.env.NODE_ENV === 'local' || process.env.NODE_ENV === 'test') {
         console.log('local mode: SSO disabled, redirecting to login page');
         const FRONTEND_URL = 'http://localhost:5000';
         return res.redirect(`${FRONTEND_URL}/login`);

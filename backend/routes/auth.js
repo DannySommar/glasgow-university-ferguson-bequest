@@ -9,8 +9,8 @@ export const authRouter = express.Router()
 authRouter.get('/logout', requireAuth, logoutUser)
 authRouter.get('/me', requireAuth, getCurrentUser)
 
-if (process.env.NODE_ENV === 'local'){
-    console.log('Local mode: password based login/register');
+if (process.env.NODE_ENV === 'local' || process.env.NODE_ENV === 'test'){
+    console.log('Local/Test mode: password based login/register');
     authRouter.post('/login', loginUser);
     authRouter.post('/register', registerUser);
 }

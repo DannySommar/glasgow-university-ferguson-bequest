@@ -21,12 +21,14 @@ import { resetTables } from './database/resetTables.js';
 const PORT = process.env.BACKEND_PORT || 8000;
 const SESSION_SECRET = process.env.SESSION_SECRET || 'skibidi';
 const NODE_ENV = process.env.NODE_ENV || 'development';
-const FRONTEND_URL = process.env.FRONTEND_URL || (NODE_ENV === 'local' ? 'http://localhost:5000' : 'http://maloelap.dcs.gla.ac.uk:5000');
+const FRONTEND_URL = process.env.FRONTEND_URL || (NODE_ENV === 'local' || NODE_ENV === 'test' ? 'http://localhost:5000' : 'http://maloelap.dcs.gla.ac.uk:5000');
 const COOKIE_SECURE = process.env.COOKIE_SECURE === 'true';
 
-// use COOKIE_DOMAIN from env if not in local mode
+// COOKIE_DOMAIN from env if not in local mode
+const shouldSetDomain = NODE_ENV !== 'local' && NODE_ENV !== 'test';
 let COOKIE_DOMAIN = null;
-if (NODE_ENV !== 'local') {
+
+if (shouldSetDomain) {
     COOKIE_DOMAIN = process.env.COOKIE_DOMAIN || 'maloelap.dcs.gla.ac.uk';
 }
 
@@ -137,12 +139,22 @@ app.get('/api/auth/mode', (req, res) => {
 
 
 // every important request protected by auth check
-app.use('/api/attractions', requireAuth, attractionsRouter)
-app.use('/api/ticket-draws', requireAuth, ticketDrawRouter)
+const shouldRequireAuth = NODE_ENV === 'development' || NODE_ENV === 'production';
 app.use('/api/auth', authRouter) // requireAuth is inside of the router for certain endpoints
-app.use('/api/reviews', requireAuth, reviewsRouter)
-app.use('/api/announcements', requireAuth, announcementsRouter)
-app.use('/api/bookings', requireAuth, bookingRouter)
+
+if (shouldRequireAuth) {
+    app.use('/api/attractions', requireAuth, attractionsRouter);
+    app.use('/api/ticket-draws', requireAuth, ticketDrawRouter);
+    app.use('/api/reviews', requireAuth, reviewsRouter);
+    app.use('/api/announcements', requireAuth, announcementsRouter);
+    app.use('/api/bookings', requireAuth, bookingRouter);
+} else {
+    app.use('/api/attractions', attractionsRouter);
+    app.use('/api/ticket-draws', ticketDrawRouter);
+    app.use('/api/reviews', reviewsRouter);
+    app.use('/api/announcements', announcementsRouter);
+    app.use('/api/bookings', bookingRouter);
+}
 
 async function initializeDatabase() {
   try {
