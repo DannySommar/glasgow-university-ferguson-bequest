@@ -54,7 +54,7 @@ describe('Ticket Draws API', () => {
     expect(Array.isArray(res.body.ticketDraws)).toBe(true);
   });
 
-  test('POST /api/ticket-draws creates a new draw', async () => {
+  test('POST /api/ticket-draws creates a new draw (admin only)', async () => {
     const draw = {
       title: '  Free Tickets  ',
       venue: '  Glasgow  ',
@@ -67,6 +67,7 @@ describe('Ticket Draws API', () => {
 
     const res = await request(app)
       .post('/api/ticket-draws')
+      .set('Cookie', adminCookie)
       .send(draw);
 
     expect(res.statusCode).toBe(201);
@@ -123,7 +124,7 @@ describe('Ticket Draws API', () => {
       .send({ ticketDrawId: testDrawId });
 
     expect(res.statusCode).toBe(403);
-    expect(res.body.error).toBe('Admin Only');
+    expect(res.body.error).toBe('Admin access required');
   });
 
   test('DELETE /api/ticket-draws/:id deletes a draw (admin only)', async () => {
@@ -146,10 +147,11 @@ describe('Ticket Draws API', () => {
 
   test('DELETE /api/ticket-draws/:id fails for non-admin', async () => {
     const res = await request(app)
-      .delete(`/api/ticket-draws/${testDrawId}`);
+      .delete(`/api/ticket-draws/${testDrawId}`)
+      .set('Cookie', userCookie);
 
     expect(res.statusCode).toBe(403);
-    expect(res.body.error).toBe('you need to be an admin');
+    expect(res.body.error).toBe('Admin access required');
   });
 
 });
