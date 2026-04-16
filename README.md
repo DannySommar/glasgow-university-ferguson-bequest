@@ -43,14 +43,14 @@ To inspect the code, you must have an Integrated Development Environment (IDE). 
   ```
   docker compose up --build
   ```
-- The application will be available at your specified domain, which cam be set in the `.env` file.
+- The application will be available at your specified domain, which can be set in the `.env` file.
 
 ## Configuration
 
 The application uses a `.env` file for configuration. Copy `.env.example` to `.env` and modify as needed:
 
-| Variable | Description | During Development |
-|----------|-------------|---------|
+| Variable | Description | Default Value |
+|----------|-------------|---------------|
 | **Frontend** | | |
 | `FRONTEND_PORT` | External port for the web interface | `5000` |
 | `SERVER_NAME` | Server name for nginx | `_` |
@@ -64,9 +64,9 @@ The application uses a `.env` file for configuration. Copy `.env.example` to `.e
 | `DB_USER` | Database username | `sh40user` |
 | `DB_PASSWORD` | Database password | `sh40password` |
 | `SESSION_SECRET` | Secret key for session encryption | `skibidi` |
-| `COOKIE_DOMAIN` | Domain for session cookie | `maloelap.dcs.gla.ac.uk` |
+| `COOKIE_DOMAIN` | Domain for session cookie (leave empty for localhost) | `maloelap.dcs.gla.ac.uk` |
 | `COOKIE_SECURE` | Set to `true` if using HTTPS | `false` |
-| `NODE_ENV` | Environment (development/production) | `development` |
+| `NODE_ENV` | Environment (`local`, `development`, `production`, `test`) | `development` |
 | `FRONTEND_URL` | Public URL of the frontend | `http://maloelap.dcs.gla.ac.uk:5000` |
 | **SSO Headers** (provided by University gateway) | | |
 | `SSO_HEADER_GUID` | HTTP header containing user GUID | `dh75hdyt76` |
@@ -79,10 +79,22 @@ The application uses a `.env` file for configuration. Copy `.env.example` to `.e
 | `POSTGRES_USER` | PostgreSQL username | `sh40user` |
 | `POSTGRES_PASSWORD` | PostgreSQL password | `sh40password` |
 
+### Running Modes
+
+The application supports different `NODE_ENV` values:
+
+| Mode | Description | SSO | Password Login |
+|------|-------------|-----|----------------|
+| `local` | Local development | Disabled | Enabled |
+| `development` | Dev server with SSO | Enabled | Disabled |
+| `production` | Production deployment | Enabled | Disabled |
+| `test` | Running tests | Disabled | Enabled |
+
 ### Production Deployment Notes
 - Set `FRONTEND_PORT=80` for direct HTTP access
 - Set `COOKIE_SECURE=true` if using HTTPS
 - Configure `GATEWAY_URL` to your production SSO gateway
+- Generate a strong random string for `SESSION_SECRET`
 
 ## Viewing the current website on the University network
 Visit `http://maloelap.dcs.gla.ac.uk:5000/` when connected to the University network or using the University VPN.
@@ -104,15 +116,38 @@ Visit `http://maloelap.dcs.gla.ac.uk:5000/` when connected to the University net
 - `uploads/` - User-uploaded images (persisted via Docker volume)
 - `tests/` - Test files
 
-To run tests:
-```npm run test``` doesn't work lol test driven development is a myth i cant take it oi cant take it oi cant take it i cant take it i cnat take it i cant take it i cant take it i cant take it
+## Running Tests
 
+### Backend Tests
 ```
-# Backend tests
-cd backend
-npm test
+## Running Tests
 
-# Frontend tests
+### Backend Tests
+```bash
+# Start containers
+docker compose up --build
+
+# Create test database
+docker exec -it sh40-main-db-1 psql -U sh40user -d sh40db -c "CREATE DATABASE sh40db_test;"
+
+# Create .env.test file in /backend with:
+# NODE_ENV=test
+# DB_HOST=localhost
+# DB_PORT=5432
+# DB_NAME=sh40db_test
+# DB_USER=sh40user
+# DB_PASSWORD=sh40password
+# COOKIE_DOMAIN=
+# COOKIE_SECURE=false
+# SESSION_SECRET=test-secret
+# FRONTEND_URL=http://localhost:5000
+
+# Run tests
+cd backend && npm test
+```
+
+### Frontend Tests
+```
 cd frontend
 npm test
 ```
@@ -122,13 +157,13 @@ npm test
 ### Docker Deployment (Recommended)
 The project is designed to run with Docker Compose. All paths and configurations are set for containerized deployment.
 
-### More Manual Deployment (Not Recommended)
+### Manual Deployment (Not Recommended)
 If deploying without Docker, the following adjustments are to be made at the very least:
 
 | Component | Docker Path | Manual Alternative |
 |-----------|-------------|-------------------|
-| Backend uploads | `/app/uploads` | Change to absolute path in `server.js` (like `./backend/uploads`) |
-| Frontend static files | `/usr/share/nginx/html` | lol idk |
+| Backend uploads | `/app/uploads` | Change to absolute path in `server.js` (e.g., `./backend/uploads`) |
+| Frontend static files | `/usr/share/nginx/html` | `frontend/dist` maybe |
 | Backend port | `8000` | Configurable via `BACKEND_PORT` in `.env` |
 | Frontend port | `5000` | Configurable via `FRONTEND_PORT` in `.env` |
 | Database host | `db` (Docker service name) | Change to `localhost` or actual database host in `.env` |
@@ -160,4 +195,4 @@ If you need help, please contact one of the authors of this project:
 We want to thank the Ferguson Bequest team and the University of Glasgow for allowing us to partake in this project.
 
 ## License
-This project is licensed under the [MIT License.](https://opensource.org/license/MIT) You can find the project license [here](https://stgit.dcs.gla.ac.uk./team-project-h/2025/sh40/sh40-main/-/blob/main/LICENSE)
+This project is licensed under the [MIT License](https://opensource.org/license/MIT). You can find the project license [here](https://stgit.dcs.gla.ac.uk/team-project-h/2025/sh40/sh40-main/-/blob/main/LICENSE)
