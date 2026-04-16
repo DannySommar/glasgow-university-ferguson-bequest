@@ -20,7 +20,6 @@ import { EditAttraction } from './pages/EditAttraction'
 import { EditTicketDraw } from './pages/EditTicketDraw'
 import { EditAnnouncement } from './pages/EditAnnouncement'
 import { DebugSSO } from './pages/DebugSSO'
-import { AccessDenied } from './pages/AccessDenied';
 
 function App() {
   const [message, setMessage] = useState('')
@@ -50,24 +49,23 @@ function App() {
       <Router>
         <Routes>
           <Route element={<Layout/>}>
-          <Route path='/' element={<Home/>}></Route>
-          <Route path='/About' element={<About />}></Route>
-          <Route path='/Attractions' element={<Attractions/>}></Route>
-          <Route path="/attractions/:slug" element={<SpecificAttraction />}></Route>
-          <Route path='/TicketDraws' element={<TicketDraws />}></Route>
-          <Route path='/MyBookings' element={<MyBookings />}></Route>
-          <Route path='/Terms' element={<TermsAndConditions />}></Route>
-          <Route path='/Admin' element={<Admin/>}></Route>
-          <Route path='/Admin/CreateAttraction' element={<CreateAttraction/>}></Route>
-          <Route path="/Announcements" element={<Announcements/>}></Route>
-          <Route path='/Login' element={<Login/>}></Route>
-          <Route path='/Signup' element={<Signup/>}></Route>
-          <Route path='/attractions/:id/edit' element={<EditAttraction />} />
-          <Route path='/ticket-draws/:id/edit' element={<EditTicketDraw />} />
-          <Route path='/announcements/:id/edit' element={<EditAnnouncement />} />
-          <Route path="/debug-sso" element={<DebugSSO />} />
-          <Route path="/access-denied" element={<AccessDenied />} />
-        </Route> 
+            <Route path='/' element={<Home/>} />
+            <Route path='/About' element={<About />} />
+            <Route path='/Attractions' element={<Attractions/>} />
+            <Route path="/attractions/:slug" element={<SpecificAttraction />} />
+            <Route path='/TicketDraws' element={<TicketDraws />} />
+            <Route path='/MyBookings' element={<MyBookings />} />
+            <Route path='/Terms' element={<TermsAndConditions />} />
+            <Route path='/Admin' element={<Admin/>} />
+            <Route path='/Admin/CreateAttraction' element={<CreateAttraction/>} />
+            <Route path="/Announcements" element={<Announcements/>} />
+            <Route path='/Login' element={<Login/>} />
+            <Route path='/Signup' element={<Signup/>} />
+            <Route path='/attractions/:id/edit' element={<EditAttraction />} />
+            <Route path='/ticket-draws/:id/edit' element={<EditTicketDraw />} />
+            <Route path='/announcements/:id/edit' element={<EditAnnouncement />} />
+            <Route path="/debug-sso" element={<DebugSSO />} />
+          </Route> 
         </Routes>
       </Router>
     </AuthProvider>

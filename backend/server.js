@@ -130,6 +130,19 @@ app.get('/api/db-attractions', async (req, res) => {
   }
 })
 
+app.get('/api/access-denied', (req, res) => {
+    const reason = req.query.reason || 'unknown';
+    res.status(403).send(`
+        <!DOCTYPE html>
+        <html>
+        <head><title>Access Denied</title></head>
+        <body>
+            <pre>${JSON.stringify({ error: 'access denied', reason: reason }, null, 2)}</pre>
+        </body>
+        </html>
+    `);
+});
+
 app.get('/api/auth/mode', (req, res) => {
     res.json({ 
         mode: process.env.NODE_ENV || 'development',

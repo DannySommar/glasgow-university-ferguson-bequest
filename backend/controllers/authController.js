@@ -154,7 +154,7 @@ export async function ssoAutoLogin(req, res, next) {
         
         if (isStudentEmail && !ALLOW_STUDENTS) {
             console.log(`Student access denied: ${email}`);
-            return res.redirect(`${FRONTEND_URL}/access-denied?reason=student`);
+            return res.redirect(`${FRONTEND_URL}/api/access-denied?reason=student`);
         }
         
         const client = await pool.connect();

@@ -47,7 +47,7 @@ To inspect the code, you must have an Integrated Development Environment (IDE). 
 
 ## Configuration
 
-The application uses a `.env` file for configuration. Copy `.env.example` to `.env` and modify as needed:
+The application uses a `.env` file for configuration. Copy `.env.example` (or `.env.example` for local) to `.env` and modify as needed:
 
 | Variable | Description | Default Value |
 |----------|-------------|---------------|
@@ -72,8 +72,9 @@ The application uses a `.env` file for configuration. Copy `.env.example` to `.e
 | `SSO_HEADER_GUID` | HTTP header containing user GUID | `dh75hdyt76` |
 | `SSO_HEADER_NAME` | HTTP header containing user name | `dh75hdyt77` |
 | `SSO_HEADER_EMAIL` | HTTP header containing user email | `dh75hdyt80` |
-| **Admin** | | |
+| **Access control** | | |
 | `ADMIN_EMAILS` | Comma-separated list of admin email addresses | See `.env.example` |
+| `ALLOW_STUDENTS` | Set to `true` to allow student logins via SSO | `false` |
 | **Database** | | |
 | `POSTGRES_DB` | PostgreSQL database name | `sh40db` |
 | `POSTGRES_USER` | PostgreSQL username | `sh40user` |
