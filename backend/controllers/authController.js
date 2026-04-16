@@ -136,6 +136,7 @@ export async function ssoAutoLogin(req, res, next) {
     }
     
     const FRONTEND_URL= process.env.FRONTEND_URL || 'http://maloelap.dcs.gla.ac.uk:5000';
+    const ALLOW_STUDENTS = process.env.ALLOW_STUDENTS === 'true';
 
     const guid = req.headers[process.env.SSO_HEADER_GUID];
     const name = req.headers[process.env.SSO_HEADER_NAME];
@@ -148,6 +149,13 @@ export async function ssoAutoLogin(req, res, next) {
         console.log(`Name: ${name}`);
         console.log(`Email: ${email}`);
         console.log('='.repeat(50));
+
+        const isStudentEmail = email.includes('@student.gla.ac.uk');
+        
+        if (isStudentEmail && !ALLOW_STUDENTS) {
+            console.log(`Student access denied: ${email}`);
+            return res.redirect(`${FRONTEND_URL}/access-denied?reason=student`);
+        }
         
         const client = await pool.connect();
         

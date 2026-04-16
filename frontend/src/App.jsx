@@ -20,6 +20,7 @@ import { EditAttraction } from './pages/EditAttraction'
 import { EditTicketDraw } from './pages/EditTicketDraw'
 import { EditAnnouncement } from './pages/EditAnnouncement'
 import { DebugSSO } from './pages/DebugSSO'
+import { AccessDenied } from './pages/AccessDenied';
 
 function App() {
   const [message, setMessage] = useState('')
@@ -65,6 +66,7 @@ function App() {
           <Route path='/ticket-draws/:id/edit' element={<EditTicketDraw />} />
           <Route path='/announcements/:id/edit' element={<EditAnnouncement />} />
           <Route path="/debug-sso" element={<DebugSSO />} />
+          <Route path="/access-denied" element={<AccessDenied />} />
         </Route> 
         </Routes>
       </Router>
